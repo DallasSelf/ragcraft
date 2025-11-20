@@ -1,0 +1,7 @@
+{"t":"2025-11-20T05:50:51.067Z","msg":"lever_episode_start","data":{"runId":"31bf50c5-2974-421c-9edb-bfdc4190729b","scenarioId":"lever_puzzle_3"}}
+{"t":"2025-11-20T05:50:51.068Z","msg":"lever_attempt","data":{"runId":"31bf50c5-2974-421c-9edb-bfdc4190729b","attemptIndex":0,"sequence":[2,3,1],"source":"known_success"}}
+{"t":"2025-11-20T05:50:51.068Z","msg":"lever_block_missing","data":{"leverIndex":2,"expectedPosition":{"x":15,"y":65,"z":0},"botPosition":{"x":0.5,"y":64.10000000149012,"z":2.5}}}
+{"t":"2025-11-20T05:50:51.069Z","msg":"lever_block_missing","data":{"leverIndex":3,"expectedPosition":{"x":15,"y":65,"z":1},"botPosition":{"x":0.5,"y":64.10000000149012,"z":2.5}}}
+{"t":"2025-11-20T05:50:51.069Z","msg":"lever_block_missing","data":{"leverIndex":1,"expectedPosition":{"x":15,"y":65,"z":-1},"botPosition":{"x":0.5,"y":64.10000000149012,"z":2.5}}}
+{"t":"2025-11-20T05:50:51.070Z","msg":"lever_solved","data":{"runId":"31bf50c5-2974-421c-9edb-bfdc4190729b","attempts":1,"sequence":[2,3,1]}}
+{"t":"2025-11-20T05:50:51.571Z","msg":"lever_episode_end","data":{"runId":"31bf50c5-2974-421c-9edb-bfdc4190729b","scenarioId":"lever_puzzle_3","solved":true,"attempts":1}}

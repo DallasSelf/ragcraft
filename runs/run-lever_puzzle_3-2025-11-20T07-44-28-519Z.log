@@ -1,0 +1,11 @@
+{"t":"2025-11-20T07:44:33.850Z","msg":"lever_episode_start","data":{"runId":"2ab0822c-b645-443f-ae4e-c30675bfe301","scenarioId":"lever_puzzle_3"}}
+{"t":"2025-11-20T07:44:33.850Z","msg":"door_state_change","data":{"open":false,"commands":["/setblock 16 64 4 warped_door[facing=east,half=lower,hinge=left,open=false] replace","/setblock 16 65 4 warped_door[facing=east,half=upper,hinge=left,open=false] replace"],"lower":{"x":16,"y":64,"z":4},"upper":{"x":16,"y":65,"z":4}}}
+{"t":"2025-11-20T07:44:34.052Z","msg":"lever_attempt","data":{"runId":"2ab0822c-b645-443f-ae4e-c30675bfe301","attemptIndex":0,"sequence":[2,3,1],"source":"known_success"}}
+{"t":"2025-11-20T07:44:34.084Z","msg":"debug_lever_scan","data":{"botPosition":{"x":14.5,"y":64,"z":0.5},"foundLevers":[{"x":15,"y":65,"z":0},{"x":15,"y":65,"z":1},{"x":15,"y":65,"z":-1}]}}
+{"t":"2025-11-20T07:44:34.084Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-20T07:44:34.588Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-20T07:44:35.088Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-20T07:44:35.589Z","msg":"lever_attempt_result","data":{"runId":"2ab0822c-b645-443f-ae4e-c30675bfe301","attemptIndex":0,"sequence":[2,3,1],"isCorrect":true}}
+{"t":"2025-11-20T07:44:35.589Z","msg":"door_state_change","data":{"open":true,"commands":["/setblock 16 64 4 warped_door[facing=east,half=lower,hinge=left,open=true] replace","/setblock 16 65 4 warped_door[facing=east,half=upper,hinge=left,open=true] replace"],"lower":{"x":16,"y":64,"z":4},"upper":{"x":16,"y":65,"z":4}}}
+{"t":"2025-11-20T07:44:35.790Z","msg":"lever_solved","data":{"runId":"2ab0822c-b645-443f-ae4e-c30675bfe301","attempts":1,"sequence":[2,3,1]}}
+{"t":"2025-11-20T07:44:35.791Z","msg":"lever_episode_end","data":{"runId":"2ab0822c-b645-443f-ae4e-c30675bfe301","scenarioId":"lever_puzzle_3","solved":true,"attempts":1}}

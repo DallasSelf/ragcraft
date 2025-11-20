@@ -1,0 +1,11 @@
+{"t":"2025-11-20T08:34:22.929Z","msg":"lever_episode_start","data":{"runId":"9551a7f1-598a-448a-8924-2fd25e5a12cb","scenarioId":"lever_puzzle_3"}}
+{"t":"2025-11-20T08:34:22.930Z","msg":"door_state_change","data":{"open":false,"command":"/setblock 13 63 2 stripped_warped_stem","powerPos":{"x":13,"y":63,"z":2}}}
+{"t":"2025-11-20T08:34:23.131Z","msg":"lever_attempt","data":{"runId":"9551a7f1-598a-448a-8924-2fd25e5a12cb","attemptIndex":0,"sequence":[2,3,1],"source":"known_success"}}
+{"t":"2025-11-20T08:34:23.161Z","msg":"debug_lever_scan","data":{"botPosition":{"x":14.5,"y":64,"z":0.5},"foundLevers":[{"x":15,"y":65,"z":0},{"x":15,"y":65,"z":1},{"x":15,"y":65,"z":-1}]}}
+{"t":"2025-11-20T08:34:23.162Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-20T08:34:23.663Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-20T08:34:24.164Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-20T08:34:24.665Z","msg":"lever_attempt_result","data":{"runId":"9551a7f1-598a-448a-8924-2fd25e5a12cb","attemptIndex":0,"sequence":[2,3,1],"isCorrect":true}}
+{"t":"2025-11-20T08:34:24.666Z","msg":"door_state_change","data":{"open":true,"command":"/setblock 13 63 2 redstone_block","powerPos":{"x":13,"y":63,"z":2}}}
+{"t":"2025-11-20T08:34:24.866Z","msg":"lever_solved","data":{"runId":"9551a7f1-598a-448a-8924-2fd25e5a12cb","attempts":1,"sequence":[2,3,1]}}
+{"t":"2025-11-20T08:34:24.867Z","msg":"lever_episode_end","data":{"runId":"9551a7f1-598a-448a-8924-2fd25e5a12cb","scenarioId":"lever_puzzle_3","solved":true,"attempts":1}}

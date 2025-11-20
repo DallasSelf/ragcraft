@@ -1,0 +1,10 @@
+{"t":"2025-11-20T09:12:17.008Z","msg":"lever_episode_start","data":{"runId":"b8dabcfa-c01f-438d-93df-e168c27629cf","scenarioId":"lever_puzzle_3"}}
+{"t":"2025-11-20T09:12:17.009Z","msg":"door_state_change","data":{"open":false,"command":"/setblock 13 63 2 stripped_warped_stem","powerPos":{"x":13,"y":63,"z":2}}}
+{"t":"2025-11-20T09:12:17.209Z","msg":"lever_reset","data":{"position":{"x":15,"y":65,"z":-1},"command":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]"}}
+{"t":"2025-11-20T09:12:17.309Z","msg":"lever_reset","data":{"position":{"x":15,"y":65,"z":0},"command":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]"}}
+{"t":"2025-11-20T09:12:17.410Z","msg":"lever_reset","data":{"position":{"x":15,"y":65,"z":1},"command":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]"}}
+{"t":"2025-11-20T09:12:17.512Z","msg":"lever_attempt","data":{"runId":"b8dabcfa-c01f-438d-93df-e168c27629cf","attemptIndex":0,"sequence":[1,1,1],"source":"random"}}
+{"t":"2025-11-20T09:12:17.543Z","msg":"debug_lever_scan","data":{"botPosition":{"x":14.5,"y":64,"z":0.5},"foundLevers":[{"x":15,"y":65,"z":0},{"x":15,"y":65,"z":1},{"x":15,"y":65,"z":-1}]}}
+{"t":"2025-11-20T09:12:17.543Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-20T09:12:18.046Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-20T09:12:18.547Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}

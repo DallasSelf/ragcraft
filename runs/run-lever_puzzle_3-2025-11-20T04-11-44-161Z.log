@@ -1,0 +1,4 @@
+{"t":"2025-11-20T04:11:44.161Z","msg":"lever_episode_start","data":{"runId":"5895a092-e315-46b7-bd6a-c8ccb1fc9669","scenarioId":"lever_puzzle_3"}}
+{"t":"2025-11-20T04:11:44.162Z","msg":"lever_attempt","data":{"runId":"5895a092-e315-46b7-bd6a-c8ccb1fc9669","attemptIndex":0,"sequence":[2,3,1],"source":"known_success"}}
+{"t":"2025-11-20T04:11:44.162Z","msg":"lever_solved","data":{"runId":"5895a092-e315-46b7-bd6a-c8ccb1fc9669","attempts":1,"sequence":[2,3,1]}}
+{"t":"2025-11-20T04:11:44.663Z","msg":"lever_episode_end","data":{"runId":"5895a092-e315-46b7-bd6a-c8ccb1fc9669","scenarioId":"lever_puzzle_3","solved":true,"attempts":1}}

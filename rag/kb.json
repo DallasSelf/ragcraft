@@ -1,0 +1,98 @@
+[
+  {
+    "type": "lever_attempt",
+    "scenarioId": "lever_puzzle_3",
+    "runId": "5469bd93-2507-454a-bbb2-c89c548f452b",
+    "sequence": [
+      1,
+      2,
+      3
+    ],
+    "success": false,
+    "timestamp": 1763631017625
+  },
+  {
+    "type": "lever_attempt",
+    "scenarioId": "lever_puzzle_3",
+    "runId": "5469bd93-2507-454a-bbb2-c89c548f452b",
+    "sequence": [
+      3,
+      1,
+      2
+    ],
+    "success": false,
+    "timestamp": 1763631019630
+  },
+  {
+    "type": "lever_attempt",
+    "scenarioId": "lever_puzzle_3",
+    "runId": "5469bd93-2507-454a-bbb2-c89c548f452b",
+    "sequence": [
+      1,
+      3,
+      2
+    ],
+    "success": false,
+    "timestamp": 1763631021636
+  },
+  {
+    "type": "lever_attempt",
+    "scenarioId": "lever_puzzle_3",
+    "runId": "5469bd93-2507-454a-bbb2-c89c548f452b",
+    "sequence": [
+      2,
+      1,
+      3
+    ],
+    "success": false,
+    "timestamp": 1763631023644
+  },
+  {
+    "type": "lever_attempt",
+    "scenarioId": "lever_puzzle_3",
+    "runId": "5469bd93-2507-454a-bbb2-c89c548f452b",
+    "sequence": [
+      2,
+      3,
+      1
+    ],
+    "success": true,
+    "timestamp": 1763631025649
+  },
+  {
+    "type": "lever_attempt",
+    "scenarioId": "lever_puzzle_3",
+    "runId": "05fd2e6a-7709-4513-a7a0-495aef778833",
+    "sequence": [
+      3,
+      2,
+      1
+    ],
+    "success": false,
+    "timestamp": 1763631152904
+  },
+  {
+    "type": "lever_attempt",
+    "scenarioId": "lever_puzzle_3",
+    "runId": "05fd2e6a-7709-4513-a7a0-495aef778833",
+    "sequence": [
+      2,
+      3,
+      1
+    ],
+    "success": true,
+    "timestamp": 1763631154910
+  },
+  {
+    "type": "lever_attempt",
+    "scenarioId": "lever_puzzle_3",
+    "runId": "88aba24b-517a-4883-81d2-6a75c98e607a",
+    "sequence": [
+      2,
+      3,
+      1
+    ],
+    "success": true,
+    "timestamp": 1763631196438
+  }
+]

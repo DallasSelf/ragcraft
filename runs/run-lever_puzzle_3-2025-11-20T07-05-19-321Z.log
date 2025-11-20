@@ -1,0 +1,11 @@
+{"t":"2025-11-20T07:05:24.653Z","msg":"lever_episode_start","data":{"runId":"efe16021-7822-47e5-bada-327a4acea792","scenarioId":"lever_puzzle_3"}}
+{"t":"2025-11-20T07:05:24.654Z","msg":"door_state_change","data":{"open":false,"command":"/setblock 16 65 2 closed","doorPos":{"x":16,"y":65,"z":2}}}
+{"t":"2025-11-20T07:05:24.856Z","msg":"lever_attempt","data":{"runId":"efe16021-7822-47e5-bada-327a4acea792","attemptIndex":0,"sequence":[2,3,1],"source":"known_success"}}
+{"t":"2025-11-20T07:05:24.884Z","msg":"debug_lever_scan","data":{"botPosition":{"x":14.5,"y":64,"z":0.5},"foundLevers":[{"x":15,"y":65,"z":0},{"x":15,"y":65,"z":1},{"x":15,"y":65,"z":-1}]}}
+{"t":"2025-11-20T07:05:24.885Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-20T07:05:25.388Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-20T07:05:25.888Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-20T07:05:26.390Z","msg":"lever_attempt_result","data":{"runId":"efe16021-7822-47e5-bada-327a4acea792","attemptIndex":0,"sequence":[2,3,1],"isCorrect":false}}
+{"t":"2025-11-20T07:05:26.391Z","msg":"door_state_change","data":{"open":false,"command":"/setblock 16 65 2 closed","doorPos":{"x":16,"y":65,"z":2}}}
+{"t":"2025-11-20T07:05:26.591Z","msg":"lever_incorrect","data":{"runId":"efe16021-7822-47e5-bada-327a4acea792","attemptIndex":0,"sequence":[2,3,1]}}
+{"t":"2025-11-20T07:05:26.591Z","msg":"lever_episode_end","data":{"runId":"efe16021-7822-47e5-bada-327a4acea792","scenarioId":"lever_puzzle_3","solved":false,"attempts":1}}
