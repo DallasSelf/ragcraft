@@ -27,7 +27,8 @@ async function trySolveMazeInWorld(bot, plan, mazeConfig, logger) {
     const startGoal = new goals.GoalBlock(startPos.x, startPos.y, startPos.z)
     bot.pathfinder.setGoal(startGoal)
     await wait(1000)
-    actions.push({ type: 'move', target: startPos, step: stepCount++ })
+    stepCount += 1
+    actions.push({ type: 'move', target: startPos, step: stepCount })
   }
 
   const goalPos = mazeConfig.goalPos
@@ -60,7 +61,7 @@ async function trySolveMazeInWorld(bot, plan, mazeConfig, logger) {
 
     function onPathUpdate(r) {
       if (finished) return
-      stepCount++
+      stepCount += 1
       const currentPos = bot.entity.position
       actions.push({
         type: 'move',
