@@ -1,0 +1,12 @@
+{
+  "name": "rendezvous-bots",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "dependencies": {
+    "mineflayer": "^4.20.1",
+    "mineflayer-pathfinder": "^2.4.5",
+    "minecraft-data": "^3.99.0",
+    "vec3": "^0.1.10"
+  }
+}
