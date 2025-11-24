@@ -2,7 +2,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const ragDir = path.join(process.cwd(), 'rag')
+const ragDir = __dirname
 if (!fs.existsSync(ragDir)) fs.mkdirSync(ragDir, { recursive: true })
 
 const kbFile = path.join(ragDir, 'kb.json')
@@ -61,6 +61,25 @@ function retrieveLeverAttempts(scenarioId) {
   return kb.filter(item => item.type === 'lever_attempt' && item.scenarioId === scenarioId)
 }
 
+function ingestKeyFinderAttempt(attempt) {
+  const entry = {
+    type: 'key_attempt',
+    scenarioId: attempt.scenarioId,
+    runId: attempt.runId,
+    attemptIndex: attempt.attemptIndex,
+    targetPos: attempt.targetPos,
+    actions: attempt.actions,
+    success: attempt.success,
+    timestamp: attempt.timestamp || Date.now()
+  }
+  kb.push(entry)
+  saveKb(kb)
+}
+
+function retrieveKeyFinderAttempts(scenarioId) {
+  return kb.filter(item => item.type === 'key_attempt' && item.scenarioId === scenarioId)
+}
+
 function ingestMazeAttempt(attempt) {
   const entry = {
     type: 'maze_attempt',
@@ -86,6 +105,8 @@ module.exports = {
   ragIngestTrial,
   ingestLeverAttempt,
   retrieveLeverAttempts,
+  ingestKeyFinderAttempt,
+  retrieveKeyFinderAttempts,
   ingestMazeAttempt,
   retrieveMazeAttempts
 }

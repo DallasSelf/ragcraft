@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const distilledDir = path.join(process.cwd(), 'rag', 'distilledMemory')
+const distilledDir = path.join(__dirname, 'distilledMemory')
 if (!fs.existsSync(distilledDir)) fs.mkdirSync(distilledDir, { recursive: true })
 
 const distilledFile = path.join(distilledDir, 'memory.json')

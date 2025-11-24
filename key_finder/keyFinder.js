@@ -1,12 +1,28 @@
-const mineflayer = require('mineflayer')
 const { v4: uuidv4 } = require('uuid')
+const { goals } = require('mineflayer-pathfinder')
+const { Vec3 } = require('vec3')
+const { keyFinderConfig } = require('../scenarios/keyFinderConfig')
 const { distillMemoryUnits } = require('../memoryDistiller')
-const { ingestDistilledMemory, retrieveDistilledMemories } = require('../rag/distilledMemory')
-const { saveEvent, summarizeEvent, embedEvent, storeMemory, getRelevantMemories } = require('./memory/episodicMemory')
+const { ingestKeyFinderAttempt } = require('../rag/kb')
+const {
+  ingestDistilledMemory,
+  retrieveDistilledMemories
+} = require('../rag/distilledMemory')
+const {
+  saveEvent,
+  summarizeEvent,
+  embedEvent,
+  storeMemory,
+  getRelevantMemories
+} = require('./memory/episodicMemory')
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
 
 function chooseKeySearchPlan(defaultChestPos, scenarioId, distilledMemories = []) {
   const successMemory = distilledMemories.find(
-    m => m.type === 'key_finder_distilled' && m.text.startsWith('Key found')
+    m => m.type === 'key_finder_distilled' && m.text && m.text.startsWith('Key found')
   )
 
   if (successMemory) {
@@ -20,105 +36,162 @@ function chooseKeySearchPlan(defaultChestPos, scenarioId, distilledMemories = []
   return { chestPos: defaultChestPos, source: 'default', distilledMemories }
 }
 
-async function runKeyFinderScenario() {
-  const bot = mineflayer.createBot({
-    host: 'localhost',
-    port: 25565,
-    username: 'KeyFinderBot'
-  })
+async function resetChestState(bot, logger) {
+  const pos = keyFinderConfig.chestBlock
+  if (!pos) return
+  const blockState = keyFinderConfig.resetBlockState || 'chest'
+  const cmd = `/setblock ${pos.x} ${pos.y} ${pos.z} ${blockState}`
+  bot.chat(cmd)
+  logger.log('key_reset_chest', { cmd })
+  await wait(400)
+}
 
-  bot.once('spawn', async () => {
-    console.log('Bot spawned into Key Finder scenario.')
+async function moveToChest(bot, chestPos) {
+  const goal = new goals.GoalBlock(chestPos.x, chestPos.y, chestPos.z)
+  await bot.pathfinder.goto(goal)
+}
 
-    const scenarioId = 'key_finder_v1'
+async function inspectChest(bot, chestPos, actions) {
+  const target = new Vec3(chestPos.x, chestPos.y, chestPos.z)
+  const block = bot.blockAt(target)
+  if (!block) {
+    actions.push({ type: 'missing_chest', pos: chestPos })
+    return { chest: null, success: false }
+  }
+  const chest = await bot.openChest(block)
+  actions.push({ type: 'open_chest', pos: chestPos })
+  return { chest, success: true }
+}
 
-    const distilledMemories = retrieveDistilledMemories(scenarioId)
+async function executeSearch(bot, chestPos, logger) {
+  const actions = []
+  let foundKey = false
+  let chest = null
 
-    const defaultChestPos = { x: 5, y: 4, z: 5 }
-    const plan = chooseKeySearchPlan(defaultChestPos, scenarioId, distilledMemories)
-    const chestPos = plan.chestPos
+  try {
+    await moveToChest(bot, chestPos)
+    actions.push({ type: 'move', pos: chestPos })
 
-    const memories = await getRelevantMemories(scenarioId, 'key_search')
-    console.log('Retrieved relevant past memories:', memories.length)
-
-    const chestPos = { x: 5, y: 4, z: 5 }
-    console.log('Distilled memory hints:', plan.distilledMemories.length)
-
-    const rawEvent = {
-      scenarioId,
-      eventType: 'key_search_attempt',
-      timestamp: Date.now(),
-      actions: []
-      runId: uuidv4(),
-      targetPos: chestPos,
-      actions: [],
-      attemptIndex: 0
+    const check = await inspectChest(bot, chestPos, actions)
+    if (!check.chest) {
+      return { actions, success: false }
     }
 
-    try {
-      await bot.pathfinder.goto(new bot.pathfinder.goals.GoalBlock(chestPos.x, chestPos.y, chestPos.z))
-      rawEvent.actions.push({ type: 'move', pos: chestPos })
+    chest = check.chest
+    const items = chest.containerItems()
+    const keyItem = items.find(item => item && item.name === 'stick' && item.customName === 'Key')
 
-      const chestBlock = bot.blockAt(bot.entity.position.offset(0, 0, 0))
-      const chest = await bot.openChest(chestBlock)
-
-      const items = chest.containerItems()
-      const keyItem = items.find(i => i && i.name === 'stick' && i.customName === 'Key')
-
-      let foundKey = false
-
-      if (keyItem) {
-        await bot.tossStack(keyItem)
-        foundKey = true
-        rawEvent.actions.push({ type: 'found_key', item: keyItem })
-      } else {
-        rawEvent.actions.push({ type: 'no_key_found' })
-      }
-
-      chest.close()
-
-      rawEvent.result = foundKey ? 'success' : 'fail'
-
-      await saveEvent(rawEvent)
-
-      const summary = await summarizeEvent(rawEvent)
-      const embedding = await embedEvent(summary)
-
-      await storeMemory({
-        scenarioId,
-        memoryType: 'key_search',
-        rawEvent,
-        summary,
-        embedding
-      })
-
-      console.log('Memory stored successfully.')
-
-      if (!foundKey) {
-        console.log('No key found. Using past memories to refine search strategy.')
-        console.log('This is where your “RAG scaling efficiency” gets demonstrated.')
-      } else {
-        console.log('Key found! Scenario succeeded.')
-      }
-
-      const attemptLog = {
-        scenarioId,
-        runId: rawEvent.runId,
-        attemptIndex: rawEvent.attemptIndex,
-        actions: rawEvent.actions,
-        targetPos: chestPos,
-        success: foundKey,
-        timestamp: Date.now()
-      }
-      const distilled = distillMemoryUnits(attemptLog)
-      ingestDistilledMemory(distilled)
-
-      setTimeout(() => bot.quit(), 2000)
-    } catch (err) {
-      console.log('Error during key finder scenario:', err)
-      bot.quit()
+    if (keyItem) {
+      await bot.tossStack(keyItem)
+      actions.push({ type: 'found_key', item: keyItem.name })
+      foundKey = true
+    } else {
+      actions.push({ type: 'no_key_found' })
     }
+  } catch (err) {
+    logger.log('key_search_error', { error: err.message })
+    actions.push({ type: 'error', message: err.message })
+  } finally {
+    if (chest) chest.close()
+  }
+
+  return { actions, success: foundKey }
+}
+
+async function recordMemory(attemptLog) {
+  const rawEvent = {
+    scenarioId: attemptLog.scenarioId,
+    eventType: 'key_search_attempt',
+    timestamp: attemptLog.timestamp,
+    runId: attemptLog.runId,
+    targetPos: attemptLog.targetPos,
+    actions: attemptLog.actions,
+    attemptIndex: attemptLog.attemptIndex,
+    result: attemptLog.success ? 'success' : 'fail'
+  }
+
+  await saveEvent(rawEvent)
+  const summary = await summarizeEvent(rawEvent)
+  const embedding = await embedEvent(summary)
+
+  await storeMemory({
+    scenarioId: attemptLog.scenarioId,
+    memoryType: 'key_search',
+    rawEvent,
+    summary,
+    embedding
   })
 }
 
-runKeyFinderScenario()
+async function runKeyFinderEpisode(bot, logger) {
+  const scenarioId = keyFinderConfig.scenarioId
+  const runId = uuidv4()
+  const maxAttempts = keyFinderConfig.maxAttempts || 5
+  let attemptIndex = 0
+  let solved = false
+
+  logger.log('key_episode_start', { scenarioId, runId, maxAttempts })
+
+  while (attemptIndex < maxAttempts && !solved) {
+    await resetChestState(bot, logger)
+    const distilledMemories = retrieveDistilledMemories(scenarioId)
+    const plan = chooseKeySearchPlan(
+      keyFinderConfig.defaultChestPos,
+      scenarioId,
+      distilledMemories
+    )
+
+    logger.log('key_attempt', {
+      runId,
+      attemptIndex,
+      target: plan.chestPos,
+      source: plan.source,
+      distilledCount: distilledMemories.length
+    })
+
+    const searchResult = await executeSearch(bot, plan.chestPos, logger)
+
+    const attemptLog = {
+      scenarioId,
+      runId,
+      attemptIndex,
+      actions: searchResult.actions,
+      targetPos: plan.chestPos,
+      success: searchResult.success,
+      timestamp: Date.now()
+    }
+
+    ingestKeyFinderAttempt(attemptLog)
+    const distilled = distillMemoryUnits(attemptLog)
+    if (distilled.length > 0) {
+      ingestDistilledMemory(distilled)
+    }
+    await recordMemory(attemptLog)
+
+    const memories = await getRelevantMemories(scenarioId, 'key_search')
+    logger.log('key_memory_stats', {
+      runId,
+      attemptIndex,
+      success: attemptLog.success,
+      storedMemories: memories.length
+    })
+
+    solved = attemptLog.success
+    attemptIndex += 1
+
+    if (!solved) {
+      await wait(500)
+    }
+  }
+
+  logger.log('key_episode_end', {
+    scenarioId,
+    runId,
+    attempts: attemptIndex,
+    solved
+  })
+
+  return { runId, scenarioId, attempts: attemptIndex, solved }
+}
+
+module.exports = { runKeyFinderEpisode }
