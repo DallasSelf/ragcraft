@@ -32,7 +32,29 @@ function retrieveDistilledMemories(scenarioId) {
   return distilledCache.filter(m => m.scenarioId === scenarioId)
 }
 
+function exportDistilledMemories(scenarioId, outFilePath) {
+  if (!scenarioId || !outFilePath) return
+  const subset = retrieveDistilledMemories(scenarioId)
+  fs.writeFileSync(outFilePath, JSON.stringify(subset, null, 2), 'utf8')
+}
+
+function preloadDistilledMemories(inFilePath) {
+  if (!inFilePath) return
+  if (!fs.existsSync(inFilePath)) return
+  try {
+    const raw = fs.readFileSync(inFilePath, 'utf8')
+    const parsed = JSON.parse(raw)
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      ingestDistilledMemory(parsed)
+    }
+  } catch {
+    return
+  }
+}
+
 module.exports = {
   ingestDistilledMemory,
-  retrieveDistilledMemories
+  retrieveDistilledMemories,
+  exportDistilledMemories,
+  preloadDistilledMemories
 }

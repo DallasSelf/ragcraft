@@ -4,17 +4,27 @@ const { chooseMazePlan } = require('./mazeStrategy')
 const { mazeConfig } = require('../scenarios/mazeConfig')
 const { ingestMazeAttempt } = require('../rag/kb')
 const { distillMemoryUnits } = require('../memoryDistiller')
-const { ingestDistilledMemory, retrieveDistilledMemories } = require('../rag/distilledMemory')
+const {
+  ingestDistilledMemory,
+  retrieveDistilledMemories,
+  preloadDistilledMemories
+} = require('../rag/distilledMemory')
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-async function runMazeEpisode(bot, logger) {
+async function runMazeEpisode(bot, logger, options = {}) {
   const scenarioId = mazeConfig.scenarioId
   const runId = uuidv4()
 
   logger.log('maze_episode_start', { runId, scenarioId })
+
+  const preloadFile = options.preloadFile || process.env.MAZE_PRELOAD_FILE
+  if (preloadFile) {
+    preloadDistilledMemories(preloadFile)
+    logger.log('maze_preload_memories', { runId, scenarioId, preloadFile })
+  }
 
   const maxAttempts = 10
   let attempts = 0
@@ -45,8 +55,15 @@ async function runMazeEpisode(bot, logger) {
     }
 
     ingestMazeAttempt(attemptLog)
-    const distilled = distillMemoryUnits(attemptLog)
-    ingestDistilledMemory(distilled)
+    const distilledUnits = distillMemoryUnits(attemptLog)
+    if (distilledUnits.length > 0) {
+      ingestDistilledMemory(distilledUnits)
+      logger.log('maze_distillation', {
+        runId,
+        attemptIndex: attempts,
+        distilledCount: distilledUnits.length
+      })
+    }
 
     logger.log('maze_attempt_result', {
       runId,
