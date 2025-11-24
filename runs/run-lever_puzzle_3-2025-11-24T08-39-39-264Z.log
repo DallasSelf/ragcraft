@@ -1,0 +1,42 @@
+{"t":"2025-11-24T08:39:44.595Z","msg":"lever_episode_start","data":{"runId":"9b5d1153-778d-45b8-bfb8-20b551324589","scenarioId":"lever_puzzle_3"}}
+{"t":"2025-11-24T08:39:44.597Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-24T08:39:44.898Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-24T08:39:45.049Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-24T08:39:45.201Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-24T08:39:45.603Z","msg":"lever_attempt","data":{"runId":"9b5d1153-778d-45b8-bfb8-20b551324589","attemptIndex":0,"sequence":[1,3,2],"source":"fallback_random","distilledCount":5}}
+{"t":"2025-11-24T08:39:45.629Z","msg":"debug_lever_scan","data":{"botPosition":{"x":14.5,"y":64,"z":0.5},"foundLevers":[{"x":15,"y":65,"z":0},{"x":15,"y":65,"z":1},{"x":15,"y":65,"z":-1}]}}
+{"t":"2025-11-24T08:39:45.630Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-24T08:39:46.130Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-24T08:39:46.630Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-24T08:39:47.433Z","msg":"lever_attempt_result","data":{"runId":"9b5d1153-778d-45b8-bfb8-20b551324589","attemptIndex":0,"success":false,"distilledAdded":1}}
+{"t":"2025-11-24T08:39:47.433Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-24T08:39:47.735Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-24T08:39:47.884Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-24T08:39:48.034Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-24T08:39:48.435Z","msg":"lever_incorrect","data":{"runId":"9b5d1153-778d-45b8-bfb8-20b551324589","attemptIndex":0,"sequence":[1,3,2]}}
+{"t":"2025-11-24T08:39:48.835Z","msg":"lever_attempt","data":{"runId":"9b5d1153-778d-45b8-bfb8-20b551324589","attemptIndex":1,"sequence":[2,3,1],"source":"fallback_random","distilledCount":6}}
+{"t":"2025-11-24T08:39:48.836Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-24T08:39:49.336Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-24T08:39:49.836Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-24T08:39:50.638Z","msg":"lever_attempt_result","data":{"runId":"9b5d1153-778d-45b8-bfb8-20b551324589","attemptIndex":1,"success":true,"distilledAdded":1}}
+{"t":"2025-11-24T08:39:50.638Z","msg":"lever_door_open","data":{"cmd":"/setblock 13 63 2 redstone_block"}}
+{"t":"2025-11-24T08:39:50.940Z","msg":"lever_solved","data":{"runId":"9b5d1153-778d-45b8-bfb8-20b551324589","attempts":2,"sequence":[2,3,1]}}
+{"t":"2025-11-24T08:39:50.940Z","msg":"lever_episode_end","data":{"runId":"9b5d1153-778d-45b8-bfb8-20b551324589","scenarioId":"lever_puzzle_3","attempts":2,"solved":true}}
+{"t":"2025-11-24T08:40:49.069Z","msg":"maze_episode_start","data":{"runId":"007f9a86-8864-4291-8dc1-596932b05908","scenarioId":"maze_v1","maxAttempts":6}}
+{"t":"2025-11-24T08:40:49.070Z","msg":"maze_attempt","data":{"runId":"007f9a86-8864-4291-8dc1-596932b05908","attemptIndex":0,"plan":{"type":"direct_path","target":{"x":10,"y":64,"z":10},"turnSequence":null,"source":"naive_exploration"},"distilledCount":0}}
+{"t":"2025-11-24T08:40:49.070Z","msg":"maze_attempt_start","data":{"startPos":{"x":0,"y":64,"z":0},"goalPos":{"x":10,"y":64,"z":10},"plan":{"type":"direct_path","target":{"x":10,"y":64,"z":10},"turnSequence":null,"source":"naive_exploration"}}}
+{"t":"2025-11-24T08:40:49.070Z","msg":"maze_move_to_start","data":{"target":{"x":0,"y":64,"z":0}}}
+{"t":"2025-11-24T08:40:50.071Z","msg":"maze_move_to_goal","data":{"target":{"x":10,"y":64,"z":10}}}
+{"t":"2025-11-24T08:40:50.081Z","msg":"maze_path_update","data":{"step":2,"position":{"x":9.35254303284364,"y":64,"z":0.5000000000005906}}}
+{"t":"2025-11-24T08:40:51.937Z","msg":"maze_goal_reached","data":{"stepCount":2,"finalPos":{"x":10.30840233650994,"y":64,"z":10.410895221311765}}}
+{"t":"2025-11-24T08:40:51.939Z","msg":"maze_attempt_result","data":{"runId":"007f9a86-8864-4291-8dc1-596932b05908","attemptIndex":0,"success":true,"stepCount":2,"distilledAdded":1}}
+{"t":"2025-11-24T08:40:51.939Z","msg":"maze_episode_end","data":{"runId":"007f9a86-8864-4291-8dc1-596932b05908","scenarioId":"maze_v1","attempts":1,"solved":true}}
+{"t":"2025-11-24T08:42:29.560Z","msg":"maze_episode_start","data":{"runId":"f54a5cba-cdc9-427d-aead-f22bc283cea9","scenarioId":"maze_v1","maxAttempts":6}}
+{"t":"2025-11-24T08:42:29.561Z","msg":"maze_attempt","data":{"runId":"f54a5cba-cdc9-427d-aead-f22bc283cea9","attemptIndex":0,"plan":{"type":"direct_path","target":{"x":10,"y":64,"z":10},"turnSequence":null,"source":"naive_exploration"},"distilledCount":1}}
+{"t":"2025-11-24T08:42:29.561Z","msg":"maze_attempt_start","data":{"startPos":{"x":0,"y":64,"z":0},"goalPos":{"x":10,"y":64,"z":10},"plan":{"type":"direct_path","target":{"x":10,"y":64,"z":10},"turnSequence":null,"source":"naive_exploration"}}}
+{"t":"2025-11-24T08:42:29.561Z","msg":"maze_move_to_start","data":{"target":{"x":0,"y":64,"z":0}}}
+{"t":"2025-11-24T08:42:30.562Z","msg":"maze_move_to_goal","data":{"target":{"x":10,"y":64,"z":10}}}
+{"t":"2025-11-24T08:42:30.578Z","msg":"maze_path_update","data":{"step":2,"position":{"x":6.367054506067899,"y":64,"z":7.414176164662545}}}
+{"t":"2025-11-24T08:42:31.586Z","msg":"maze_goal_reached","data":{"stepCount":2,"finalPos":{"x":10.316030465574492,"y":64,"z":10.301811032408256}}}
+{"t":"2025-11-24T08:42:31.588Z","msg":"maze_attempt_result","data":{"runId":"f54a5cba-cdc9-427d-aead-f22bc283cea9","attemptIndex":0,"success":true,"stepCount":2,"distilledAdded":1}}
+{"t":"2025-11-24T08:42:31.588Z","msg":"maze_episode_end","data":{"runId":"f54a5cba-cdc9-427d-aead-f22bc283cea9","scenarioId":"maze_v1","attempts":1,"solved":true}}

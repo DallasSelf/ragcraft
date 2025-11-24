@@ -1,0 +1,112 @@
+[
+  {
+    "id": "b708adb2-755a-4686-ab4e-d4328c5469c3",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "2fd61d6b-05df-44d3-aa5b-630c85facc32"
+    ],
+    "timestamp": 1763971690533
+  },
+  {
+    "id": "b3c325fc-8b3d-4d35-8513-9eebcc96871e",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "2fd61d6b-05df-44d3-aa5b-630c85facc32"
+    ],
+    "timestamp": 1763971693748
+  },
+  {
+    "id": "b4848bc7-0f3f-45f9-a611-3d611cba7f08",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "2fd61d6b-05df-44d3-aa5b-630c85facc32"
+    ],
+    "timestamp": 1763971696969
+  },
+  {
+    "id": "a20f9353-a8c8-4666-9d20-b390f698f8f6",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "2fd61d6b-05df-44d3-aa5b-630c85facc32"
+    ],
+    "timestamp": 1763971700181
+  },
+  {
+    "id": "753f9b7d-a5c3-453e-beff-c2b00ecea3c5",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 4",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "2fd61d6b-05df-44d3-aa5b-630c85facc32"
+    ],
+    "timestamp": 1763971703395
+  },
+  {
+    "id": "0d6b33a4-55b7-43a6-b867-4c3ae628f432",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "9b5d1153-778d-45b8-bfb8-20b551324589"
+    ],
+    "timestamp": 1763973587431
+  },
+  {
+    "id": "4c1f47f9-c93f-4120-8c71-45f10e1f109b",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 1",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "9b5d1153-778d-45b8-bfb8-20b551324589"
+    ],
+    "timestamp": 1763973590637
+  },
+  {
+    "id": "89c469b6-0b9f-4f3d-a5b4-e76ff8514c93",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"success\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Reached goal after 2 steps\"}",
+    "confidence": 0.85,
+    "evidenceRunIds": [
+      "007f9a86-8864-4291-8dc1-596932b05908"
+    ],
+    "timestamp": 1763973651938
+  },
+  {
+    "id": "01cc73ce-0995-4406-9433-b4723861c853",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"success\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Reached goal after 2 steps\"}",
+    "confidence": 0.85,
+    "evidenceRunIds": [
+      "f54a5cba-cdc9-427d-aead-f22bc283cea9"
+    ],
+    "timestamp": 1763973751587
+  },
+  {
+    "id": "ca2d397d-0f1c-4cbf-b817-f4526313c36d",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "75c379d9-1063-4e84-86b2-a79b485e2fe2"
+    ],
+    "timestamp": 1763974098194
+  }
+]

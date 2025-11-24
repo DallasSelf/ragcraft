@@ -2,6 +2,7 @@ const mineflayer = require('mineflayer')
 const { pathfinder } = require('mineflayer-pathfinder')
 const { runLeverEpisode } = require('./agent/leverEpisode')
 const { createLogger } = require('./logging/logger')
+const { runMazeEpisode } = require('./agent/mazeEpisode')
 
 const logger = createLogger('lever_puzzle_3', process.env.MC_USERNAME || 'agent_1')
 
@@ -27,4 +28,8 @@ bot.on('chat', (username, message) => {
   if (message === '!lever') {
     runLeverEpisode(bot, logger)
   }
+  if (message === '!maze') {
+  runMazeEpisode(bot, logger)
+}
+
 })
