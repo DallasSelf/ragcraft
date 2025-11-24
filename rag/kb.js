@@ -61,9 +61,31 @@ function retrieveLeverAttempts(scenarioId) {
   return kb.filter(item => item.type === 'lever_attempt' && item.scenarioId === scenarioId)
 }
 
+function ingestMazeAttempt(attempt) {
+  const entry = {
+    type: 'maze_attempt',
+    scenarioId: attempt.scenarioId,
+    runId: attempt.runId,
+    attemptIndex: attempt.attemptIndex,
+    actions: attempt.actions,
+    turnSequence: attempt.turnSequence,
+    success: attempt.success,
+    stepCount: attempt.stepCount,
+    timestamp: attempt.timestamp || Date.now()
+  }
+  kb.push(entry)
+  saveKb(kb)
+}
+
+function retrieveMazeAttempts(scenarioId) {
+  return kb.filter(item => item.type === 'maze_attempt' && item.scenarioId === scenarioId)
+}
+
 module.exports = {
   ragRetrieve,
   ragIngestTrial,
   ingestLeverAttempt,
-  retrieveLeverAttempts
+  retrieveLeverAttempts,
+  ingestMazeAttempt,
+  retrieveMazeAttempts
 }
