@@ -3,6 +3,8 @@ const { trySequenceInWorld } = require('./leverWorld')
 const { chooseLeverSequence } = require('./leverStrategy')
 const { leverPuzzleConfig } = require('../scenarios/leverPuzzleConfig')
 const { ingestLeverAttempt } = require('../rag/kb')
+const { distillMemoryUnits } = require('../memoryDistiller')
+const { ingestDistilledMemory, retrieveDistilledMemories } = require('../rag/distilledMemory')
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -28,20 +30,7 @@ async function openDoor(bot, logger) {
   const onMat = leverPuzzleConfig.doorPowerOn
   const cmd = `/setblock ${pos.x} ${pos.y} ${pos.z} ${onMat}`
 
-  logger.log('door_state_change', {
-    open: true,
-    command: cmd,
-    powerPos: pos
-  })
-
-  bot.chat(cmd)
-  await wait(200)
-}
-
-async function resetLevers(bot, logger) {
-  const face = leverPuzzleConfig.leverFace
-  const facing = leverPuzzleConfig.leverFacing
-
+@@ -45,71 +47,82 @@ async function resetLevers(bot, logger) {
   for (const pos of leverPuzzleConfig.leverBlocks) {
     const cmd = `/setblock ${pos.x} ${pos.y} ${pos.z} lever[face=${face},facing=${facing},powered=false]`
     logger.log('lever_reset', {
@@ -68,6 +57,12 @@ async function runLeverEpisode(bot, logger) {
 
   while (attempts < maxAttempts && !solved) {
     const choice = chooseLeverSequence(scenarioId, leverPuzzleConfig.leverCount)
+    const distilledMemories = retrieveDistilledMemories(scenarioId)
+    const choice = chooseLeverSequence(
+      scenarioId,
+      leverPuzzleConfig.leverCount,
+      distilledMemories
+    )
     const sequence = choice.sequence
 
     logger.log('lever_attempt', {
@@ -83,11 +78,20 @@ async function runLeverEpisode(bot, logger) {
       JSON.stringify(sequence) === JSON.stringify(leverPuzzleConfig.correctSequence)
 
     ingestLeverAttempt({
+    const attemptLog = {
       scenarioId,
       runId,
+      attemptIndex: attempts,
       sequence,
       success: isCorrect
     })
+      success: isCorrect,
+      timestamp: Date.now()
+    }
+
+    ingestLeverAttempt(attemptLog)
+    const distilled = distillMemoryUnits(attemptLog)
+    ingestDistilledMemory(distilled)
 
     logger.log('lever_attempt_result', {
       runId,
@@ -113,18 +117,3 @@ async function runLeverEpisode(bot, logger) {
         sequence
       })
     }
-
-    attempts++
-  }
-
-  logger.log('lever_episode_end', {
-    runId,
-    scenarioId,
-    solved,
-    attempts
-  })
-
-  return solved
-}
-
-module.exports = { runLeverEpisode }

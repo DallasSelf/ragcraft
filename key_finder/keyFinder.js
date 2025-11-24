@@ -1,5 +1,24 @@
 const mineflayer = require('mineflayer')
+const { v4: uuidv4 } = require('uuid')
+const { distillMemoryUnits } = require('../memoryDistiller')
+const { ingestDistilledMemory, retrieveDistilledMemories } = require('../rag/distilledMemory')
 const { saveEvent, summarizeEvent, embedEvent, storeMemory, getRelevantMemories } = require('./memory/episodicMemory')
+
+function chooseKeySearchPlan(defaultChestPos, scenarioId, distilledMemories = []) {
+  const successMemory = distilledMemories.find(
+    m => m.type === 'key_finder_distilled' && m.text.startsWith('Key found')
+  )
+
+  if (successMemory) {
+    const match = successMemory.text.match(/\(([-0-9]+),([-0-9]+),([-0-9]+)\)/)
+    if (match) {
+      const chestPos = { x: Number(match[1]), y: Number(match[2]), z: Number(match[3]) }
+      return { chestPos, source: 'distilled_success', distilledMemories }
+    }
+  }
+
+  return { chestPos: defaultChestPos, source: 'default', distilledMemories }
+}
 
 async function runKeyFinderScenario() {
   const bot = mineflayer.createBot({
@@ -13,16 +32,27 @@ async function runKeyFinderScenario() {
 
     const scenarioId = 'key_finder_v1'
 
+    const distilledMemories = retrieveDistilledMemories(scenarioId)
+
+    const defaultChestPos = { x: 5, y: 4, z: 5 }
+    const plan = chooseKeySearchPlan(defaultChestPos, scenarioId, distilledMemories)
+    const chestPos = plan.chestPos
+
     const memories = await getRelevantMemories(scenarioId, 'key_search')
     console.log('Retrieved relevant past memories:', memories.length)
 
     const chestPos = { x: 5, y: 4, z: 5 }
+    console.log('Distilled memory hints:', plan.distilledMemories.length)
 
     const rawEvent = {
       scenarioId,
       eventType: 'key_search_attempt',
       timestamp: Date.now(),
       actions: []
+      runId: uuidv4(),
+      targetPos: chestPos,
+      actions: [],
+      attemptIndex: 0
     }
 
     try {
@@ -70,6 +100,18 @@ async function runKeyFinderScenario() {
       } else {
         console.log('Key found! Scenario succeeded.')
       }
+
+      const attemptLog = {
+        scenarioId,
+        runId: rawEvent.runId,
+        attemptIndex: rawEvent.attemptIndex,
+        actions: rawEvent.actions,
+        targetPos: chestPos,
+        success: foundKey,
+        timestamp: Date.now()
+      }
+      const distilled = distillMemoryUnits(attemptLog)
+      ingestDistilledMemory(distilled)
 
       setTimeout(() => bot.quit(), 2000)
     } catch (err) {
