@@ -1,4 +1,5 @@
 
+
 const { loadScenarioMetrics, comparePerformance } = require('./rag/eval/metrics')
 const { getStoreStats } = require('./rag/store/vectorStore')
 const { printStoreStats } = require('./rag/eval/comparison')
@@ -10,7 +11,7 @@ function printSeparator() {
 }
 
 function analyzeRetrievalPatterns(metrics) {
-  console.log('RETRIEVAL PATTERN ANALYSIS')
+  console.log('📊 RETRIEVAL PATTERN ANALYSIS')
   printSeparator()
 
   const allRetrievals = metrics.flatMap(m => m.retrievals || [])
@@ -20,6 +21,7 @@ function analyzeRetrievalPatterns(metrics) {
     return
   }
 
+ 
   const latencies = allRetrievals.map(r => r.latencyMs).filter(l => l > 0)
   const avgLatency = latencies.reduce((a, b) => a + b, 0) / latencies.length
   const minLatency = Math.min(...latencies)
@@ -31,6 +33,7 @@ function analyzeRetrievalPatterns(metrics) {
   console.log(`  Max:     ${maxLatency.toFixed(2)} ms`)
   console.log(`  Total retrievals: ${allRetrievals.length}`)
 
+  
   const similarities = allRetrievals.map(r => r.topSimilarity).filter(s => s > 0)
   if (similarities.length > 0) {
     const avgSim = similarities.reduce((a, b) => a + b, 0) / similarities.length
@@ -43,6 +46,7 @@ function analyzeRetrievalPatterns(metrics) {
     console.log(`  Max:     ${maxSim.toFixed(4)}`)
   }
 
+ 
   const resultCounts = allRetrievals.map(r => r.resultCount)
   const avgResults = resultCounts.reduce((a, b) => a + b, 0) / resultCounts.length
 
@@ -54,7 +58,7 @@ function analyzeRetrievalPatterns(metrics) {
 }
 
 function analyzeStorageGrowth(metrics) {
-  console.log('STORAGE GROWTH ANALYSIS')
+  console.log('💾 STORAGE GROWTH ANALYSIS')
   printSeparator()
 
   const allSnapshots = metrics.flatMap(m => m.storeSnapshots || [])
@@ -94,7 +98,7 @@ function analyzeStorageGrowth(metrics) {
 }
 
 function analyzeTaskPerformance(metrics) {
-  console.log('TASK PERFORMANCE ANALYSIS')
+  console.log('🎯 TASK PERFORMANCE ANALYSIS')
   printSeparator()
 
   const outcomes = metrics.map(m => m.taskOutcome).filter(Boolean)
@@ -114,6 +118,7 @@ function analyzeTaskPerformance(metrics) {
   console.log(`Success Rate: ${(successRate * 100).toFixed(1)}% (${successCount}/${outcomes.length})`)
   console.log(`Avg Attempts per Run: ${avgAttempts.toFixed(2)}`)
 
+  
   console.log('\nLearning Curve (attempts per run):')
   outcomes.forEach((o, i) => {
     const marker = o.success ? '✓' : '✗'
@@ -146,7 +151,7 @@ function generateASCIIChart(data, title, width = 50) {
 }
 
 function compareModesDetailed(scenarioId) {
-  console.log('DETAILED MODE COMPARISON')
+  console.log('🔬 DETAILED MODE COMPARISON')
   printSeparator()
 
   const comparison = comparePerformance(scenarioId)
@@ -158,6 +163,7 @@ function compareModesDetailed(scenarioId) {
 
   console.log(`Scenario: ${scenarioId}\n`)
 
+ 
   const metrics = [
     {
       name: 'Runs',
@@ -206,139 +212,65 @@ function compareModesDetailed(scenarioId) {
   printSeparator()
 }
 
-/**
- * Extract unique scenario IDs from metrics files
- */
-function getAllScenarioIds() {
-  const metricsDir = path.join(__dirname, 'rag/eval/runs')
-  if (!fs.existsSync(metricsDir)) return []
-
-  const files = fs.readdirSync(metricsDir)
-    .filter(f => f.endsWith('.json'))
-
-  const scenarioIds = new Set()
-  
-  // Known scenario patterns to match
-  const knownScenarios = ['lever_puzzle_3', 'maze_v1', 'key_finder_v1']
-  
-  for (const file of files) {
-    let found = false
-    
-    // Try to match known scenario patterns first (faster)
-    for (const known of knownScenarios) {
-      if (file.startsWith(known + '_')) {
-        scenarioIds.add(known)
-        found = true
-        break
-      }
-    }
-    
-    // If no match, extract from JSON content
-    if (!found) {
-      try {
-        const filePath = path.join(metricsDir, file)
-        const content = fs.readFileSync(filePath, 'utf8')
-        const data = JSON.parse(content)
-        if (data.scenarioId) {
-          scenarioIds.add(data.scenarioId)
-        }
-      } catch (err) {
-        // Skip invalid files
-        continue
-      }
-    }
-  }
-
-  return Array.from(scenarioIds)
-}
-
-async function analyzeScenario(scenarioId) {
-  console.log('\n' + '='.repeat(70))
-  console.log(`SCENARIO: ${scenarioId.toUpperCase()}`)
-  console.log('='.repeat(70))
-
-  const metrics = loadScenarioMetrics(scenarioId)
-
-  console.log(`Loaded ${metrics.length} evaluation runs for ${scenarioId}\n`)
-
-  if (metrics.length === 0) {
-    console.log('No evaluation data found for this scenario.\n')
-    return
-  }
-
-  analyzeRetrievalPatterns(metrics)
-  analyzeStorageGrowth(metrics)
-  analyzeTaskPerformance(metrics)
-  compareModesDetailed(scenarioId)
-}
-
 async function main() {
   console.log('\n' + '='.repeat(70))
   console.log('RAGCRAFT ANALYSIS DASHBOARD')
   console.log('='.repeat(70))
 
+  
   printStoreStats()
 
-  const scenarioIds = getAllScenarioIds()
+  
+  const scenarioId = 'lever_puzzle_3'
+  const metrics = loadScenarioMetrics(scenarioId)
 
-  if (scenarioIds.length === 0) {
-    console.log('\nNo evaluation data found. Run scenarios first to generate metrics.')
-    console.log('\nNote: Only "Enhanced" episode functions collect metrics:')
-    console.log('  - runMazeEpisodeEnhanced (not runMazeEpisode)')
-    console.log('  - runKeyFinderEpisodeEnhanced (not runKeyFinderEpisode)')
-    console.log('  - runLeverEpisodeEnhanced (not runLeverEpisode)')
-    console.log('\nUse evalRunner.js or evalRunnerFull.js to run scenarios with metrics collection.\n')
+  console.log(`Loaded ${metrics.length} evaluation runs for ${scenarioId}\n`)
+
+  if (metrics.length === 0) {
+    console.log('No evaluation data found. Run experiments first:')
+    console.log('  npm run eval\n')
     return
   }
 
-  console.log(`\nFound ${scenarioIds.length} scenario(s) with metrics: ${scenarioIds.join(', ')}`)
+ 
+  analyzeRetrievalPatterns(metrics)
+  analyzeStorageGrowth(metrics)
+  analyzeTaskPerformance(metrics)
+  compareModesDetailed(scenarioId)
+
   
-  // Check for expected scenarios that might be missing
-  const expectedScenarios = ['lever_puzzle_3', 'maze_v1', 'key_finder_v1']
-  const missingScenarios = expectedScenarios.filter(id => !scenarioIds.includes(id))
-  if (missingScenarios.length > 0) {
-    console.log(`\nNote: The following scenarios have no metrics yet: ${missingScenarios.join(', ')}`)
-    console.log('Run these scenarios using the "Enhanced" episode functions to collect metrics.\n')
-  } else {
-    console.log('\n')
-  }
+  console.log('💡 RECOMMENDATIONS')
+  printSeparator()
 
-  // Analyze each scenario
-  for (const scenarioId of scenarioIds) {
-    await analyzeScenario(scenarioId)
-  }
+  const comparison = comparePerformance(scenarioId)
 
-  // Summary across all scenarios
-  console.log('\n' + '='.repeat(70))
-  console.log('SUMMARY ACROSS ALL SCENARIOS')
-  console.log('='.repeat(70))
-
-  const allMetrics = scenarioIds.flatMap(id => loadScenarioMetrics(id))
-  if (allMetrics.length > 0) {
-    console.log(`\nTotal runs across all scenarios: ${allMetrics.length}`)
-    
-    const successCount = allMetrics.filter(m => m.summary?.taskSuccess).length
-    const successRate = (successCount / allMetrics.length) * 100
-    console.log(`Overall success rate: ${successRate.toFixed(1)}% (${successCount}/${allMetrics.length})`)
-
-    const totalAttempts = allMetrics.reduce((sum, m) => sum + (m.summary?.attemptsToSolve || 0), 0)
-    const avgAttempts = totalAttempts / allMetrics.length
-    console.log(`Average attempts to solve: ${avgAttempts.toFixed(2)}`)
-
-    const totalRetrievals = allMetrics.reduce((sum, m) => sum + (m.summary?.totalRetrievals || 0), 0)
-    const avgRetrievals = totalRetrievals / allMetrics.length
-    console.log(`Average retrievals per run: ${avgRetrievals.toFixed(2)}`)
-
-    const avgLatencies = allMetrics
-      .filter(m => m.summary?.avgLatencyMs > 0)
-      .map(m => m.summary.avgLatencyMs)
-    if (avgLatencies.length > 0) {
-      const overallAvgLatency = avgLatencies.reduce((a, b) => a + b, 0) / avgLatencies.length
-      console.log(`Average retrieval latency: ${overallAvgLatency.toFixed(2)} ms`)
+  if (comparison.distilled.runs > 0) {
+    if (comparison.distilled.successRate >= 0.8) {
+      console.log('✓ High success rate achieved with distilled mode')
     }
+
+    if (comparison.distilled.avgLatency < 20) {
+      console.log('✓ Retrieval latency is excellent (< 20ms)')
+    }
+
+    const storeSize = comparison.distilled.avgStoreSize / 1024
+    if (storeSize < 100) {
+      console.log('✓ Storage footprint is compact (< 100 KB)')
+    }
+
+    console.log('\nFor your defense:')
+    console.log('1. Highlight the storage efficiency gains')
+    console.log('2. Show the retrieval speed improvements')
+    console.log('3. Demonstrate maintained task performance')
+    console.log('4. Emphasize the confidence-weighted ranking')
   }
 
-  console.log('\n')
+  if (comparison.distilled.runs < 5) {
+    console.log('\n⚠ Consider running more experiments (at least 5 runs)')
+    console.log('  npm run eval  # Run this multiple times')
+  }
+
+  printSeparator()
 }
 
 main().catch(err => {
