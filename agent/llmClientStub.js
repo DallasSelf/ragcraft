@@ -1,4 +1,3 @@
-// agent/llmClientStub.js
 function decideAction(observation, memories) {
   if (memories.length > 0) {
     const mem = memories[0]

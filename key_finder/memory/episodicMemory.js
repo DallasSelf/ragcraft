@@ -6,7 +6,15 @@ const MEMORY_DB_PATH = path.join(__dirname, '../logs/keyFinderMemory.json')
 
 function loadJson(filePath) {
   if (!fs.existsSync(filePath)) return []
-  return JSON.parse(fs.readFileSync(filePath))
+  try {
+    const content = fs.readFileSync(filePath, 'utf8').trim()
+    if (!content) return []
+    return JSON.parse(content)
+  } catch (error) {
+    // If file is corrupted or invalid JSON, return empty array
+    console.warn(`Warning: Failed to parse JSON file ${filePath}:`, error.message)
+    return []
+  }
 }
 
 function writeJson(filePath, data) {

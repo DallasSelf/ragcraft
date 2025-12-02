@@ -1,5 +1,10 @@
 const { v4: uuidv4 } = require('uuid')
 
+/**
+ * Formats a turn sequence array into a JSON string representation.
+ * @param {Array} turnSequence - Array of points (objects with x,y,z or arrays [x,y,z])
+ * @returns {string} JSON string representation of the sequence
+ */
 function formatTurnSequence(turnSequence = []) {
   if (!Array.isArray(turnSequence) || turnSequence.length === 0) return '[]'
   const trimmed = turnSequence
@@ -8,13 +13,30 @@ function formatTurnSequence(turnSequence = []) {
       const x = Number(point.x ?? point[0] ?? 0)
       const y = Number(point.y ?? point[1] ?? 0)
       const z = Number(point.z ?? point[2] ?? 0)
+      // Filter out points that are all zeros (likely invalid)
+      if (x === 0 && y === 0 && z === 0) return null
       return { x, y, z }
     })
     .filter(Boolean)
   return JSON.stringify(trimmed)
 }
 
+/**
+ * Distills a lever puzzle attempt into a memory unit.
+ * @param {Object} attempt - The attempt object
+ * @param {string} attempt.scenarioId - Scenario identifier
+ * @param {string} [attempt.runId] - Run identifier for evidence tracking
+ * @param {Array|string} [attempt.sequence] - Lever sequence
+ * @param {boolean} [attempt.success] - Whether the attempt was successful
+ * @param {number} [attempt.attemptIndex] - Index of the attempt
+ * @param {number} [attempt.timestamp] - Timestamp of the attempt
+ * @returns {Array} Array containing one distilled memory unit
+ */
 function distillLeverAttempt(attempt) {
+  if (!attempt || typeof attempt.scenarioId !== 'string') {
+    return []
+  }
+
   const sequenceText = Array.isArray(attempt.sequence)
     ? attempt.sequence.join('-')
     : 'unknown'
@@ -33,12 +55,37 @@ function distillLeverAttempt(attempt) {
   }]
 }
 
+/**
+ * Distills a key finder attempt into a memory unit.
+ * @param {Object} attempt - The attempt object
+ * @param {string} attempt.scenarioId - Scenario identifier
+ * @param {string} [attempt.runId] - Run identifier for evidence tracking
+ * @param {Array} [attempt.actions] - Array of actions taken
+ * @param {Object} [attempt.targetPos] - Target position object
+ * @param {number} [attempt.targetPos.x] - X coordinate
+ * @param {number} [attempt.targetPos.y] - Y coordinate
+ * @param {number} [attempt.targetPos.z] - Z coordinate
+ * @param {boolean} [attempt.success] - Whether the key was found
+ * @param {number} [attempt.timestamp] - Timestamp of the attempt
+ * @returns {Array} Array containing one distilled memory unit
+ */
 function distillKeyFinderAttempt(attempt) {
+  if (!attempt || typeof attempt.scenarioId !== 'string') {
+    return []
+  }
+
   const actionCount = Array.isArray(attempt.actions) ? attempt.actions.length : 0
   const found = Boolean(attempt.success)
-  const focusPos = attempt.targetPos
-    ? ` (${attempt.targetPos.x},${attempt.targetPos.y},${attempt.targetPos.z})`
-    : ''
+  
+  // Safely extract position coordinates
+  let focusPos = ''
+  if (attempt.targetPos && typeof attempt.targetPos === 'object') {
+    const x = attempt.targetPos.x ?? attempt.targetPos[0] ?? 0
+    const y = attempt.targetPos.y ?? attempt.targetPos[1] ?? 0
+    const z = attempt.targetPos.z ?? attempt.targetPos[2] ?? 0
+    focusPos = ` (${x},${y},${z})`
+  }
+  
   const statusText = found ? 'Key found' : 'Key not found'
   const confidence = found ? 0.85 : 0.5
 
@@ -57,10 +104,28 @@ function distillKeyFinderAttempt(attempt) {
   }]
 }
 
+/**
+ * Distills a maze navigation attempt into a memory unit.
+ * @param {Object} attempt - The attempt object
+ * @param {string} attempt.scenarioId - Scenario identifier
+ * @param {string} [attempt.runId] - Run identifier for evidence tracking
+ * @param {Array} [attempt.turnSequence] - Array of turn points
+ * @param {number} [attempt.stepCount] - Number of steps taken
+ * @param {boolean} [attempt.success] - Whether the maze was solved
+ * @param {number} [attempt.timestamp] - Timestamp of the attempt
+ * @returns {Array} Array containing one distilled memory unit
+ */
 function distillMazeAttempt(attempt) {
+  if (!attempt || typeof attempt.scenarioId !== 'string') {
+    return []
+  }
+
   const turnSequence = Array.isArray(attempt.turnSequence) ? attempt.turnSequence : []
   const serializedSequence = turnSequence.length > 0 ? formatTurnSequence(turnSequence) : null
-  const stepCount = attempt.stepCount ?? turnSequence.length ?? 0
+  // Use stepCount if provided and > 0, otherwise fall back to turnSequence length, then 0
+  const stepCount = (typeof attempt.stepCount === 'number' && attempt.stepCount >= 0)
+    ? attempt.stepCount
+    : (turnSequence.length > 0 ? turnSequence.length : 0)
   const success = Boolean(attempt.success)
 
   const payload = {
@@ -87,19 +152,36 @@ function distillMazeAttempt(attempt) {
   }]
 }
 
+/**
+ * Main function to distill an attempt into memory units based on scenario type.
+ * @param {Object} attempt - The attempt object to distill
+ * @param {string} attempt.scenarioId - Scenario identifier (must be a string)
+ * @returns {Array} Array of distilled memory units (empty if invalid or unknown scenario)
+ */
 function distillMemoryUnits(attempt) {
   if (!attempt || !attempt.scenarioId) return []
 
-  if (attempt.scenarioId.startsWith('lever_puzzle')) {
-    return distillLeverAttempt(attempt)
+  // Ensure scenarioId is a string to safely call startsWith
+  if (typeof attempt.scenarioId !== 'string') {
+    return []
   }
 
-  if (attempt.scenarioId.startsWith('key_finder')) {
-    return distillKeyFinderAttempt(attempt)
-  }
+  try {
+    if (attempt.scenarioId.startsWith('lever_puzzle')) {
+      return distillLeverAttempt(attempt)
+    }
 
-  if (attempt.scenarioId.startsWith('maze')) {
-    return distillMazeAttempt(attempt)
+    if (attempt.scenarioId.startsWith('key_finder')) {
+      return distillKeyFinderAttempt(attempt)
+    }
+
+    if (attempt.scenarioId.startsWith('maze')) {
+      return distillMazeAttempt(attempt)
+    }
+  } catch (error) {
+    // Log error in production, but return empty array to prevent crashes
+    console.error('Error distilling memory units:', error)
+    return []
   }
 
   return []

@@ -1,0 +1,66 @@
+{
+  "runId": "9cc6ee57-af94-4f7a-afba-6f396f3d3cb0",
+  "scenarioId": "lever_puzzle_3",
+  "mode": "distilled",
+  "startTime": 1764135437931,
+  "endTime": 1764135444433,
+  "retrievals": [
+    {
+      "timestamp": 1764135439047,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 3,
+      "topSimilarity": 0.5,
+      "avgSimilarity": 0.5,
+      "latencyMs": 108,
+      "source": "distilled"
+    },
+    {
+      "timestamp": 1764135442315,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 1,
+      "topSimilarity": 0.7210694423392062,
+      "avgSimilarity": 0.7210694423392062,
+      "latencyMs": 7,
+      "source": "distilled"
+    }
+  ],
+  "storeSnapshots": [
+    {
+      "timestamp": 1764135438938,
+      "distilledCount": 6,
+      "rawCount": 0,
+      "totalCount": 6,
+      "storeSizeBytes": 70760
+    },
+    {
+      "timestamp": 1764135442308,
+      "distilledCount": 7,
+      "rawCount": 0,
+      "totalCount": 7,
+      "storeSizeBytes": 82644
+    },
+    {
+      "timestamp": 1764135444433,
+      "distilledCount": 8,
+      "rawCount": 0,
+      "totalCount": 8,
+      "storeSizeBytes": 94562
+    }
+  ],
+  "taskOutcome": {
+    "success": true,
+    "attempts": 2,
+    "totalSteps": 0,
+    "solved": true
+  },
+  "summary": {
+    "totalRetrievals": 2,
+    "avgLatencyMs": 57.5,
+    "avgResultCount": 2,
+    "totalDurationMs": 6502,
+    "finalStoreSize": 94562,
+    "finalDistilledCount": 8,
+    "finalRawCount": 0,
+    "taskSuccess": true
+  }
+}

@@ -1,6 +1,7 @@
 
 const fs = require('fs')
 const path = require('path')
+const { addRawEpisode } = require('./store/vectorStore')
 
 const ragDir = __dirname
 if (!fs.existsSync(ragDir)) fs.mkdirSync(ragDir, { recursive: true })
@@ -44,7 +45,7 @@ function ragIngestTrial(trial) {
   saveKb(kb)
 }
 
-function ingestLeverAttempt(attempt) {
+async function ingestLeverAttempt(attempt) {
   const entry = {
     type: 'lever_attempt',
     scenarioId: attempt.scenarioId,
@@ -55,13 +56,25 @@ function ingestLeverAttempt(attempt) {
   }
   kb.push(entry)
   saveKb(kb)
+
+  const text = `${attempt.success ? 'Successful' : 'Failed'} lever sequence ${attempt.sequence.join('-')}`
+  try {
+    await addRawEpisode({
+      id: entry.runId + '_' + attempt.attemptIndex,
+      scenarioId: entry.scenarioId,
+      type: 'lever_attempt',
+      text,
+      timestamp: entry.timestamp
+    })
+  } catch (err) {
+  }
 }
 
 function retrieveLeverAttempts(scenarioId) {
   return kb.filter(item => item.type === 'lever_attempt' && item.scenarioId === scenarioId)
 }
 
-function ingestKeyFinderAttempt(attempt) {
+async function ingestKeyFinderAttempt(attempt) {
   const entry = {
     type: 'key_attempt',
     scenarioId: attempt.scenarioId,
@@ -74,13 +87,26 @@ function ingestKeyFinderAttempt(attempt) {
   }
   kb.push(entry)
   saveKb(kb)
+
+  const pos = attempt.targetPos
+  const text = `${attempt.success ? 'Key found' : 'Key not found'} at (${pos.x},${pos.y},${pos.z})`
+  try {
+    await addRawEpisode({
+      id: entry.runId + '_' + attempt.attemptIndex,
+      scenarioId: entry.scenarioId,
+      type: 'key_attempt',
+      text,
+      timestamp: entry.timestamp
+    })
+  } catch (err) {
+  }
 }
 
 function retrieveKeyFinderAttempts(scenarioId) {
   return kb.filter(item => item.type === 'key_attempt' && item.scenarioId === scenarioId)
 }
 
-function ingestMazeAttempt(attempt) {
+async function ingestMazeAttempt(attempt) {
   const entry = {
     type: 'maze_attempt',
     scenarioId: attempt.scenarioId,
@@ -94,6 +120,18 @@ function ingestMazeAttempt(attempt) {
   }
   kb.push(entry)
   saveKb(kb)
+
+  const text = `${attempt.success ? 'Successful' : 'Failed'} maze navigation with ${attempt.stepCount} steps`
+  try {
+    await addRawEpisode({
+      id: entry.runId + '_' + attempt.attemptIndex,
+      scenarioId: entry.scenarioId,
+      type: 'maze_attempt',
+      text,
+      timestamp: entry.timestamp
+    })
+  } catch (err) {
+  }
 }
 
 function retrieveMazeAttempts(scenarioId) {

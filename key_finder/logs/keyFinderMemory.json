@@ -1,0 +1,458 @@
+[
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764141281222,
+      "runId": "64b2b40b-ecb2-4dab-b861-b51f535d5bb4",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 0,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764141281225
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764141282176,
+      "runId": "64b2b40b-ecb2-4dab-b861-b51f535d5bb4",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 1,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764141282178
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764141283081,
+      "runId": "64b2b40b-ecb2-4dab-b861-b51f535d5bb4",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 2,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764141283083
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764141283989,
+      "runId": "64b2b40b-ecb2-4dab-b861-b51f535d5bb4",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 3,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764141283990
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764141284941,
+      "runId": "64b2b40b-ecb2-4dab-b861-b51f535d5bb4",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 4,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764141284943
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764141285892,
+      "runId": "64b2b40b-ecb2-4dab-b861-b51f535d5bb4",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 5,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764141285894
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764142714300,
+      "runId": "6f3f1d58-b240-4947-af1e-9c9eb34e569d",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 0,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764142714302
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764142715255,
+      "runId": "6f3f1d58-b240-4947-af1e-9c9eb34e569d",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 1,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764142715256
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764142716213,
+      "runId": "6f3f1d58-b240-4947-af1e-9c9eb34e569d",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 2,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764142716214
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764142717164,
+      "runId": "6f3f1d58-b240-4947-af1e-9c9eb34e569d",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 3,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764142717166
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764142718123,
+      "runId": "6f3f1d58-b240-4947-af1e-9c9eb34e569d",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 4,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764142718126
+  },
+  {
+    "scenarioId": "key_finder_v1",
+    "memoryType": "key_search",
+    "rawEvent": {
+      "scenarioId": "key_finder_v1",
+      "eventType": "key_search_attempt",
+      "timestamp": 1764142719077,
+      "runId": "6f3f1d58-b240-4947-af1e-9c9eb34e569d",
+      "targetPos": {
+        "x": 5,
+        "y": 4,
+        "z": 5
+      },
+      "actions": [
+        {
+          "type": "move",
+          "pos": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+          }
+        },
+        {
+          "type": "error",
+          "message": "containerToOpen is neither a block nor an entity"
+        }
+      ],
+      "attemptIndex": 5,
+      "result": "fail"
+    },
+    "summary": "Key search attempt: actions = move, error, result = fail",
+    "embedding": [
+      79,
+      7.9,
+      0.9
+    ],
+    "id": 1764142719080
+  }
+]

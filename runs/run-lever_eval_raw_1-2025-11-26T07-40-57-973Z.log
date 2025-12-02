@@ -1,0 +1,66 @@
+{"t":"2025-11-26T07:40:57.973Z","msg":"lever_episode_start","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","scenarioId":"lever_puzzle_3","mode":"raw"}}
+{"t":"2025-11-26T07:40:57.974Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T07:40:58.275Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T07:40:58.425Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T07:40:58.576Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T07:40:58.986Z","msg":"lever_attempt","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":0,"sequence":[1,3,2],"source":"fallback_random","memoryCount":5,"retrievalLatency":7}}
+{"t":"2025-11-26T07:40:58.988Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-26T07:40:59.488Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-26T07:40:59.989Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:00.821Z","msg":"lever_attempt_result","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":0,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:41:00.822Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T07:41:01.123Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T07:41:01.274Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T07:41:01.425Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T07:41:01.825Z","msg":"lever_incorrect","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":0,"sequence":[1,3,2]}}
+{"t":"2025-11-26T07:41:02.232Z","msg":"lever_attempt","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":1,"sequence":[1,2,3],"source":"fallback_random","memoryCount":5,"retrievalLatency":7}}
+{"t":"2025-11-26T07:41:02.233Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:02.735Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:03.236Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:04.063Z","msg":"lever_attempt_result","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":1,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:41:04.063Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T07:41:04.363Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T07:41:04.514Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T07:41:04.664Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T07:41:05.064Z","msg":"lever_incorrect","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":1,"sequence":[1,2,3]}}
+{"t":"2025-11-26T07:41:05.468Z","msg":"lever_attempt","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":2,"sequence":[1,2,3],"source":"fallback_random","memoryCount":5,"retrievalLatency":2}}
+{"t":"2025-11-26T07:41:05.469Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:05.971Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:06.474Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:07.303Z","msg":"lever_attempt_result","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":2,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:41:07.303Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T07:41:07.603Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T07:41:07.755Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T07:41:07.907Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T07:41:08.310Z","msg":"lever_incorrect","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":2,"sequence":[1,2,3]}}
+{"t":"2025-11-26T07:41:08.718Z","msg":"lever_attempt","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":3,"sequence":[2,1,3],"source":"fallback_random","memoryCount":5,"retrievalLatency":7}}
+{"t":"2025-11-26T07:41:08.718Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:09.218Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:09.719Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:10.550Z","msg":"lever_attempt_result","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":3,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:41:10.550Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T07:41:10.850Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T07:41:11.001Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T07:41:11.152Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T07:41:11.553Z","msg":"lever_incorrect","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":3,"sequence":[2,1,3]}}
+{"t":"2025-11-26T07:41:11.958Z","msg":"lever_attempt","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":4,"sequence":[1,3,2],"source":"fallback_random","memoryCount":5,"retrievalLatency":4}}
+{"t":"2025-11-26T07:41:11.959Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:12.463Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:12.965Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:13.795Z","msg":"lever_attempt_result","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":4,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:41:13.795Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T07:41:14.096Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T07:41:14.248Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T07:41:14.399Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T07:41:14.799Z","msg":"lever_incorrect","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":4,"sequence":[1,3,2]}}
+{"t":"2025-11-26T07:41:15.203Z","msg":"lever_attempt","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":5,"sequence":[3,1,2],"source":"fallback_random","memoryCount":5,"retrievalLatency":2}}
+{"t":"2025-11-26T07:41:15.204Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:15.707Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:16.208Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-26T07:41:17.037Z","msg":"lever_attempt_result","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":5,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:41:17.038Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T07:41:17.339Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T07:41:17.491Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T07:41:17.642Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T07:41:18.043Z","msg":"lever_incorrect","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","attemptIndex":5,"sequence":[3,1,2]}}
+{"t":"2025-11-26T07:41:18.444Z","msg":"lever_episode_end","data":{"runId":"878c92b4-6470-44f8-9871-7a7e80370880","scenarioId":"lever_puzzle_3","attempts":6,"solved":false}}

@@ -1,0 +1,11 @@
+{"t":"2025-11-26T08:06:08.887Z","msg":"maze_episode_start","data":{"runId":"158d9e38-3f6c-40ad-af12-f7904e8c806c","scenarioId":"maze_v1","mode":"raw"}}
+{"t":"2025-11-26T08:06:08.890Z","msg":"maze_attempt","data":{"runId":"158d9e38-3f6c-40ad-af12-f7904e8c806c","attemptIndex":0,"plan":{"type":"direct_path","target":{"x":10,"y":64,"z":10},"turnSequence":null,"source":"naive_exploration"},"memoryCount":5,"retrievalLatency":2}}
+{"t":"2025-11-26T08:06:08.894Z","msg":"maze_attempt_start","data":{"startPos":{"x":0,"y":64,"z":0},"goalPos":{"x":10,"y":64,"z":10},"plan":{"type":"direct_path","target":{"x":10,"y":64,"z":10},"turnSequence":null,"source":"naive_exploration"}}}
+{"t":"2025-11-26T08:06:08.895Z","msg":"maze_move_to_start","data":{"target":{"x":0,"y":64,"z":0},"currentDistance":7.8865057090893735}}
+{"t":"2025-11-26T08:06:10.327Z","msg":"maze_start_reached","data":{}}
+{"t":"2025-11-26T08:06:10.829Z","msg":"maze_move_to_goal","data":{"target":{"x":10,"y":64,"z":10}}}
+{"t":"2025-11-26T08:06:10.835Z","msg":"maze_path_update","data":{"step":2,"status":"success","nodes":11,"position":{"x":0.6834829985488442,"y":64,"z":0.683859859437536}}}
+{"t":"2025-11-26T08:06:13.649Z","msg":"maze_goal_reached","data":{"stepCount":2}}
+{"t":"2025-11-26T08:06:13.649Z","msg":"maze_attempt_end","data":{"success":true,"reason":"goal_reached","stepCount":2,"finalPos":{"x":10.315134555384338,"y":64,"z":10.557395746077011},"distanceToGoal":0.6403122720532792}}
+{"t":"2025-11-26T08:06:13.692Z","msg":"maze_attempt_result","data":{"runId":"158d9e38-3f6c-40ad-af12-f7904e8c806c","attemptIndex":0,"success":true,"stepCount":2,"distilledAdded":1}}
+{"t":"2025-11-26T08:06:13.693Z","msg":"maze_episode_end","data":{"runId":"158d9e38-3f6c-40ad-af12-f7904e8c806c","scenarioId":"maze_v1","attempts":1,"solved":true}}

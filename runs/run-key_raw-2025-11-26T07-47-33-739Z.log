@@ -1,0 +1,21 @@
+{"t":"2025-11-26T07:47:33.739Z","msg":"key_finder_episode_start","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","scenarioId":"key_finder_v1","mode":"raw"}}
+{"t":"2025-11-26T07:47:33.740Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:47:34.149Z","msg":"key_attempt","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":0,"targetPos":{"x":5,"y":4,"z":5},"source":"default","memoryCount":5,"retrievalLatency":9}}
+{"t":"2025-11-26T07:47:39.209Z","msg":"key_attempt_result","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":0,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:47:39.210Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:47:40.124Z","msg":"key_attempt","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":1,"targetPos":{"x":5,"y":4,"z":5},"source":"default","memoryCount":5,"retrievalLatency":11}}
+{"t":"2025-11-26T07:47:40.496Z","msg":"key_attempt_result","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":1,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:47:40.497Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:47:41.407Z","msg":"key_attempt","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":2,"targetPos":{"x":5,"y":4,"z":5},"source":"default","memoryCount":5,"retrievalLatency":8}}
+{"t":"2025-11-26T07:47:41.808Z","msg":"key_attempt_result","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":2,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:47:41.808Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:47:42.739Z","msg":"key_attempt","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":3,"targetPos":{"x":5,"y":4,"z":5},"source":"default","memoryCount":5,"retrievalLatency":8}}
+{"t":"2025-11-26T07:47:43.108Z","msg":"key_attempt_result","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":3,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:47:43.108Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:47:44.044Z","msg":"key_attempt","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":4,"targetPos":{"x":5,"y":4,"z":5},"source":"default","memoryCount":5,"retrievalLatency":7}}
+{"t":"2025-11-26T07:47:44.429Z","msg":"key_attempt_result","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":4,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:47:44.430Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:47:45.344Z","msg":"key_attempt","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":5,"targetPos":{"x":5,"y":4,"z":5},"source":"default","memoryCount":5,"retrievalLatency":7}}
+{"t":"2025-11-26T07:47:45.716Z","msg":"key_attempt_result","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","attemptIndex":5,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T07:47:45.717Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:47:46.643Z","msg":"key_finder_episode_end","data":{"runId":"f5ce10bb-0ca5-45f3-995b-7781dddce178","scenarioId":"key_finder_v1","attempts":6,"found":false}}

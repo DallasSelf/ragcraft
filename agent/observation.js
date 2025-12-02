@@ -1,4 +1,3 @@
-// agent/observation.js
 function buildObservation(bot) {
   const pos = bot.entity.position
   return {

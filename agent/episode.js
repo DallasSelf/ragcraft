@@ -1,4 +1,3 @@
-// agent/episode.js
 const { buildObservation } = require('./observation')
 const { decideAction } = require('./llmClientStub')
 const { executeAction } = require('./action')

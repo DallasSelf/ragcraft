@@ -1,0 +1,26 @@
+{"t":"2025-11-26T07:38:33.891Z","msg":"key_episode_start","data":{"scenarioId":"key_finder_v1","runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","maxAttempts":6}}
+{"t":"2025-11-26T07:38:33.892Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:38:34.293Z","msg":"key_attempt","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":0,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":8}}
+{"t":"2025-11-26T07:38:34.299Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-11-26T07:38:34.303Z","msg":"key_memory_stats","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":0,"success":false,"storedMemories":7}}
+{"t":"2025-11-26T07:38:34.804Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:38:35.205Z","msg":"key_attempt","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":1,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":9}}
+{"t":"2025-11-26T07:38:35.255Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-11-26T07:38:35.257Z","msg":"key_memory_stats","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":1,"success":false,"storedMemories":8}}
+{"t":"2025-11-26T07:38:35.759Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:38:36.159Z","msg":"key_attempt","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":2,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":10}}
+{"t":"2025-11-26T07:38:36.212Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-11-26T07:38:36.215Z","msg":"key_memory_stats","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":2,"success":false,"storedMemories":9}}
+{"t":"2025-11-26T07:38:36.716Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:38:37.117Z","msg":"key_attempt","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":3,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":11}}
+{"t":"2025-11-26T07:38:37.164Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-11-26T07:38:37.167Z","msg":"key_memory_stats","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":3,"success":false,"storedMemories":10}}
+{"t":"2025-11-26T07:38:37.669Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:38:38.071Z","msg":"key_attempt","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":4,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":12}}
+{"t":"2025-11-26T07:38:38.123Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-11-26T07:38:38.127Z","msg":"key_memory_stats","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":4,"success":false,"storedMemories":11}}
+{"t":"2025-11-26T07:38:38.628Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-11-26T07:38:39.030Z","msg":"key_attempt","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":5,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":13}}
+{"t":"2025-11-26T07:38:39.076Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-11-26T07:38:39.081Z","msg":"key_memory_stats","data":{"runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attemptIndex":5,"success":false,"storedMemories":12}}
+{"t":"2025-11-26T07:38:39.581Z","msg":"key_episode_end","data":{"scenarioId":"key_finder_v1","runId":"6f3f1d58-b240-4947-af1e-9c9eb34e569d","attempts":6,"solved":false}}

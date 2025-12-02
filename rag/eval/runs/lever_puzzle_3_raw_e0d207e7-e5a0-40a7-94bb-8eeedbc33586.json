@@ -1,0 +1,83 @@
+{
+  "runId": "e0d207e7-e5a0-40a7-94bb-8eeedbc33586",
+  "scenarioId": "lever_puzzle_3",
+  "mode": "raw",
+  "startTime": 1764139636193,
+  "endTime": 1764139645807,
+  "retrievals": [
+    {
+      "timestamp": 1764139637202,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 5,
+      "topSimilarity": 0.8424723969506992,
+      "avgSimilarity": 0.8424723969506992,
+      "latencyMs": 3,
+      "source": "raw"
+    },
+    {
+      "timestamp": 1764139640440,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 5,
+      "topSimilarity": 0.8424723969506992,
+      "avgSimilarity": 0.8424723969506992,
+      "latencyMs": 4,
+      "source": "raw"
+    },
+    {
+      "timestamp": 1764139643678,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 5,
+      "topSimilarity": 0.8424723969506992,
+      "avgSimilarity": 0.8424723969506992,
+      "latencyMs": 7,
+      "source": "raw"
+    }
+  ],
+  "storeSnapshots": [
+    {
+      "timestamp": 1764139637199,
+      "distilledCount": 53,
+      "rawCount": 37,
+      "totalCount": 90,
+      "storeSizeBytes": 1065428
+    },
+    {
+      "timestamp": 1764139640436,
+      "distilledCount": 54,
+      "rawCount": 38,
+      "totalCount": 92,
+      "storeSizeBytes": 1089100
+    },
+    {
+      "timestamp": 1764139643671,
+      "distilledCount": 55,
+      "rawCount": 39,
+      "totalCount": 94,
+      "storeSizeBytes": 1112751
+    },
+    {
+      "timestamp": 1764139645807,
+      "distilledCount": 56,
+      "rawCount": 40,
+      "totalCount": 96,
+      "storeSizeBytes": 1136422
+    }
+  ],
+  "taskOutcome": {
+    "success": true,
+    "attempts": 3,
+    "totalSteps": 0,
+    "solved": true
+  },
+  "summary": {
+    "totalRetrievals": 3,
+    "avgLatencyMs": 4.666666666666667,
+    "avgResultCount": 5,
+    "totalDurationMs": 9614,
+    "finalStoreSize": 1136422,
+    "finalDistilledCount": 56,
+    "finalRawCount": 40,
+    "taskSuccess": true,
+    "attemptsToSolve": 3
+  }
+}

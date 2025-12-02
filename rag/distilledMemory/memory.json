@@ -108,5 +108,1765 @@
       "75c379d9-1063-4e84-86b2-a79b485e2fe2"
     ],
     "timestamp": 1763974098194
+  },
+  {
+    "id": "3ee5c83f-df54-431d-b943-a2dcf87518b2",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "9cc6ee57-af94-4f7a-afba-6f396f3d3cb0"
+    ],
+    "timestamp": 1764135440892
+  },
+  {
+    "id": "44daccf8-25aa-4908-b358-ff891abdf0ea",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 1",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "9cc6ee57-af94-4f7a-afba-6f396f3d3cb0"
+    ],
+    "timestamp": 1764135444125
+  },
+  {
+    "id": "fb94a63b-f143-4e03-add1-a1b1c6f4cdcf",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "0cf1d719-0426-484c-9429-364791e86737"
+    ],
+    "timestamp": 1764135450243
+  },
+  {
+    "id": "e218d6fa-32d9-4506-9b10-c067145919e5",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "0cf1d719-0426-484c-9429-364791e86737"
+    ],
+    "timestamp": 1764135453463
+  },
+  {
+    "id": "614465d7-65d6-4372-a78b-915c4abb3435",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "0cf1d719-0426-484c-9429-364791e86737"
+    ],
+    "timestamp": 1764135456685
+  },
+  {
+    "id": "7554faa8-a766-4284-8350-d6f510c25e1a",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "0cf1d719-0426-484c-9429-364791e86737"
+    ],
+    "timestamp": 1764135459908
+  },
+  {
+    "id": "30759f30-96b1-497f-9e59-535f3cb3e36e",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 4",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "0cf1d719-0426-484c-9429-364791e86737"
+    ],
+    "timestamp": 1764135463139
+  },
+  {
+    "id": "8d611724-f218-4719-a804-ba2b3b3f4a9f",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "63b617e2-1d5c-4573-ab6e-11be4a3aa913"
+    ],
+    "timestamp": 1764136242759
+  },
+  {
+    "id": "216dd75a-724b-464b-bc9a-7fba34734995",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "27fd8e1b-b813-4aaf-80da-9409ad83f092"
+    ],
+    "timestamp": 1764136248898
+  },
+  {
+    "id": "9f54c61a-ff62-44e9-b119-85cab96a2ed2",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "a857d780-0ad4-496e-9d61-004cb4d145a4"
+    ],
+    "timestamp": 1764136255033
+  },
+  {
+    "id": "1df9bbb0-9641-4a6c-9a66-2c27085e73c4",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "a857d780-0ad4-496e-9d61-004cb4d145a4"
+    ],
+    "timestamp": 1764136258258
+  },
+  {
+    "id": "b0b4a495-8ab9-448c-8f29-c70966ed84c5",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "a857d780-0ad4-496e-9d61-004cb4d145a4"
+    ],
+    "timestamp": 1764136261490
+  },
+  {
+    "id": "351a3f23-77e0-4558-ab7d-b48ca8c89a54",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 3",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "a857d780-0ad4-496e-9d61-004cb4d145a4"
+    ],
+    "timestamp": 1764136264721
+  },
+  {
+    "id": "aa1db5a4-f134-4afb-8b9d-84d4ffa029c7",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "12e1af53-51f8-4b1d-a36d-38e26eaee95c"
+    ],
+    "timestamp": 1764136270855
+  },
+  {
+    "id": "5106dbe5-9fa5-4fed-8fd7-643449854c0c",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "50196c38-09d2-45fb-a1c0-48d72acf1fc1"
+    ],
+    "timestamp": 1764137474686
+  },
+  {
+    "id": "8856a88c-c7ef-462b-b173-7de49f0ec03d",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "50196c38-09d2-45fb-a1c0-48d72acf1fc1"
+    ],
+    "timestamp": 1764137477918
+  },
+  {
+    "id": "8b4895dd-1b8e-4181-bc01-5e8635d6f54d",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "50196c38-09d2-45fb-a1c0-48d72acf1fc1"
+    ],
+    "timestamp": 1764137481155
+  },
+  {
+    "id": "170df745-0b3f-4f54-a78c-2dc6f3d1941c",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "50196c38-09d2-45fb-a1c0-48d72acf1fc1"
+    ],
+    "timestamp": 1764137484399
+  },
+  {
+    "id": "cef34064-a6cd-465c-9b56-c0c6023c1ed8",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 4",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "50196c38-09d2-45fb-a1c0-48d72acf1fc1"
+    ],
+    "timestamp": 1764137487635
+  },
+  {
+    "id": "b1457c5b-f316-4fc5-a325-0d528ce738ef",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 5",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "50196c38-09d2-45fb-a1c0-48d72acf1fc1"
+    ],
+    "timestamp": 1764137490867
+  },
+  {
+    "id": "d1fc9e98-245b-4f16-b4b4-1dae980c5831",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "c8e29440-5df2-4561-9ccb-ec619d8dc058"
+    ],
+    "timestamp": 1764137498101
+  },
+  {
+    "id": "ce51829b-14cb-4ad6-a220-1ba9e238ff41",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "c8e29440-5df2-4561-9ccb-ec619d8dc058"
+    ],
+    "timestamp": 1764137501331
+  },
+  {
+    "id": "fa134c28-471b-4f6b-90a5-1ecea41c9651",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "c8e29440-5df2-4561-9ccb-ec619d8dc058"
+    ],
+    "timestamp": 1764137504562
+  },
+  {
+    "id": "c30c04f6-7513-4fd5-aed8-3b415dc99bd6",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "c8e29440-5df2-4561-9ccb-ec619d8dc058"
+    ],
+    "timestamp": 1764137507797
+  },
+  {
+    "id": "7a96cec5-f8bd-4c85-86c2-00c3ff1c4922",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 4",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "c8e29440-5df2-4561-9ccb-ec619d8dc058"
+    ],
+    "timestamp": 1764137511030
+  },
+  {
+    "id": "56c5f24f-46af-46e6-9026-11653a33ecce",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 5",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "c8e29440-5df2-4561-9ccb-ec619d8dc058"
+    ],
+    "timestamp": 1764137514271
+  },
+  {
+    "id": "a95cd128-6188-478b-b545-b1aeb36ab913",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "be2b0c98-3366-4354-a502-001aa63e8e10"
+    ],
+    "timestamp": 1764137521514
+  },
+  {
+    "id": "dec8207b-f2c9-42fe-814d-c5abd873a7d9",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "be2b0c98-3366-4354-a502-001aa63e8e10"
+    ],
+    "timestamp": 1764137524752
+  },
+  {
+    "id": "06543565-837e-4dd1-a5b0-da4aff25c28d",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "be2b0c98-3366-4354-a502-001aa63e8e10"
+    ],
+    "timestamp": 1764137527988
+  },
+  {
+    "id": "d30be617-8a16-4716-8bf7-245ae0fa0b09",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "be2b0c98-3366-4354-a502-001aa63e8e10"
+    ],
+    "timestamp": 1764137531219
+  },
+  {
+    "id": "355b12d6-aead-42c8-a3dd-71af33f1494c",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 4",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "be2b0c98-3366-4354-a502-001aa63e8e10"
+    ],
+    "timestamp": 1764137534458
+  },
+  {
+    "id": "0ec1ecee-9d93-4f54-bb2b-2ab7740d442d",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 5",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "be2b0c98-3366-4354-a502-001aa63e8e10"
+    ],
+    "timestamp": 1764137537685
+  },
+  {
+    "id": "eb28efdd-7f77-4f15-abeb-7f753f4d5725",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "cd76f1a3-5c05-4d19-8a37-7f03711fe664"
+    ],
+    "timestamp": 1764137544922
+  },
+  {
+    "id": "64222540-2ef5-40dd-a0d7-b90010691af3",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "d659fcb5-b0d7-478d-9640-174966378c2c"
+    ],
+    "timestamp": 1764139594682
+  },
+  {
+    "id": "ac544e23-ce7e-4a89-9f70-09a1a51c5ac9",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "d659fcb5-b0d7-478d-9640-174966378c2c"
+    ],
+    "timestamp": 1764139597919
+  },
+  {
+    "id": "b0e8c740-230f-456d-af3c-ec2e8d917476",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "d659fcb5-b0d7-478d-9640-174966378c2c"
+    ],
+    "timestamp": 1764139601154
+  },
+  {
+    "id": "c728eaea-abc3-4083-b67d-d57a5a1c7847",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "d659fcb5-b0d7-478d-9640-174966378c2c"
+    ],
+    "timestamp": 1764139604390
+  },
+  {
+    "id": "2ac1ab87-f056-4a69-8d11-625521b97428",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 4",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "d659fcb5-b0d7-478d-9640-174966378c2c"
+    ],
+    "timestamp": 1764139607626
+  },
+  {
+    "id": "f4d9b8d6-e646-47fa-b53e-b66a0e332eb6",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 5",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "d659fcb5-b0d7-478d-9640-174966378c2c"
+    ],
+    "timestamp": 1764139610871
+  },
+  {
+    "id": "f697e12e-2cde-44a5-9173-cb93f7ca2134",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "0e61ce0b-53ec-43a6-8201-37562ebef48e"
+    ],
+    "timestamp": 1764139617011
+  },
+  {
+    "id": "0652e47d-6f8b-4a09-894a-2b448bf664c8",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "7be47e5d-1114-477d-9055-c3e9c6153a61"
+    ],
+    "timestamp": 1764139623156
+  },
+  {
+    "id": "215c2dc9-7114-4c9c-8bf2-f0d7879302ff",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "7be47e5d-1114-477d-9055-c3e9c6153a61"
+    ],
+    "timestamp": 1764139626398
+  },
+  {
+    "id": "981a71c0-6f0f-4bd0-9dbc-926fa9fad00b",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "7be47e5d-1114-477d-9055-c3e9c6153a61"
+    ],
+    "timestamp": 1764139629634
+  },
+  {
+    "id": "dcecea9f-fce0-4898-bcdc-5f59a6209a6a",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 3",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "7be47e5d-1114-477d-9055-c3e9c6153a61"
+    ],
+    "timestamp": 1764139632868
+  },
+  {
+    "id": "2c5fe1de-49a1-4141-953d-c54ac8ec9643",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "e0d207e7-e5a0-40a7-94bb-8eeedbc33586"
+    ],
+    "timestamp": 1764139639009
+  },
+  {
+    "id": "1b8b480a-9880-4ed3-b63d-02a4ed818f6c",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "e0d207e7-e5a0-40a7-94bb-8eeedbc33586"
+    ],
+    "timestamp": 1764139642249
+  },
+  {
+    "id": "652aa0a1-6a15-45d2-9087-4485b36a6b89",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 2",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "e0d207e7-e5a0-40a7-94bb-8eeedbc33586"
+    ],
+    "timestamp": 1764139645485
+  },
+  {
+    "id": "3faec601-1200-49bd-a166-30aa0ab56b95",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "aadd075b-5055-4aa9-8879-2156c14508ee"
+    ],
+    "timestamp": 1764139978161
+  },
+  {
+    "id": "ce8e7700-fc0f-4f79-ba4d-f43f71674853",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "d9ddd747-37c6-4454-8815-da4dfa3bb8d8"
+    ],
+    "timestamp": 1764139996911
+  },
+  {
+    "id": "336bd790-e60e-4aff-882f-14bce874a034",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "518d1010-c64c-494c-96a6-2246815190bf"
+    ],
+    "timestamp": 1764140560564
+  },
+  {
+    "id": "37d03e88-db5f-43f1-9df4-22aee72dc617",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "723fcc1e-c31d-41c1-a006-c42a6a3eaae1"
+    ],
+    "timestamp": 1764140561814
+  },
+  {
+    "id": "4a34b5b8-d6c0-44b1-bc2b-194bea7f1139",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "fab92bc9-0151-4e02-9aab-55ddfadc9922"
+    ],
+    "timestamp": 1764141279999
+  },
+  {
+    "id": "256184b2-a981-4d07-858b-684bf54885c7",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "64b2b40b-ecb2-4dab-b861-b51f535d5bb4"
+    ],
+    "timestamp": 1764141281222
+  },
+  {
+    "id": "d93ec582-0b56-4153-83db-dfea3da2910b",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "64b2b40b-ecb2-4dab-b861-b51f535d5bb4"
+    ],
+    "timestamp": 1764141282176
+  },
+  {
+    "id": "8dfc4139-e557-41a6-a623-59665fd69421",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "64b2b40b-ecb2-4dab-b861-b51f535d5bb4"
+    ],
+    "timestamp": 1764141283081
+  },
+  {
+    "id": "ac23ff4a-01c9-4e17-9e34-94e435795396",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "64b2b40b-ecb2-4dab-b861-b51f535d5bb4"
+    ],
+    "timestamp": 1764141283989
+  },
+  {
+    "id": "21a21a16-3ed4-4754-bf7d-bd3824864633",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "64b2b40b-ecb2-4dab-b861-b51f535d5bb4"
+    ],
+    "timestamp": 1764141284941
+  },
+  {
+    "id": "0c0ba06f-ae91-4344-a77f-dd103a4c47bf",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "64b2b40b-ecb2-4dab-b861-b51f535d5bb4"
+    ],
+    "timestamp": 1764141285892
+  },
+  {
+    "id": "de306329-d7f2-4742-8df9-554617b5a985",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"failed\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Avoid repeating this attempt; it failed without a recorded route\"}",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "026c4808-a95d-4596-8b3c-36ba0066f472"
+    ],
+    "timestamp": 1764141388404
+  },
+  {
+    "id": "bdafda50-580e-47d2-ae0e-98aa47372a15",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"failed\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Avoid repeating this attempt; it failed without a recorded route\"}",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "026c4808-a95d-4596-8b3c-36ba0066f472"
+    ],
+    "timestamp": 1764141490417
+  },
+  {
+    "id": "333b04c7-44d7-4d32-920e-f49a85cb7d3c",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"failed\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Avoid repeating this attempt; it failed without a recorded route\"}",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "026c4808-a95d-4596-8b3c-36ba0066f472"
+    ],
+    "timestamp": 1764141592426
+  },
+  {
+    "id": "514be6da-3abb-41ca-821a-5e1e70932eff",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"failed\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Avoid repeating this attempt; it failed without a recorded route\"}",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "026c4808-a95d-4596-8b3c-36ba0066f472"
+    ],
+    "timestamp": 1764141694435
+  },
+  {
+    "id": "673a3651-00f9-412c-8bb1-e1138c3c651b",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"failed\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Avoid repeating this attempt; it failed without a recorded route\"}",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "026c4808-a95d-4596-8b3c-36ba0066f472"
+    ],
+    "timestamp": 1764141796445
+  },
+  {
+    "id": "97f6dbff-6f51-4de2-9a95-fbdb8a34b508",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"failed\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Avoid repeating this attempt; it failed without a recorded route\"}",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "026c4808-a95d-4596-8b3c-36ba0066f472"
+    ],
+    "timestamp": 1764141898452
+  },
+  {
+    "id": "cd2d1fc4-6dce-481b-8f75-a05f7ea80cf7",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "7e80b045-d1dd-4915-8c26-b8a8cf116f49"
+    ],
+    "timestamp": 1764142713078
+  },
+  {
+    "id": "e414fe6e-e2d4-4d6e-81d3-748aa185247c",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "6f3f1d58-b240-4947-af1e-9c9eb34e569d"
+    ],
+    "timestamp": 1764142714300
+  },
+  {
+    "id": "9d4eb358-58f8-43cf-af96-e6df4bd73efc",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "6f3f1d58-b240-4947-af1e-9c9eb34e569d"
+    ],
+    "timestamp": 1764142715255
+  },
+  {
+    "id": "6c13f584-7fb6-4117-a236-ec3c76a2c6e9",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "6f3f1d58-b240-4947-af1e-9c9eb34e569d"
+    ],
+    "timestamp": 1764142716213
+  },
+  {
+    "id": "96000f58-fcb0-48cf-8258-3c05ad5b3b3e",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "6f3f1d58-b240-4947-af1e-9c9eb34e569d"
+    ],
+    "timestamp": 1764142717164
+  },
+  {
+    "id": "f8b7e294-cb64-4032-9ea0-dda64ff3463e",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "6f3f1d58-b240-4947-af1e-9c9eb34e569d"
+    ],
+    "timestamp": 1764142718123
+  },
+  {
+    "id": "812f56c6-c050-44c4-968e-55fc48b912e0",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "6f3f1d58-b240-4947-af1e-9c9eb34e569d"
+    ],
+    "timestamp": 1764142719077
+  },
+  {
+    "id": "cbff0b2a-d9d4-470d-b548-150ee3f64697",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"failed\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Avoid repeating this attempt; it failed without a recorded route\"}",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "9edf4234-bfc2-46dc-b47b-2874b041b054"
+    ],
+    "timestamp": 1764142821603
+  },
+  {
+    "id": "52953e8f-d912-44ac-8073-4dbf94a3253d",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "0061111a-345c-4006-a311-953fab51d2bc"
+    ],
+    "timestamp": 1764142838746
+  },
+  {
+    "id": "29157207-311f-4342-917c-eb7c3ac0365b",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "676a5ddc-115d-40df-901b-8e15315a57f2"
+    ],
+    "timestamp": 1764142844896
+  },
+  {
+    "id": "d0ea206c-a9b0-4304-8e9b-284f57f266cb",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "676a5ddc-115d-40df-901b-8e15315a57f2"
+    ],
+    "timestamp": 1764142848149
+  },
+  {
+    "id": "6c6f8518-e29f-4cb8-a21d-56c5f10f1098",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "676a5ddc-115d-40df-901b-8e15315a57f2"
+    ],
+    "timestamp": 1764142851399
+  },
+  {
+    "id": "29ccdd52-1190-4add-9d7d-9d11e46ade02",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 3",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "676a5ddc-115d-40df-901b-8e15315a57f2"
+    ],
+    "timestamp": 1764142854640
+  },
+  {
+    "id": "d43f4b91-83cd-4ffb-ae9e-a3fa62703ef1",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "878c92b4-6470-44f8-9871-7a7e80370880"
+    ],
+    "timestamp": 1764142860792
+  },
+  {
+    "id": "848528b2-4764-4643-80b6-5b1c1f69b21b",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "878c92b4-6470-44f8-9871-7a7e80370880"
+    ],
+    "timestamp": 1764142864036
+  },
+  {
+    "id": "30bc9b6d-c736-4763-9665-b0f30924d014",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "878c92b4-6470-44f8-9871-7a7e80370880"
+    ],
+    "timestamp": 1764142867276
+  },
+  {
+    "id": "234fbac2-8338-434d-b278-b0e0b75acee0",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "878c92b4-6470-44f8-9871-7a7e80370880"
+    ],
+    "timestamp": 1764142870522
+  },
+  {
+    "id": "a7c4c10e-0090-438e-af4b-2cccc83502bf",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 4",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "878c92b4-6470-44f8-9871-7a7e80370880"
+    ],
+    "timestamp": 1764142873767
+  },
+  {
+    "id": "cf35148e-9b65-4ae8-bff2-1a00dd7e6965",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 5",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "878c92b4-6470-44f8-9871-7a7e80370880"
+    ],
+    "timestamp": 1764142877010
+  },
+  {
+    "id": "2e7c979b-b8db-412d-af6b-227afe6f9902",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "bb363cc6-5a57-44a2-990b-968d1ac1bd84"
+    ],
+    "timestamp": 1764142884263
+  },
+  {
+    "id": "1114f168-486b-4923-a792-4dfb032c1ed8",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "bb363cc6-5a57-44a2-990b-968d1ac1bd84"
+    ],
+    "timestamp": 1764142887498
+  },
+  {
+    "id": "e01e0cf4-8bf2-4999-bd11-719e362cdc2d",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "bb363cc6-5a57-44a2-990b-968d1ac1bd84"
+    ],
+    "timestamp": 1764142890745
+  },
+  {
+    "id": "5658c9f2-af0e-4746-be49-8c45bc6aa29e",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "bb363cc6-5a57-44a2-990b-968d1ac1bd84"
+    ],
+    "timestamp": 1764142893990
+  },
+  {
+    "id": "ad31f59a-c7d7-4a07-a1e7-9f66a98f28d6",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 4",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "bb363cc6-5a57-44a2-990b-968d1ac1bd84"
+    ],
+    "timestamp": 1764142897238
+  },
+  {
+    "id": "7c4c3c82-3f81-4d99-bad5-db030b396f22",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "12b71781-e9ee-4816-b134-a62d29a1f2fb"
+    ],
+    "timestamp": 1764143191426
+  },
+  {
+    "id": "63953b06-027d-4292-b0f4-2815d8d2fc96",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 1",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "12b71781-e9ee-4816-b134-a62d29a1f2fb"
+    ],
+    "timestamp": 1764143194677
+  },
+  {
+    "id": "afd5d9bd-2dcb-4049-b7d1-8535b2ec2b2f",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"success\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Reached goal after 2 steps\"}",
+    "confidence": 0.85,
+    "evidenceRunIds": [
+      "77cbf0bb-42fa-4ed0-aa2b-81533df098ac"
+    ],
+    "timestamp": 1764143203361
+  },
+  {
+    "id": "86046286-18f0-47c6-b940-70efd5550129",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 1 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "1e6ff0c8-beae-4b43-8b1b-3a507dd4e365"
+    ],
+    "timestamp": 1764143211842
+  },
+  {
+    "id": "f855a171-b3bd-4ed5-863a-e95039b4b763",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "1e6ff0c8-beae-4b43-8b1b-3a507dd4e365"
+    ],
+    "timestamp": 1764143213141
+  },
+  {
+    "id": "d15a0d7b-73bc-44bc-b23c-5cac26bc5721",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "1e6ff0c8-beae-4b43-8b1b-3a507dd4e365"
+    ],
+    "timestamp": 1764143214489
+  },
+  {
+    "id": "de379ee5-7e23-4c6e-9f80-ccaa1fea877f",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "1e6ff0c8-beae-4b43-8b1b-3a507dd4e365"
+    ],
+    "timestamp": 1764143215794
+  },
+  {
+    "id": "fc34d692-a5d4-4a6a-8644-8179bcc47b90",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "1e6ff0c8-beae-4b43-8b1b-3a507dd4e365"
+    ],
+    "timestamp": 1764143217096
+  },
+  {
+    "id": "55b1623f-2084-4a46-bc08-f2c6e810415c",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "1e6ff0c8-beae-4b43-8b1b-3a507dd4e365"
+    ],
+    "timestamp": 1764143218435
+  },
+  {
+    "id": "77830248-9e7a-4be4-8630-0182cb1b86a3",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "a92a3765-8485-4bcf-87a0-cdbd49330eed"
+    ],
+    "timestamp": 1764143225248
+  },
+  {
+    "id": "6e68479f-8aa8-4d38-9d6b-422aa4ea491d",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "a92a3765-8485-4bcf-87a0-cdbd49330eed"
+    ],
+    "timestamp": 1764143228495
+  },
+  {
+    "id": "cc4de5f6-3e95-470d-b730-53c69b2aa5d8",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "a92a3765-8485-4bcf-87a0-cdbd49330eed"
+    ],
+    "timestamp": 1764143231739
+  },
+  {
+    "id": "4d510442-d2b4-4dfe-9b71-c6ac6350175f",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "a92a3765-8485-4bcf-87a0-cdbd49330eed"
+    ],
+    "timestamp": 1764143234990
+  },
+  {
+    "id": "3f3493ea-e2f4-4190-8df3-0b7260db2bfd",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 4",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "a92a3765-8485-4bcf-87a0-cdbd49330eed"
+    ],
+    "timestamp": 1764143238238
+  },
+  {
+    "id": "6de04ef1-0aae-48b2-9878-7d066aa2c195",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 5",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "a92a3765-8485-4bcf-87a0-cdbd49330eed"
+    ],
+    "timestamp": 1764143241490
+  },
+  {
+    "id": "f4be712a-c186-454d-ae74-98ee59dd9b39",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"success\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Reached goal after 2 steps\"}",
+    "confidence": 0.85,
+    "evidenceRunIds": [
+      "81d9afb2-e238-4aaa-b448-e00dd9a79e96"
+    ],
+    "timestamp": 1764143250703
+  },
+  {
+    "id": "929df783-b46e-4c72-a591-e14131c78e89",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 1 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "f5ce10bb-0ca5-45f3-995b-7781dddce178"
+    ],
+    "timestamp": 1764143259181
+  },
+  {
+    "id": "740711ad-b942-4541-871c-463e9e23742d",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "f5ce10bb-0ca5-45f3-995b-7781dddce178"
+    ],
+    "timestamp": 1764143260470
+  },
+  {
+    "id": "e0114eba-bcde-4cb7-b7b3-4b3a633aa324",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "f5ce10bb-0ca5-45f3-995b-7781dddce178"
+    ],
+    "timestamp": 1764143261781
+  },
+  {
+    "id": "c3b46dcc-4bdb-47c4-9d0e-19d29bb267f0",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "f5ce10bb-0ca5-45f3-995b-7781dddce178"
+    ],
+    "timestamp": 1764143263081
+  },
+  {
+    "id": "216a0f88-b02b-463b-a4e4-b2fbfd232500",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "f5ce10bb-0ca5-45f3-995b-7781dddce178"
+    ],
+    "timestamp": 1764143264398
+  },
+  {
+    "id": "24429ac6-c7ed-4cbd-aab4-d990e398a613",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "f5ce10bb-0ca5-45f3-995b-7781dddce178"
+    ],
+    "timestamp": 1764143265689
+  },
+  {
+    "id": "74d836e4-9b85-4bcc-8989-64c837d514cf",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "4cb42d8c-d9a8-498a-9d18-c0892e70a113"
+    ],
+    "timestamp": 1764143669742
+  },
+  {
+    "id": "305ef347-6392-4f31-9f67-1cc292fc36d8",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "4cb42d8c-d9a8-498a-9d18-c0892e70a113"
+    ],
+    "timestamp": 1764143672994
+  },
+  {
+    "id": "1c2399e2-4c46-4913-bc9f-d19100aea6be",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "4cb42d8c-d9a8-498a-9d18-c0892e70a113"
+    ],
+    "timestamp": 1764143676249
+  },
+  {
+    "id": "9f326c27-0fca-4765-bdbc-304c4883399b",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "4cb42d8c-d9a8-498a-9d18-c0892e70a113"
+    ],
+    "timestamp": 1764143679499
+  },
+  {
+    "id": "dc828b44-a31e-4942-a6a7-5f8aac626983",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 4",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "4cb42d8c-d9a8-498a-9d18-c0892e70a113"
+    ],
+    "timestamp": 1764143682750
+  },
+  {
+    "id": "93b2f319-200f-4349-b8c6-b443e166597a",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 5",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "4cb42d8c-d9a8-498a-9d18-c0892e70a113"
+    ],
+    "timestamp": 1764143685998
+  },
+  {
+    "id": "5ba74dd8-2b77-40f0-89fe-521f1024563c",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"success\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Reached goal after 2 steps\"}",
+    "confidence": 0.85,
+    "evidenceRunIds": [
+      "07f1d4c1-2f3d-4cd4-9fb7-f6b921de4640"
+    ],
+    "timestamp": 1764143695203
+  },
+  {
+    "id": "cb486838-79fa-45d0-8b69-cba95b77e184",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 1 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "a1db56ee-7ea6-4ecd-b5cf-4698a92e3085"
+    ],
+    "timestamp": 1764143703690
+  },
+  {
+    "id": "a821cc68-ed3f-4f38-a708-e55344d6a489",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "a1db56ee-7ea6-4ecd-b5cf-4698a92e3085"
+    ],
+    "timestamp": 1764143705014
+  },
+  {
+    "id": "9aabcea8-6a3b-47d6-8f43-26e7e725cc93",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "a1db56ee-7ea6-4ecd-b5cf-4698a92e3085"
+    ],
+    "timestamp": 1764143706303
+  },
+  {
+    "id": "9f741d93-e83d-484b-9c72-a1f22f98e68f",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "a1db56ee-7ea6-4ecd-b5cf-4698a92e3085"
+    ],
+    "timestamp": 1764143707617
+  },
+  {
+    "id": "1305dcdc-1b2e-4491-8b01-7f1df799817e",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "a1db56ee-7ea6-4ecd-b5cf-4698a92e3085"
+    ],
+    "timestamp": 1764143708911
+  },
+  {
+    "id": "22fe3a2b-2935-4ba6-b0d7-c1f4c4ab54ff",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "a1db56ee-7ea6-4ecd-b5cf-4698a92e3085"
+    ],
+    "timestamp": 1764143710205
+  },
+  {
+    "id": "2a625efb-7e73-4d10-ba5d-956aeb0fa2dc",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "52ef695d-f631-4ffe-ae39-0de4b0f6d543"
+    ],
+    "timestamp": 1764143717020
+  },
+  {
+    "id": "b80d8407-0114-40b2-8cf4-01a6031860ff",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "52ef695d-f631-4ffe-ae39-0de4b0f6d543"
+    ],
+    "timestamp": 1764143720281
+  },
+  {
+    "id": "6920dd53-114e-46a1-b250-e76fc6e21f2f",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "52ef695d-f631-4ffe-ae39-0de4b0f6d543"
+    ],
+    "timestamp": 1764143723542
+  },
+  {
+    "id": "2a4c0b46-51db-4c96-9871-3a16af470f05",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 3",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "52ef695d-f631-4ffe-ae39-0de4b0f6d543"
+    ],
+    "timestamp": 1764143726798
+  },
+  {
+    "id": "6afd844e-f89c-49ae-a639-74093093592f",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"success\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Reached goal after 2 steps\"}",
+    "confidence": 0.85,
+    "evidenceRunIds": [
+      "39f73e59-9642-491e-9726-aeaadfa3e9a2"
+    ],
+    "timestamp": 1764143734889
+  },
+  {
+    "id": "da18bb50-1004-4cbd-9d1c-f57fa2070e15",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 1 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "585342ab-e6b7-489f-bc8e-9ee93b939f49"
+    ],
+    "timestamp": 1764143743370
+  },
+  {
+    "id": "391f4cac-0495-4b1f-8586-4ff65ee8e49a",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "585342ab-e6b7-489f-bc8e-9ee93b939f49"
+    ],
+    "timestamp": 1764143744660
+  },
+  {
+    "id": "a41066c0-a9e8-4ea3-9e36-11c31b592e72",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "585342ab-e6b7-489f-bc8e-9ee93b939f49"
+    ],
+    "timestamp": 1764143745956
+  },
+  {
+    "id": "b8401704-1fae-4d31-b7da-de462beafef7",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "585342ab-e6b7-489f-bc8e-9ee93b939f49"
+    ],
+    "timestamp": 1764143747304
+  },
+  {
+    "id": "ff6a523b-cf44-4c5e-826e-485dbb34148c",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "585342ab-e6b7-489f-bc8e-9ee93b939f49"
+    ],
+    "timestamp": 1764143748649
+  },
+  {
+    "id": "6b21f882-1138-4760-b07e-2a30286765c8",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "585342ab-e6b7-489f-bc8e-9ee93b939f49"
+    ],
+    "timestamp": 1764143749998
+  },
+  {
+    "id": "d60e16f6-b2ae-4f6a-8abf-02b54d4b4465",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "444ac605-3b37-4eee-9abe-3ce40e63a2c4"
+    ],
+    "timestamp": 1764144300927
+  },
+  {
+    "id": "aae7ac0d-8eb7-4988-bf6a-46cba119470a",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "444ac605-3b37-4eee-9abe-3ce40e63a2c4"
+    ],
+    "timestamp": 1764144304182
+  },
+  {
+    "id": "43413f68-c627-4e7e-9ccd-c03e903bd32c",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "444ac605-3b37-4eee-9abe-3ce40e63a2c4"
+    ],
+    "timestamp": 1764144307440
+  },
+  {
+    "id": "eac3e508-7d1d-4258-a635-fadb87e52505",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "444ac605-3b37-4eee-9abe-3ce40e63a2c4"
+    ],
+    "timestamp": 1764144310694
+  },
+  {
+    "id": "2865e710-0c77-498a-b2c6-e1732fc104dd",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 4",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "444ac605-3b37-4eee-9abe-3ce40e63a2c4"
+    ],
+    "timestamp": 1764144313947
+  },
+  {
+    "id": "7f7e4eae-a42b-4f8c-83f4-7283ef98e15b",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 5",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "444ac605-3b37-4eee-9abe-3ce40e63a2c4"
+    ],
+    "timestamp": 1764144317201
+  },
+  {
+    "id": "93360c86-343d-4eea-80d0-e174ee46b0f8",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"success\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Reached goal after 2 steps\"}",
+    "confidence": 0.85,
+    "evidenceRunIds": [
+      "1fe0e33a-ff6e-417f-be80-2144af0edfc1"
+    ],
+    "timestamp": 1764144326362
+  },
+  {
+    "id": "6083919a-fea1-4064-8146-da2325c82869",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 1 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "58cfa38c-084e-4c4a-b6a1-4873e483b547"
+    ],
+    "timestamp": 1764144334831
+  },
+  {
+    "id": "1f31df2a-20df-4ba5-9c10-780baef17331",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "58cfa38c-084e-4c4a-b6a1-4873e483b547"
+    ],
+    "timestamp": 1764144336121
+  },
+  {
+    "id": "03a737f4-fc68-44ac-a90a-25ca0816d180",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "58cfa38c-084e-4c4a-b6a1-4873e483b547"
+    ],
+    "timestamp": 1764144337442
+  },
+  {
+    "id": "d0feebeb-ec76-4782-9cdc-4fba020e5f9c",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "58cfa38c-084e-4c4a-b6a1-4873e483b547"
+    ],
+    "timestamp": 1764144338734
+  },
+  {
+    "id": "1ae303d2-f8f4-4e94-a67f-67c71e1ea557",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "58cfa38c-084e-4c4a-b6a1-4873e483b547"
+    ],
+    "timestamp": 1764144340032
+  },
+  {
+    "id": "356a0bc7-401d-482a-a912-362734f67adb",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "58cfa38c-084e-4c4a-b6a1-4873e483b547"
+    ],
+    "timestamp": 1764144341386
+  },
+  {
+    "id": "75dd23ba-4ac7-4c08-9f89-85db50c55804",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "ed7c5055-9e43-4916-a971-2475d0724add"
+    ],
+    "timestamp": 1764144348149
+  },
+  {
+    "id": "8fadfeba-7209-428f-8072-7aa86293d093",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "ed7c5055-9e43-4916-a971-2475d0724add"
+    ],
+    "timestamp": 1764144351407
+  },
+  {
+    "id": "be09a7bb-8f03-4803-bb5d-62b686531704",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "ed7c5055-9e43-4916-a971-2475d0724add"
+    ],
+    "timestamp": 1764144354659
+  },
+  {
+    "id": "d9bc884c-f38a-4450-b9e4-350333199b9b",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "ed7c5055-9e43-4916-a971-2475d0724add"
+    ],
+    "timestamp": 1764144357916
+  },
+  {
+    "id": "020713ef-990c-4dd8-ad30-80a58fd36dc3",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 4",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "ed7c5055-9e43-4916-a971-2475d0724add"
+    ],
+    "timestamp": 1764144361173
+  },
+  {
+    "id": "6d48cbab-c9ca-45ca-9c47-69143cf29408",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 5",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "ed7c5055-9e43-4916-a971-2475d0724add"
+    ],
+    "timestamp": 1764144364439
+  },
+  {
+    "id": "4534aea7-dfec-4962-8b6c-88c28e23c388",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"success\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Reached goal after 2 steps\"}",
+    "confidence": 0.85,
+    "evidenceRunIds": [
+      "158d9e38-3f6c-40ad-af12-f7904e8c806c"
+    ],
+    "timestamp": 1764144373649
+  },
+  {
+    "id": "42d21f00-dc61-45d1-89be-5d57417a70a1",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 1 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "2739b02d-9103-4ef9-902c-34378b6e1bfe"
+    ],
+    "timestamp": 1764144382139
+  },
+  {
+    "id": "46e9e559-6f08-46a1-b41e-7dd2febf980c",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "2739b02d-9103-4ef9-902c-34378b6e1bfe"
+    ],
+    "timestamp": 1764144383429
+  },
+  {
+    "id": "86a27672-71ea-48e4-a5bb-fbb9dab4dd59",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "2739b02d-9103-4ef9-902c-34378b6e1bfe"
+    ],
+    "timestamp": 1764144384736
+  },
+  {
+    "id": "e0a0d61b-388b-4a9f-b306-465641780e38",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "2739b02d-9103-4ef9-902c-34378b6e1bfe"
+    ],
+    "timestamp": 1764144386049
+  },
+  {
+    "id": "ae72ef5f-a56c-47c2-b184-0d09cb463a10",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "2739b02d-9103-4ef9-902c-34378b6e1bfe"
+    ],
+    "timestamp": 1764144387384
+  },
+  {
+    "id": "a8392d1b-13f4-4002-babc-24968ba89bf1",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "2739b02d-9103-4ef9-902c-34378b6e1bfe"
+    ],
+    "timestamp": 1764144388689
   }
 ]

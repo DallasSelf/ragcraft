@@ -1,0 +1,99 @@
+{
+  "runId": "52ef695d-f631-4ffe-ae39-0de4b0f6d543",
+  "scenarioId": "lever_puzzle_3",
+  "mode": "raw",
+  "startTime": 1764143714197,
+  "endTime": 1764143727131,
+  "retrievals": [
+    {
+      "timestamp": 1764143715209,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 5,
+      "topSimilarity": 0.8424723969506992,
+      "avgSimilarity": 0.8424723969506992,
+      "latencyMs": 7,
+      "source": "raw"
+    },
+    {
+      "timestamp": 1764143718475,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 5,
+      "topSimilarity": 0.8424723969506992,
+      "avgSimilarity": 0.8424723969506992,
+      "latencyMs": 8,
+      "source": "raw"
+    },
+    {
+      "timestamp": 1764143721736,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 5,
+      "topSimilarity": 0.8424723969506992,
+      "avgSimilarity": 0.8424723969506992,
+      "latencyMs": 9,
+      "source": "raw"
+    },
+    {
+      "timestamp": 1764143724991,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 5,
+      "topSimilarity": 0.8424723969506992,
+      "avgSimilarity": 0.8424723969506992,
+      "latencyMs": 7,
+      "source": "raw"
+    }
+  ],
+  "storeSnapshots": [
+    {
+      "timestamp": 1764143715202,
+      "distilledCount": 132,
+      "rawCount": 116,
+      "totalCount": 248,
+      "storeSizeBytes": 2938000
+    },
+    {
+      "timestamp": 1764143718467,
+      "distilledCount": 133,
+      "rawCount": 117,
+      "totalCount": 250,
+      "storeSizeBytes": 2961658
+    },
+    {
+      "timestamp": 1764143721727,
+      "distilledCount": 134,
+      "rawCount": 118,
+      "totalCount": 252,
+      "storeSizeBytes": 2985314
+    },
+    {
+      "timestamp": 1764143724984,
+      "distilledCount": 135,
+      "rawCount": 119,
+      "totalCount": 254,
+      "storeSizeBytes": 3008979
+    },
+    {
+      "timestamp": 1764143727131,
+      "distilledCount": 136,
+      "rawCount": 120,
+      "totalCount": 256,
+      "storeSizeBytes": 3032666
+    }
+  ],
+  "taskOutcome": {
+    "success": true,
+    "attempts": 4,
+    "totalSteps": 0,
+    "solved": true
+  },
+  "summary": {
+    "totalRetrievals": 4,
+    "avgLatencyMs": 7.75,
+    "avgResultCount": 5,
+    "totalDurationMs": 12934,
+    "finalStoreSize": 3032666,
+    "finalDistilledCount": 136,
+    "finalRawCount": 120,
+    "taskSuccess": true,
+    "attemptsToSolve": 4
+  }
+}

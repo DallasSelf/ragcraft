@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { addDistilledMemory } = require('./store/vectorStore')
 
 const distilledDir = path.join(__dirname, 'distilledMemory')
 if (!fs.existsSync(distilledDir)) fs.mkdirSync(distilledDir, { recursive: true })
@@ -22,10 +23,19 @@ function saveDistilled(units) {
 
 let distilledCache = loadDistilled()
 
-function ingestDistilledMemory(units) {
+async function ingestDistilledMemory(units) {
   if (!Array.isArray(units) || units.length === 0) return
+
   distilledCache.push(...units)
   saveDistilled(distilledCache)
+
+  for (const unit of units) {
+    try {
+      await addDistilledMemory(unit)
+    } catch (err) {
+      console.error('Failed to embed distilled memory:', err.message)
+    }
+  }
 }
 
 function retrieveDistilledMemories(scenarioId) {

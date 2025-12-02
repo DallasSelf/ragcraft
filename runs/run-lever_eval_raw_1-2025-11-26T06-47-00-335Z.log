@@ -1,0 +1,43 @@
+{"t":"2025-11-26T06:47:00.336Z","msg":"lever_episode_start","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","scenarioId":"lever_puzzle_3","mode":"raw"}}
+{"t":"2025-11-26T06:47:00.337Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T06:47:00.637Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T06:47:00.788Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T06:47:00.939Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T06:47:01.348Z","msg":"lever_attempt","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":0,"sequence":[2,1,3],"source":"fallback_random","memoryCount":5,"retrievalLatency":7}}
+{"t":"2025-11-26T06:47:01.349Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:01.849Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:02.352Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:03.176Z","msg":"lever_attempt_result","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":0,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T06:47:03.176Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T06:47:03.477Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T06:47:03.628Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T06:47:03.779Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T06:47:04.184Z","msg":"lever_incorrect","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":0,"sequence":[2,1,3]}}
+{"t":"2025-11-26T06:47:04.590Z","msg":"lever_attempt","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":1,"sequence":[2,1,3],"source":"fallback_random","memoryCount":5,"retrievalLatency":5}}
+{"t":"2025-11-26T06:47:04.592Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:05.093Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:05.594Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:06.418Z","msg":"lever_attempt_result","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":1,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T06:47:06.418Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T06:47:06.718Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T06:47:06.868Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T06:47:07.020Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T06:47:07.424Z","msg":"lever_incorrect","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":1,"sequence":[2,1,3]}}
+{"t":"2025-11-26T06:47:07.827Z","msg":"lever_attempt","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":2,"sequence":[3,2,1],"source":"fallback_random","memoryCount":5,"retrievalLatency":2}}
+{"t":"2025-11-26T06:47:07.828Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:08.331Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:08.833Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:09.654Z","msg":"lever_attempt_result","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":2,"success":false,"distilledAdded":1}}
+{"t":"2025-11-26T06:47:09.654Z","msg":"lever_door_close","data":{"cmd":"/setblock 13 63 2 stripped_warped_stem"}}
+{"t":"2025-11-26T06:47:09.954Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 -1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":-1}}}
+{"t":"2025-11-26T06:47:10.106Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 0 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":0}}}
+{"t":"2025-11-26T06:47:10.258Z","msg":"lever_reset_block","data":{"cmd":"/setblock 15 65 1 lever[face=wall,facing=west,powered=false]","pos":{"x":15,"y":65,"z":1}}}
+{"t":"2025-11-26T06:47:10.659Z","msg":"lever_incorrect","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":2,"sequence":[3,2,1]}}
+{"t":"2025-11-26T06:47:11.063Z","msg":"lever_attempt","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":3,"sequence":[2,3,1],"source":"fallback_random","memoryCount":5,"retrievalLatency":4}}
+{"t":"2025-11-26T06:47:11.064Z","msg":"lever_block_found","data":{"leverIndex":2,"blockPosition":{"x":15,"y":65,"z":0},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:11.564Z","msg":"lever_block_found","data":{"leverIndex":3,"blockPosition":{"x":15,"y":65,"z":1},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:12.066Z","msg":"lever_block_found","data":{"leverIndex":1,"blockPosition":{"x":15,"y":65,"z":-1},"blockName":"lever"}}
+{"t":"2025-11-26T06:47:12.889Z","msg":"lever_attempt_result","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attemptIndex":3,"success":true,"distilledAdded":1}}
+{"t":"2025-11-26T06:47:12.890Z","msg":"lever_door_open","data":{"cmd":"/setblock 13 63 2 redstone_block"}}
+{"t":"2025-11-26T06:47:13.191Z","msg":"lever_solved","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","attempts":4,"sequence":[2,3,1]}}
+{"t":"2025-11-26T06:47:13.192Z","msg":"lever_episode_end","data":{"runId":"7be47e5d-1114-477d-9055-c3e9c6153a61","scenarioId":"lever_puzzle_3","attempts":4,"solved":true}}

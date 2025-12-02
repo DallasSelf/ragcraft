@@ -1,0 +1,114 @@
+{
+  "runId": "0cf1d719-0426-484c-9429-364791e86737",
+  "scenarioId": "lever_puzzle_3",
+  "mode": "distilled",
+  "startTime": 1764135447434,
+  "endTime": 1764135463451,
+  "retrievals": [
+    {
+      "timestamp": 1764135448439,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 2,
+      "topSimilarity": 0.8065000805712192,
+      "avgSimilarity": 0.7637847614552127,
+      "latencyMs": 3,
+      "source": "distilled"
+    },
+    {
+      "timestamp": 1764135451657,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 3,
+      "topSimilarity": 0.8065000805712192,
+      "avgSimilarity": 0.7475811179157708,
+      "latencyMs": 2,
+      "source": "distilled"
+    },
+    {
+      "timestamp": 1764135454879,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 4,
+      "topSimilarity": 0.8065000805712192,
+      "avgSimilarity": 0.7428356655771337,
+      "latencyMs": 6,
+      "source": "distilled"
+    },
+    {
+      "timestamp": 1764135458102,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 5,
+      "topSimilarity": 0.8065000805712192,
+      "avgSimilarity": 0.7398695669383752,
+      "latencyMs": 2,
+      "source": "distilled"
+    },
+    {
+      "timestamp": 1764135461331,
+      "queryText": "successful lever sequence puzzle solution",
+      "resultCount": 5,
+      "topSimilarity": 0.8065000805712192,
+      "avgSimilarity": 0.7398695669383752,
+      "latencyMs": 7,
+      "source": "distilled"
+    }
+  ],
+  "storeSnapshots": [
+    {
+      "timestamp": 1764135448436,
+      "distilledCount": 8,
+      "rawCount": 0,
+      "totalCount": 8,
+      "storeSizeBytes": 94562
+    },
+    {
+      "timestamp": 1764135451655,
+      "distilledCount": 9,
+      "rawCount": 0,
+      "totalCount": 9,
+      "storeSizeBytes": 106469
+    },
+    {
+      "timestamp": 1764135454873,
+      "distilledCount": 10,
+      "rawCount": 0,
+      "totalCount": 10,
+      "storeSizeBytes": 118385
+    },
+    {
+      "timestamp": 1764135458100,
+      "distilledCount": 11,
+      "rawCount": 0,
+      "totalCount": 11,
+      "storeSizeBytes": 130270
+    },
+    {
+      "timestamp": 1764135461324,
+      "distilledCount": 12,
+      "rawCount": 0,
+      "totalCount": 12,
+      "storeSizeBytes": 142160
+    },
+    {
+      "timestamp": 1764135463451,
+      "distilledCount": 13,
+      "rawCount": 0,
+      "totalCount": 13,
+      "storeSizeBytes": 154068
+    }
+  ],
+  "taskOutcome": {
+    "success": true,
+    "attempts": 5,
+    "totalSteps": 0,
+    "solved": true
+  },
+  "summary": {
+    "totalRetrievals": 5,
+    "avgLatencyMs": 4,
+    "avgResultCount": 3.8,
+    "totalDurationMs": 16017,
+    "finalStoreSize": 154068,
+    "finalDistilledCount": 13,
+    "finalRawCount": 0,
+    "taskSuccess": true
+  }
+}
