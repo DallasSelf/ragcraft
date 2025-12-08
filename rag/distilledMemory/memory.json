@@ -1868,5 +1868,390 @@
       "2739b02d-9103-4ef9-902c-34378b6e1bfe"
     ],
     "timestamp": 1764144388689
+  },
+  {
+    "id": "49fe2826-66d3-4715-aa25-7fce992f2fc8",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "f8140bd1-70f0-473e-b36c-ba202286c9c2"
+    ],
+    "timestamp": 1765161743042
+  },
+  {
+    "id": "bb5bbc6f-862c-4f38-98d1-8a81abd82348",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "cdb6a2aa-087d-41f5-a2db-293067aabdae"
+    ],
+    "timestamp": 1765161802737
+  },
+  {
+    "id": "13a4f087-262b-4bf4-8f3c-43f87b3b8af3",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "cdb6a2aa-087d-41f5-a2db-293067aabdae"
+    ],
+    "timestamp": 1765161803646
+  },
+  {
+    "id": "381f9ab0-ee78-434c-9055-176365aae88e",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "cdb6a2aa-087d-41f5-a2db-293067aabdae"
+    ],
+    "timestamp": 1765161804601
+  },
+  {
+    "id": "91ab16d0-fa3b-442b-910e-35e98eafbdbe",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "cdb6a2aa-087d-41f5-a2db-293067aabdae"
+    ],
+    "timestamp": 1765161805507
+  },
+  {
+    "id": "85256d26-0ce7-4eec-955e-3a1ba23f08e2",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "cdb6a2aa-087d-41f5-a2db-293067aabdae"
+    ],
+    "timestamp": 1765161806415
+  },
+  {
+    "id": "7c0b613c-9d70-40f9-8699-c74aeaae2f4b",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "cdb6a2aa-087d-41f5-a2db-293067aabdae"
+    ],
+    "timestamp": 1765161807328
+  },
+  {
+    "id": "2a9e035a-1acf-4e13-ac94-77506f0efce5",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "f63c6192-6ffd-47b4-a671-f8a232f3c9b9"
+    ],
+    "timestamp": 1765161847605
+  },
+  {
+    "id": "d05ad91a-4cc1-47be-b08a-a0340cae8584",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "793676a4-a9ea-4ff5-a578-3a50e91cf97a"
+    ],
+    "timestamp": 1765161848855
+  },
+  {
+    "id": "c5b44eef-ff63-4587-ab01-d09adb901f10",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "793676a4-a9ea-4ff5-a578-3a50e91cf97a"
+    ],
+    "timestamp": 1765161849759
+  },
+  {
+    "id": "59b1f421-13bf-444f-be08-6966e0ceced6",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "793676a4-a9ea-4ff5-a578-3a50e91cf97a"
+    ],
+    "timestamp": 1765161850671
+  },
+  {
+    "id": "3e5dc0d0-976f-45ee-a1e8-9f04149fcc95",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "793676a4-a9ea-4ff5-a578-3a50e91cf97a"
+    ],
+    "timestamp": 1765161851576
+  },
+  {
+    "id": "b17a943c-12c5-4718-bdf4-b1a36dac5733",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "793676a4-a9ea-4ff5-a578-3a50e91cf97a"
+    ],
+    "timestamp": 1765161852484
+  },
+  {
+    "id": "62a4add1-97d8-4a8f-87b1-48e93f42521d",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "793676a4-a9ea-4ff5-a578-3a50e91cf97a"
+    ],
+    "timestamp": 1765161853442
+  },
+  {
+    "id": "8be5567b-06a9-44b0-882c-c8cf9f628b6b",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Successful lever sequence 2-3-1 at attempt 0",
+    "confidence": 0.9,
+    "evidenceRunIds": [
+      "56decc4c-0884-41f0-89d6-e230abeadd28"
+    ],
+    "timestamp": 1765161928369
+  },
+  {
+    "id": "88ca98ec-35b4-4cbf-a25f-4793fe4a9a3d",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"success\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Reached goal after 2 steps\"}",
+    "confidence": 0.85,
+    "evidenceRunIds": [
+      "76548fe4-be98-4a0b-8fe0-056dbcb7f455"
+    ],
+    "timestamp": 1765161936475
+  },
+  {
+    "id": "148cd768-9b1d-40a0-8973-3e34f53f09af",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 1 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "873d04a4-90e2-414c-bb3d-67e8d58b44a5"
+    ],
+    "timestamp": 1765161944951
+  },
+  {
+    "id": "46d7c020-7195-4515-8ae9-f5e48a5473c1",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "873d04a4-90e2-414c-bb3d-67e8d58b44a5"
+    ],
+    "timestamp": 1765161946249
+  },
+  {
+    "id": "5aa09a88-91ed-4374-a1aa-fb34400bfdaf",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "873d04a4-90e2-414c-bb3d-67e8d58b44a5"
+    ],
+    "timestamp": 1765161947574
+  },
+  {
+    "id": "08378b01-a059-4977-85cd-4e183854d531",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "873d04a4-90e2-414c-bb3d-67e8d58b44a5"
+    ],
+    "timestamp": 1765161948922
+  },
+  {
+    "id": "d861be31-146a-4790-9d77-c11ab5181500",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "873d04a4-90e2-414c-bb3d-67e8d58b44a5"
+    ],
+    "timestamp": 1765161950229
+  },
+  {
+    "id": "3fc5d366-2b63-4767-ace2-cdbdcfd1cb9f",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "873d04a4-90e2-414c-bb3d-67e8d58b44a5"
+    ],
+    "timestamp": 1765161951574
+  },
+  {
+    "id": "d6409932-1ee5-4c63-a0ce-c7e5210e9acb",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-2-3 at attempt 0",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "5f058d9e-bace-43d9-b0da-bb0ac0887bf3"
+    ],
+    "timestamp": 1765161958432
+  },
+  {
+    "id": "1ebbeae3-ac3c-4f8b-8a2b-8a3e1f316d0e",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-1-2 at attempt 1",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "5f058d9e-bace-43d9-b0da-bb0ac0887bf3"
+    ],
+    "timestamp": 1765161961700
+  },
+  {
+    "id": "854278b8-376d-476b-8556-50546b89c45f",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 1-3-2 at attempt 2",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "5f058d9e-bace-43d9-b0da-bb0ac0887bf3"
+    ],
+    "timestamp": 1765161964968
+  },
+  {
+    "id": "3a220a82-3c62-4c49-a502-4eecb991797e",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 3",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "5f058d9e-bace-43d9-b0da-bb0ac0887bf3"
+    ],
+    "timestamp": 1765161968229
+  },
+  {
+    "id": "ec2c2eb1-a641-4e72-aef5-5256bb79c910",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 3-2-1 at attempt 4",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "5f058d9e-bace-43d9-b0da-bb0ac0887bf3"
+    ],
+    "timestamp": 1765161971493
+  },
+  {
+    "id": "36ffd437-97bd-4379-93ed-4201f9199610",
+    "scenarioId": "lever_puzzle_3",
+    "type": "lever_sequence_distilled",
+    "text": "Failed lever sequence 2-1-3 at attempt 5",
+    "confidence": 0.55,
+    "evidenceRunIds": [
+      "5f058d9e-bace-43d9-b0da-bb0ac0887bf3"
+    ],
+    "timestamp": 1765161974752
+  },
+  {
+    "id": "9759b038-d1ee-44ec-a2b8-51164ed25124",
+    "scenarioId": "maze_v1",
+    "type": "maze_distilled",
+    "text": "{\"outcome\":\"success\",\"stepCount\":2,\"turnSequence\":[],\"rule\":\"Reached goal after 2 steps\"}",
+    "confidence": 0.85,
+    "evidenceRunIds": [
+      "b91aea0c-278a-41a2-9f68-d70422e1abe7"
+    ],
+    "timestamp": 1765161983918
+  },
+  {
+    "id": "dcc2d6cc-1bc8-4b3d-9cf7-672d806e1436",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 1 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "414ad6c6-c34f-471d-8c1b-8a59c56328f4"
+    ],
+    "timestamp": 1765161992395
+  },
+  {
+    "id": "6f6f50ee-e6d6-4a29-b475-272532e4c5dc",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "414ad6c6-c34f-471d-8c1b-8a59c56328f4"
+    ],
+    "timestamp": 1765161993691
+  },
+  {
+    "id": "6ad982da-3523-4081-99e1-fee18d19a11a",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "414ad6c6-c34f-471d-8c1b-8a59c56328f4"
+    ],
+    "timestamp": 1765161995025
+  },
+  {
+    "id": "413c6c30-dba4-4f3e-a0fa-f049a6f4345c",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "414ad6c6-c34f-471d-8c1b-8a59c56328f4"
+    ],
+    "timestamp": 1765161996368
+  },
+  {
+    "id": "7cbaf1a0-5ec4-4a4d-80c0-a28482e4a0cd",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "414ad6c6-c34f-471d-8c1b-8a59c56328f4"
+    ],
+    "timestamp": 1765161997670
+  },
+  {
+    "id": "6e5be8f2-1830-492a-9012-db646f8a5e7c",
+    "scenarioId": "key_finder_v1",
+    "type": "key_finder_distilled",
+    "text": "Key not found (5,4,5) after 2 actions. Avoid repeating this exact search path unless new evidence appears.",
+    "confidence": 0.5,
+    "evidenceRunIds": [
+      "414ad6c6-c34f-471d-8c1b-8a59c56328f4"
+    ],
+    "timestamp": 1765161998975
   }
 ]

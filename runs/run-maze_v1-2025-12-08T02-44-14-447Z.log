@@ -1,0 +1,7 @@
+{"t":"2025-12-08T02:44:14.447Z","msg":"maze_episode_start","data":{"runId":"3ee3588f-9b7d-40ce-9ef0-cf54fe7ccb08","scenarioId":"maze_v1","maxAttempts":6}}
+{"t":"2025-12-08T02:44:14.448Z","msg":"maze_attempt","data":{"runId":"3ee3588f-9b7d-40ce-9ef0-cf54fe7ccb08","attemptIndex":0,"plan":{"type":"direct_path","target":{"x":10,"y":64,"z":10},"turnSequence":null,"source":"avoidance_mode"},"distilledCount":15}}
+{"t":"2025-12-08T02:44:14.451Z","msg":"maze_attempt_start","data":{"startPos":{"x":0,"y":64,"z":0},"goalPos":{"x":10,"y":64,"z":10},"plan":{"type":"direct_path","target":{"x":10,"y":64,"z":10},"turnSequence":null,"source":"avoidance_mode"}}}
+{"t":"2025-12-08T02:44:14.451Z","msg":"maze_move_to_start","data":{"target":{"x":0,"y":64,"z":0},"currentDistance":7.79285030595346}}
+{"t":"2025-12-08T02:44:24.451Z","msg":"maze_move_to_start_timeout","data":{"target":{"x":0,"y":64,"z":0}}}
+{"t":"2025-12-08T02:44:24.952Z","msg":"maze_move_to_goal","data":{"target":{"x":10,"y":64,"z":10}}}
+{"t":"2025-12-08T02:44:24.965Z","msg":"maze_path_update","data":{"step":2,"status":"noPath","nodes":0,"position":{"x":5.520735113150585,"y":4,"z":5.4999999728568305}}}

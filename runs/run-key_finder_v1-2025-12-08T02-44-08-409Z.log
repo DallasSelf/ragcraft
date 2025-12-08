@@ -1,0 +1,26 @@
+{"t":"2025-12-08T02:44:08.410Z","msg":"key_episode_start","data":{"scenarioId":"key_finder_v1","runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","maxAttempts":6}}
+{"t":"2025-12-08T02:44:08.410Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-12-08T02:44:08.812Z","msg":"key_attempt","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":0,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":56}}
+{"t":"2025-12-08T02:44:08.855Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-12-08T02:44:08.857Z","msg":"key_memory_stats","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":0,"success":false,"storedMemories":19}}
+{"t":"2025-12-08T02:44:09.357Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-12-08T02:44:09.757Z","msg":"key_attempt","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":1,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":57}}
+{"t":"2025-12-08T02:44:09.759Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-12-08T02:44:09.761Z","msg":"key_memory_stats","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":1,"success":false,"storedMemories":20}}
+{"t":"2025-12-08T02:44:10.262Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-12-08T02:44:10.664Z","msg":"key_attempt","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":2,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":58}}
+{"t":"2025-12-08T02:44:10.671Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-12-08T02:44:10.674Z","msg":"key_memory_stats","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":2,"success":false,"storedMemories":21}}
+{"t":"2025-12-08T02:44:11.174Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-12-08T02:44:11.574Z","msg":"key_attempt","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":3,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":59}}
+{"t":"2025-12-08T02:44:11.575Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-12-08T02:44:11.578Z","msg":"key_memory_stats","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":3,"success":false,"storedMemories":22}}
+{"t":"2025-12-08T02:44:12.078Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-12-08T02:44:12.478Z","msg":"key_attempt","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":4,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":60}}
+{"t":"2025-12-08T02:44:12.484Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-12-08T02:44:12.487Z","msg":"key_memory_stats","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":4,"success":false,"storedMemories":23}}
+{"t":"2025-12-08T02:44:12.988Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
+{"t":"2025-12-08T02:44:13.389Z","msg":"key_attempt","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":5,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":61}}
+{"t":"2025-12-08T02:44:13.442Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}
+{"t":"2025-12-08T02:44:13.445Z","msg":"key_memory_stats","data":{"runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attemptIndex":5,"success":false,"storedMemories":24}}
+{"t":"2025-12-08T02:44:13.945Z","msg":"key_episode_end","data":{"scenarioId":"key_finder_v1","runId":"793676a4-a9ea-4ff5-a578-3a50e91cf97a","attempts":6,"solved":false}}

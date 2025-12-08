@@ -1,0 +1,51 @@
+{
+  "runId": "b91aea0c-278a-41a2-9f68-d70422e1abe7",
+  "scenarioId": "maze_v1",
+  "mode": "raw",
+  "startTime": 1765161979201,
+  "endTime": 1765161983964,
+  "retrievals": [
+    {
+      "timestamp": 1765161979211,
+      "queryText": "successful maze navigation turn sequence",
+      "resultCount": 5,
+      "topSimilarity": 0.8626319153602362,
+      "avgSimilarity": 0.8626319153602362,
+      "latencyMs": 9,
+      "source": "raw"
+    }
+  ],
+  "storeSnapshots": [
+    {
+      "timestamp": 1765161979202,
+      "distilledCount": 197,
+      "rawCount": 181,
+      "totalCount": 378,
+      "storeSizeBytes": 4478760
+    },
+    {
+      "timestamp": 1765161983964,
+      "distilledCount": 198,
+      "rawCount": 182,
+      "totalCount": 380,
+      "storeSizeBytes": 4502466
+    }
+  ],
+  "taskOutcome": {
+    "success": true,
+    "attempts": 1,
+    "totalSteps": 0,
+    "solved": true
+  },
+  "summary": {
+    "totalRetrievals": 1,
+    "avgLatencyMs": 9,
+    "avgResultCount": 5,
+    "totalDurationMs": 4763,
+    "finalStoreSize": 4502466,
+    "finalDistilledCount": 198,
+    "finalRawCount": 182,
+    "taskSuccess": true,
+    "attemptsToSolve": 1
+  }
+}

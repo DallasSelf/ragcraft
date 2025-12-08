@@ -1,0 +1,131 @@
+{
+  "runId": "414ad6c6-c34f-471d-8c1b-8a59c56328f4",
+  "scenarioId": "key_finder_v1",
+  "mode": "raw",
+  "startTime": 1765161986967,
+  "endTime": 1765161999925,
+  "retrievals": [
+    {
+      "timestamp": 1765161987377,
+      "queryText": "key search near position 10.315134555384338 64 10.557395746077011",
+      "resultCount": 5,
+      "topSimilarity": 0.5659168503587717,
+      "avgSimilarity": 0.5659168503587717,
+      "latencyMs": 8,
+      "source": "raw"
+    },
+    {
+      "timestamp": 1765161993348,
+      "queryText": "key search near position 5.451089637489832 64 5.69935031942679",
+      "resultCount": 5,
+      "topSimilarity": 0.6277311081460585,
+      "avgSimilarity": 0.6277311081460585,
+      "latencyMs": 9,
+      "source": "raw"
+    },
+    {
+      "timestamp": 1765161994643,
+      "queryText": "key search near position 5.451089637489832 64 5.69935031942679",
+      "resultCount": 5,
+      "topSimilarity": 0.6277311081460585,
+      "avgSimilarity": 0.6277311081460585,
+      "latencyMs": 8,
+      "source": "raw"
+    },
+    {
+      "timestamp": 1765161996026,
+      "queryText": "key search near position 5.451089637489832 64 5.69935031942679",
+      "resultCount": 5,
+      "topSimilarity": 0.6277311081460585,
+      "avgSimilarity": 0.6277311081460585,
+      "latencyMs": 7,
+      "source": "raw"
+    },
+    {
+      "timestamp": 1765161997322,
+      "queryText": "key search near position 5.451089637489832 64 5.69935031942679",
+      "resultCount": 5,
+      "topSimilarity": 0.6277311081460585,
+      "avgSimilarity": 0.6277311081460585,
+      "latencyMs": 4,
+      "source": "raw"
+    },
+    {
+      "timestamp": 1765161998628,
+      "queryText": "key search near position 5.451089637489832 64 5.69935031942679",
+      "resultCount": 5,
+      "topSimilarity": 0.6277311081460585,
+      "avgSimilarity": 0.6277311081460585,
+      "latencyMs": 7,
+      "source": "raw"
+    }
+  ],
+  "storeSnapshots": [
+    {
+      "timestamp": 1765161987369,
+      "distilledCount": 198,
+      "rawCount": 182,
+      "totalCount": 380,
+      "storeSizeBytes": 4502466
+    },
+    {
+      "timestamp": 1765161992438,
+      "distilledCount": 199,
+      "rawCount": 183,
+      "totalCount": 382,
+      "storeSizeBytes": 4526211
+    },
+    {
+      "timestamp": 1765161993733,
+      "distilledCount": 200,
+      "rawCount": 184,
+      "totalCount": 384,
+      "storeSizeBytes": 4549937
+    },
+    {
+      "timestamp": 1765161995072,
+      "distilledCount": 201,
+      "rawCount": 185,
+      "totalCount": 386,
+      "storeSizeBytes": 4573663
+    },
+    {
+      "timestamp": 1765161996412,
+      "distilledCount": 202,
+      "rawCount": 186,
+      "totalCount": 388,
+      "storeSizeBytes": 4597389
+    },
+    {
+      "timestamp": 1765161997712,
+      "distilledCount": 203,
+      "rawCount": 187,
+      "totalCount": 390,
+      "storeSizeBytes": 4621115
+    },
+    {
+      "timestamp": 1765161999018,
+      "distilledCount": 204,
+      "rawCount": 188,
+      "totalCount": 392,
+      "storeSizeBytes": 4644841
+    }
+  ],
+  "taskOutcome": {
+    "success": false,
+    "attempts": 6,
+    "totalSteps": 0,
+    "solved": false
+  },
+  "summary": {
+    "totalRetrievals": 6,
+    "avgLatencyMs": 7.166666666666667,
+    "avgResultCount": 5,
+    "totalDurationMs": 12958,
+    "finalStoreSize": 4644841,
+    "finalDistilledCount": 204,
+    "finalRawCount": 188,
+    "taskSuccess": false,
+    "attemptsToSolve": 6
+  }
+}
