@@ -4,3 +4,5 @@ runs/
 rag/store/
 rag/kb.json
 rag/distilledMemory/
+rag/store/vectors.json
+*.log
