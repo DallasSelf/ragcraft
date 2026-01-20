@@ -1,4 +1,0 @@
-{"t":"2025-11-26T07:02:41.366Z","msg":"key_episode_start","data":{"scenarioId":"key_finder_v1","runId":"723fcc1e-c31d-41c1-a006-c42a6a3eaae1","maxAttempts":6}}
-{"t":"2025-11-26T07:02:41.367Z","msg":"key_reset_chest","data":{"cmd":"/setblock 5 4 5 chest[facing=north]"}}
-{"t":"2025-11-26T07:02:41.768Z","msg":"key_attempt","data":{"runId":"723fcc1e-c31d-41c1-a006-c42a6a3eaae1","attemptIndex":0,"target":{"x":5,"y":4,"z":5},"source":"default","distilledCount":1}}
-{"t":"2025-11-26T07:02:41.813Z","msg":"key_search_error","data":{"error":"containerToOpen is neither a block nor an entity"}}

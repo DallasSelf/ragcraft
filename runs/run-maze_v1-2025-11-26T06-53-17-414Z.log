@@ -1,5 +1,0 @@
-{"t":"2025-11-26T06:53:17.415Z","msg":"maze_episode_start","data":{"runId":"ad377b8f-ec59-47a7-9c8e-a963a90f24e3","scenarioId":"maze_v1","maxAttempts":6}}
-{"t":"2025-11-26T06:53:17.416Z","msg":"maze_attempt","data":{"runId":"ad377b8f-ec59-47a7-9c8e-a963a90f24e3","attemptIndex":0,"plan":{"type":"direct_path","target":{"x":10,"y":64,"z":10},"turnSequence":null,"source":"naive_exploration"},"distilledCount":2}}
-{"t":"2025-11-26T06:53:17.420Z","msg":"maze_attempt_start","data":{"startPos":{"x":0,"y":64,"z":0},"goalPos":{"x":10,"y":64,"z":10},"plan":{"type":"direct_path","target":{"x":10,"y":64,"z":10},"turnSequence":null,"source":"naive_exploration"}}}
-{"t":"2025-11-26T06:53:17.420Z","msg":"maze_move_to_start","data":{"target":{"x":0,"y":64,"z":0}}}
-{"t":"2025-11-26T06:53:18.921Z","msg":"maze_move_to_goal","data":{"target":{"x":10,"y":64,"z":10}}}
