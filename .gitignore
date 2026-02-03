@@ -1,0 +1,9 @@
+node_modules/
+runs/
+rag/eval/runs/
+rag/kb.json
+rag/distilledMemory/memory.json
+rag/store/vectors.json
+.env
+.DS_Store
+*.log

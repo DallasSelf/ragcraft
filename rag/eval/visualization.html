@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RagCraft Performance Visualization</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    h2 {
+      color: #555;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 10px;
+    }
+    canvas {
+      max-height: 400px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .stat-card {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 5px;
+      border-left: 4px solid #4CAF50;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+    }
+    .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-top: 5px;
+    }
+    .export-buttons {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .export-btn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .export-btn:hover {
+      background: #45a049;
+    }
+    .chart-container {
+      position: relative;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>RagCraft Performance Visualization</h1>
+  
+  
+  <div class="container">
+    <h2>key_finder_v1</h2>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Avg Completion Time</div>
+        <div class="stat-value">13.0s</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Storage Size</div>
+        <div class="stat-value">3343.73 KB</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Success Rate</div>
+        <div class="stat-value">0.0%</div>
+      </div>
+    </div>
+
+    <div class="export-buttons">
+      <button class="export-btn" onclick="exportChart('chart0_completion', 'key_finder_v1_completion.png')">Export Completion Time (PNG)</button>
+      <button class="export-btn" onclick="exportChart('chart0_storage', 'key_finder_v1_storage.png')">Export Storage Size (PNG)</button>
+      <button class="export-btn" onclick="exportChart('chart0_success', 'key_finder_v1_success.png')">Export Success Rate (PNG)</button>
+    </div>
+    <div class="chart-container">
+      <canvas id="chart0_completion"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="chart0_storage"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="chart0_success"></canvas>
+    </div>
+  </div>
+  
+  <div class="container">
+    <h2>lever_puzzle_3</h2>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Avg Completion Time</div>
+        <div class="stat-value">12.9s</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Storage Size</div>
+        <div class="stat-value">1588.18 KB</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Success Rate</div>
+        <div class="stat-value">64.9%</div>
+      </div>
+    </div>
+
+    <div class="export-buttons">
+      <button class="export-btn" onclick="exportChart('chart1_completion', 'lever_puzzle_3_completion.png')">Export Completion Time (PNG)</button>
+      <button class="export-btn" onclick="exportChart('chart1_storage', 'lever_puzzle_3_storage.png')">Export Storage Size (PNG)</button>
+      <button class="export-btn" onclick="exportChart('chart1_success', 'lever_puzzle_3_success.png')">Export Success Rate (PNG)</button>
+    </div>
+    <div class="chart-container">
+      <canvas id="chart1_completion"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="chart1_storage"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="chart1_success"></canvas>
+    </div>
+  </div>
+  
+  <div class="container">
+    <h2>maze_v1</h2>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Avg Completion Time</div>
+        <div class="stat-value">4.9s</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Storage Size</div>
+        <div class="stat-value">3204.69 KB</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Success Rate</div>
+        <div class="stat-value">100.0%</div>
+      </div>
+    </div>
+
+    <div class="export-buttons">
+      <button class="export-btn" onclick="exportChart('chart2_completion', 'maze_v1_completion.png')">Export Completion Time (PNG)</button>
+      <button class="export-btn" onclick="exportChart('chart2_storage', 'maze_v1_storage.png')">Export Storage Size (PNG)</button>
+      <button class="export-btn" onclick="exportChart('chart2_success', 'maze_v1_success.png')">Export Success Rate (PNG)</button>
+    </div>
+    <div class="chart-container">
+      <canvas id="chart2_completion"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="chart2_storage"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="chart2_success"></canvas>
+    </div>
+  </div>
+  
+
+  <script>
+    // Export function for charts
+    function exportChart(canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
+      const url = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = url;
+      link.click();
+    }
+
+    // Export all charts as PDF
+    function exportAllAsPDF() {
+      if (typeof html2canvas === 'undefined' || typeof jspdf === 'undefined') {
+        alert('PDF export requires html2canvas and jsPDF libraries. Please ensure they are loaded.');
+        return;
+      }
+      
+      const { jsPDF } = window.jspdf;
+      html2canvas(document.body).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgWidth = 210;
+        const pageHeight = 295;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+
+        pdf.save('ragcraft_performance_report.pdf');
+      });
+    }
+
+    // Add export all button
+    document.addEventListener('DOMContentLoaded', function() {
+      const exportAllBtn = document.createElement('button');
+      exportAllBtn.className = 'export-btn';
+      exportAllBtn.textContent = 'Export All as PDF';
+      exportAllBtn.style.cssText = 'position: fixed; top: 10px; right: 10px; z-index: 1000;';
+      exportAllBtn.onclick = exportAllAsPDF;
+      document.body.appendChild(exportAllBtn);
+    });
+  </script>
+
+  <script>
+    
+      // Completion Time Chart 0
+      new Chart(document.getElementById('chart0_completion'), {
+        type: 'bar',
+        data: {
+          labels: ['Distilled', 'Raw'],
+          datasets: [{
+            label: 'Avg Completion Time (ms)',
+            data: [12971.25, 12960.25],
+            backgroundColor: ['#4CAF50', '#FF9800']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Task Completion Time Comparison'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Time (milliseconds)'
+              }
+            }
+          }
+        }
+      });
+
+      // Storage Size Chart 0
+      new Chart(document.getElementById('chart0_storage'), {
+        type: 'bar',
+        data: {
+          labels: ['Distilled', 'Raw'],
+          datasets: [{
+            label: 'Avg Storage Size (bytes)',
+            data: [3275847.25, 3572103],
+            backgroundColor: ['#2196F3', '#FF9800']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Storage Size Comparison'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Size (bytes)'
+              }
+            }
+          }
+        }
+      });
+
+      // Success Rate Chart 0
+      new Chart(document.getElementById('chart0_success'), {
+        type: 'bar',
+        data: {
+          labels: ['Distilled', 'Raw'],
+          datasets: [{
+            label: 'Success Rate (%)',
+            data: [0, 0],
+            backgroundColor: ['#4CAF50', '#FF9800']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Success Rate Comparison'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              title: {
+                display: true,
+                text: 'Success Rate (%)'
+              }
+            }
+          }
+        }
+      });
+      
+
+      // Completion Time Chart 1
+      new Chart(document.getElementById('chart1_completion'), {
+        type: 'bar',
+        data: {
+          labels: ['Distilled', 'Raw'],
+          datasets: [{
+            label: 'Avg Completion Time (ms)',
+            data: [11414.285714285714, 14432.833333333334],
+            backgroundColor: ['#4CAF50', '#FF9800']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Task Completion Time Comparison'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Time (milliseconds)'
+              }
+            }
+          }
+        }
+      });
+
+      // Storage Size Chart 1
+      new Chart(document.getElementById('chart1_storage'), {
+        type: 'bar',
+        data: {
+          labels: ['Distilled', 'Raw'],
+          datasets: [{
+            label: 'Avg Storage Size (bytes)',
+            data: [1408729.4285714286, 1843872.0833333333],
+            backgroundColor: ['#2196F3', '#FF9800']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Storage Size Comparison'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Size (bytes)'
+              }
+            }
+          }
+        }
+      });
+
+      // Success Rate Chart 1
+      new Chart(document.getElementById('chart1_success'), {
+        type: 'bar',
+        data: {
+          labels: ['Distilled', 'Raw'],
+          datasets: [{
+            label: 'Success Rate (%)',
+            data: [71.42857142857143, 58.333333333333336],
+            backgroundColor: ['#4CAF50', '#FF9800']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Success Rate Comparison'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              title: {
+                display: true,
+                text: 'Success Rate (%)'
+              }
+            }
+          }
+        }
+      });
+      
+
+      // Completion Time Chart 2
+      new Chart(document.getElementById('chart2_completion'), {
+        type: 'bar',
+        data: {
+          labels: ['Distilled', 'Raw'],
+          datasets: [{
+            label: 'Avg Completion Time (ms)',
+            data: [4936, 4792.25],
+            backgroundColor: ['#4CAF50', '#FF9800']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Task Completion Time Comparison'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Time (milliseconds)'
+              }
+            }
+          }
+        }
+      });
+
+      // Storage Size Chart 2
+      new Chart(document.getElementById('chart2_storage'), {
+        type: 'bar',
+        data: {
+          labels: ['Distilled', 'Raw'],
+          datasets: [{
+            label: 'Avg Storage Size (bytes)',
+            data: [3133472.25, 3429728],
+            backgroundColor: ['#2196F3', '#FF9800']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Storage Size Comparison'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Size (bytes)'
+              }
+            }
+          }
+        }
+      });
+
+      // Success Rate Chart 2
+      new Chart(document.getElementById('chart2_success'), {
+        type: 'bar',
+        data: {
+          labels: ['Distilled', 'Raw'],
+          datasets: [{
+            label: 'Success Rate (%)',
+            data: [100, 100],
+            backgroundColor: ['#4CAF50', '#FF9800']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Success Rate Comparison'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              title: {
+                display: true,
+                text: 'Success Rate (%)'
+              }
+            }
+          }
+        }
+      });
+      
+  </script>
+</body>
+</html>
