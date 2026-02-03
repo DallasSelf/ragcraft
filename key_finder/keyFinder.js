@@ -162,7 +162,7 @@ async function runKeyFinderEpisode(bot, logger) {
     }
 
     ingestKeyFinderAttempt(attemptLog)
-    const distilled = distillMemoryUnits(attemptLog)
+    const distilled = await distillMemoryUnits(attemptLog)
     if (distilled.length > 0) {
       ingestDistilledMemory(distilled)
     }

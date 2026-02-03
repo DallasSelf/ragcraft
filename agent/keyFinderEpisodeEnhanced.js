@@ -143,7 +143,7 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
 
     await ingestKeyFinderAttempt(attemptLog)
 
-    const distilled = distillMemoryUnits(attemptLog)
+    const distilled = await distillMemoryUnits(attemptLog)
     await ingestDistilledMemory(distilled)
 
     logger.log('key_attempt_result', {

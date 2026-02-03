@@ -119,7 +119,7 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
 
     await ingestLeverAttempt(attemptLog)
 
-    const distilled = distillMemoryUnits(attemptLog)
+    const distilled = await distillMemoryUnits(attemptLog)
     await ingestDistilledMemory(distilled)
 
     logger.log('lever_attempt_result', {

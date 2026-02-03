@@ -31,6 +31,8 @@ def load_metrics_data(metrics_dir):
                 data = json.load(f)
                 scenario_id = data.get('scenarioId')
                 mode = data.get('mode')
+                if mode == 'terminal':
+                 continue
                 summary = data.get('summary', {})
                 
                 if scenario_id and mode and summary:
@@ -291,9 +293,12 @@ def plot_combined_comparison(metrics_data, output_dir):
 
 def main():
     # Get script directory
-    script_dir = Path(__file__).parent
+    script_dir = Path.cwd()
     metrics_dir = script_dir / 'rag' / 'eval' / 'runs'
-    output_dir = script_dir / 'rag' / 'eval' / 'plots'
+    
+    output_dir = script_dir / 'plots'
+    print("Using metrics_dir:", metrics_dir)
+    print("Found files:", len(list(metrics_dir.glob("*.json"))))
     
     # Create output directory
     output_dir.mkdir(parents=True, exist_ok=True)

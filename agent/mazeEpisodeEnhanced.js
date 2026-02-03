@@ -72,7 +72,7 @@ async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
 
     await ingestMazeAttempt(attemptLog)
 
-    const distilled = distillMemoryUnits(attemptLog)
+    const distilled = await distillMemoryUnits(attemptLog)
     await ingestDistilledMemory(distilled)
 
     logger.log('maze_attempt_result', {

@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid')
-
+const { distillWithLLM } = require('./llm/distiller')
 /**
  * Formats a turn sequence array into a JSON string representation.
  * @param {Array} turnSequence - Array of points (objects with x,y,z or arrays [x,y,z])
@@ -158,12 +158,20 @@ function distillMazeAttempt(attempt) {
  * @param {string} attempt.scenarioId - Scenario identifier (must be a string)
  * @returns {Array} Array of distilled memory units (empty if invalid or unknown scenario)
  */
-function distillMemoryUnits(attempt) {
+async function distillMemoryUnits(attempt) {
   if (!attempt || !attempt.scenarioId) return []
 
-  // Ensure scenarioId is a string to safely call startsWith
   if (typeof attempt.scenarioId !== 'string') {
     return []
+  }
+
+  if (process.env.LLM_ENABLED === 'true') {
+    try {
+      const unit = await distillWithLLM(attempt)
+      if (unit) return [unit]
+    } catch (error) {
+      console.error('LLM distillation failed, using template:', error.message)
+    }
   }
 
   try {
@@ -179,7 +187,6 @@ function distillMemoryUnits(attempt) {
       return distillMazeAttempt(attempt)
     }
   } catch (error) {
-    // Log error in production, but return empty array to prevent crashes
     console.error('Error distilling memory units:', error)
     return []
   }
