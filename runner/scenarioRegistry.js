@@ -1,6 +1,6 @@
 const { runLeverEpisodeEnhanced: leverEpisodeEnhanced } = require('../agent/leverEpisodeEnhanced')
-const { keyFinderEpisodeEnhanced } = require('../agent/keyFinderEpisodeEnhanced')
-const { mazeEpisodeEnhanced } = require('../agent/mazeEpisodeEnhanced')
+const { runKeyFinderEpisodeEnhanced: keyFinderEpisodeEnhanced } = require('../agent/keyFinderEpisodeEnhanced')
+const { runMazeEpisodeEnhanced: mazeEpisodeEnhanced } = require('../agent/mazeEpisodeEnhanced')
 
 const scenarios = {
   lever: {

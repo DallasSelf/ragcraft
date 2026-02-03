@@ -8,6 +8,21 @@ Minecraft gives a perfect testing ground. The environment is structured, repeata
 
 This repo contains the full codebase for three learning scenarios, the episodic memory system, and the distilled memory layer used to make the agent more efficient with each episode.
 
+          This project is sensitive to version compatibility. Use the versions below.
+
+          Node.js: v22.x (required)
+          Minecraft Server: Paper 1.21.8
+          Mineflayer: latest (Node 22 compatible)
+
+          Do NOT downgrade Mineflayer or minecraft-protocol.
+          Do NOT run this project on Node 20 or earlier.
+
+          If the bot fails to connect, verify:
+          - The Paper server is running
+          - The server version is 1.21.8
+          - The bot is started with Node 22 (`nvm use 22`)
+          - The .env host/port match the server
+
 Project Goals
 
 Push RAG beyond static retrieval.
