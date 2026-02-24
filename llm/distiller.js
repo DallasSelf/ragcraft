@@ -34,7 +34,7 @@ function buildPrompt(attempt) {
     ].join('\n')
   }
 
-  if (scenarioId.startsWith('key_finder')) {
+  if (scenarioId.startsWith('key_finder') || scenarioId.startsWith('key_unlock')) {
     return [
       'You are distilling a Minecraft key-finder attempt into a single memory unit for later retrieval.',
       'Return only valid JSON. No extra text.',
@@ -126,7 +126,7 @@ async function distillWithLLM(attempt) {
     if (type !== 'lever_sequence_distilled') return null
   }
 
-  if (scenarioId.startsWith('key_finder')) {
+  if (scenarioId.startsWith('key_finder') || scenarioId.startsWith('key_unlock')) {
     if (type !== 'key_finder_distilled') return null
   }
 

@@ -9,6 +9,7 @@ const leverPuzzleConfig = {
   ],
   leverFace: "wall",
   leverFacing: "west",
+  spawnPosition: { x: 13, y: 64, z: 0 },
   doorBlock: { x: 13, y: 63, z: 2 },
   doorPowerBlock: { x: 13, y: 63, z: 2 },
   doorPowerOn: 'redstone_block',

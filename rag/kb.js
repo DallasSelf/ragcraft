@@ -81,15 +81,19 @@ async function ingestKeyFinderAttempt(attempt) {
     runId: attempt.runId,
     attemptIndex: attempt.attemptIndex,
     targetPos: attempt.targetPos,
+     keyPos: attempt.keyPos,
+     searchPath: attempt.searchPath,
+     visitedCells: attempt.visitedCells,
     actions: attempt.actions,
+     obtainedKey: attempt.obtainedKey,
     success: attempt.success,
     timestamp: attempt.timestamp || Date.now()
   }
   kb.push(entry)
   saveKb(kb)
 
-  const pos = attempt.targetPos
-  const text = `${attempt.success ? 'Key found' : 'Key not found'} at (${pos.x},${pos.y},${pos.z})`
+  const focus = attempt.keyPos || attempt.targetPos || (attempt.searchPath && attempt.searchPath[attempt.searchPath.length - 1]) || { x: 0, y: 0, z: 0 }
+  const text = `${attempt.success ? 'Key found' : 'Key not found'} at (${focus.x},${focus.y},${focus.z})`
   try {
     await addRawEpisode({
       id: entry.runId + '_' + attempt.attemptIndex,

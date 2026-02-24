@@ -7,6 +7,7 @@ const { distillMemoryUnits } = require('../memoryDistiller')
 const { ingestDistilledMemory } = require('../rag/distilledMemory')
 const { ragRetrieveHybrid } = require('../rag/retrieval')
 const { MetricsCollector } = require('../rag/eval/metrics')
+const { resolveMemoryMode } = require('./memoryModes')
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -44,13 +45,24 @@ async function resetLevers(bot, logger) {
   await wait(250)
 }
 
+async function teleportToLeverStart(bot, logger) {
+  const pos = leverPuzzleConfig.spawnPosition
+  if (!pos) return
+
+  const cmd = `/tp ${bot.username} ${pos.x} ${pos.y} ${pos.z}`
+  bot.chat(cmd)
+  logger.log('lever_teleport_start', { cmd })
+  await wait(300)
+}
+
 /**
  * Enhanced lever episode with vector RAG retrieval and metrics
  */
 async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
   const scenarioId = leverPuzzleConfig.scenarioId
   const runId = uuidv4()
-  const mode = options.mode || 'distilled'  // 'distilled' or 'raw'
+    const mode = options.mode || 'distilled'
+    const memoryMode = resolveMemoryMode(mode)
 
   const metrics = new MetricsCollector(runId, scenarioId, mode)
 
@@ -59,7 +71,9 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
   const maxAttempts = leverPuzzleConfig.maxAttempts || 6
   let attempts = 0
   let solved = false
+  const attemptHistory = []
 
+  await teleportToLeverStart(bot, logger)
   await closeDoor(bot, logger)
   await resetLevers(bot, logger)
 
@@ -72,8 +86,8 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
       scenarioId,
       observation: {},
       topK: 5,
-      includeDistilled: mode === 'distilled',
-      includeRaw: mode === 'raw'
+      includeDistilled: memoryMode.includeDistilled,
+      includeRaw: memoryMode.includeRaw
     })
 
     const retrievalLatency = Date.now() - retrievalStart
@@ -82,16 +96,20 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
       queryText: 'successful lever sequence puzzle solution',
       results: memories,
       latencyMs: retrievalLatency,
-      source: mode
+      source: memoryMode.dataset
     })
 
     const choice = chooseLeverSequence(
       scenarioId,
       leverPuzzleConfig.leverCount,
-      memories
+      memories,
+      attemptHistory
     )
 
     const sequence = choice.sequence
+    if (Array.isArray(sequence)) {
+      attemptHistory.push([...sequence])
+    }
 
     logger.log('lever_attempt', {
       runId,
@@ -119,7 +137,9 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
 
     await ingestLeverAttempt(attemptLog)
 
-    const distilled = await distillMemoryUnits(attemptLog)
+    const distilled = await distillMemoryUnits(attemptLog, {
+      distillStyle: memoryMode.distillStyle
+    })
     await ingestDistilledMemory(distilled)
 
     logger.log('lever_attempt_result', {

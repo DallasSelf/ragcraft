@@ -7,15 +7,27 @@ const { distillMemoryUnits } = require('../memoryDistiller')
 const { ingestDistilledMemory } = require('../rag/distilledMemory')
 const { ragRetrieveHybrid } = require('../rag/retrieval')
 const { MetricsCollector } = require('../rag/eval/metrics')
+const { resolveMemoryMode } = require('./memoryModes')
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+async function teleportToMazeStart(bot, logger) {
+  const pos = mazeConfig.spawnPosition || mazeConfig.startPos
+  if (!pos) return
+
+  const cmd = `/tp ${bot.username} ${pos.x} ${pos.y} ${pos.z}`
+  bot.chat(cmd)
+  logger.log('maze_teleport_start', { cmd })
+  await wait(300)
 }
 
 async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
   const scenarioId = mazeConfig.scenarioId
   const runId = uuidv4()
   const mode = options.mode || 'distilled'
+  const memoryMode = resolveMemoryMode(mode)
 
   const metrics = new MetricsCollector(runId, scenarioId, mode)
 
@@ -25,6 +37,7 @@ async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
   let attempts = 0
   let solved = false
 
+  await teleportToMazeStart(bot, logger)
   metrics.snapshotStore()
 
   while (attempts < maxAttempts && !solved) {
@@ -34,8 +47,8 @@ async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
       scenarioId,
       observation: {},
       topK: 5,
-      includeDistilled: mode === 'distilled',
-      includeRaw: mode === 'raw'
+      includeDistilled: memoryMode.includeDistilled,
+      includeRaw: memoryMode.includeRaw
     })
 
     const retrievalLatency = Date.now() - retrievalStart
@@ -44,7 +57,7 @@ async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
       queryText: 'successful maze navigation turn sequence',
       results: memories,
       latencyMs: retrievalLatency,
-      source: mode
+      source: memoryMode.dataset
     })
 
     const plan = chooseMazePlan(scenarioId, mazeConfig, memories)
@@ -63,7 +76,7 @@ async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
       scenarioId,
       runId,
       attemptIndex: attempts,
-      turnSequence: plan.turnSequence || [],
+      turnSequence: (result && result.turnSequence) || plan.turnSequence || [],
       actions: result.actions || [],
       stepCount: result.stepCount || 0,
       success: !!result.success,
@@ -72,7 +85,9 @@ async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
 
     await ingestMazeAttempt(attemptLog)
 
-    const distilled = await distillMemoryUnits(attemptLog)
+    const distilled = await distillMemoryUnits(attemptLog, {
+      distillStyle: memoryMode.distillStyle
+    })
     await ingestDistilledMemory(distilled)
 
     logger.log('maze_attempt_result', {

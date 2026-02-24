@@ -4,10 +4,8 @@ const { Vec3 } = require('vec3')
 const { keyFinderConfig } = require('../scenarios/keyFinderConfig')
 const { distillMemoryUnits } = require('../memoryDistiller')
 const { ingestKeyFinderAttempt } = require('../rag/kb')
-const {
-  ingestDistilledMemory,
-  retrieveDistilledMemories
-} = require('../rag/distilledMemory')
+const { ingestDistilledMemory } = require('../rag/distilledMemory')
+const { ragRetrieveHybrid } = require('../rag/retrieval')
 const {
   saveEvent,
   summarizeEvent,
@@ -20,20 +18,36 @@ function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-function chooseKeySearchPlan(defaultChestPos, scenarioId, distilledMemories = []) {
-  const successMemory = distilledMemories.find(
-    m => m.type === 'key_finder_distilled' && m.text && m.text.startsWith('Key found')
-  )
+function parsePositionFromText(text) {
+  const match = text && text.match(/\((-?\d+),(-?\d+),(-?\d+)\)/)
+  if (!match) return null
+  return {
+    x: Number(match[1]),
+    y: Number(match[2]),
+    z: Number(match[3])
+  }
+}
 
-  if (successMemory) {
-    const match = successMemory.text.match(/\(([-0-9]+),([-0-9]+),([-0-9]+)\)/)
-    if (match) {
-      const chestPos = { x: Number(match[1]), y: Number(match[2]), z: Number(match[3]) }
-      return { chestPos, source: 'distilled_success', distilledMemories }
-    }
+function rankKeyMemories(memories = []) {
+  return memories
+    .filter(m => m && m.type === 'key_finder_distilled' && typeof m.text === 'string')
+    .map(m => ({
+      memory: m,
+      pos: parsePositionFromText(m.text),
+      success: m.text.startsWith('Key found'),
+      score: (m.boostedScore || m.similarity || 0.0) + (m.text.startsWith('Key found') ? 0.5 : 0)
+    }))
+    .filter(entry => entry.pos)
+    .sort((a, b) => b.score - a.score)
+}
+
+function chooseKeySearchPlan(defaultChestPos, rankedMemories = []) {
+  if (rankedMemories.length > 0) {
+    const top = rankedMemories[0]
+    return { chestPos: top.pos, source: top.success ? 'distilled_success' : 'distilled_hint' }
   }
 
-  return { chestPos: defaultChestPos, source: 'default', distilledMemories }
+  return { chestPos: defaultChestPos, source: 'default' }
 }
 
 async function resetChestState(bot, logger) {
@@ -134,19 +148,23 @@ async function runKeyFinderEpisode(bot, logger) {
 
   while (attemptIndex < maxAttempts && !solved) {
     await resetChestState(bot, logger)
-    const distilledMemories = retrieveDistilledMemories(scenarioId)
-    const plan = chooseKeySearchPlan(
-      keyFinderConfig.defaultChestPos,
+    const retrievedMemories = await ragRetrieveHybrid({
       scenarioId,
-      distilledMemories
-    )
+      topK: 8,
+      includeDistilled: true,
+      includeRaw: false
+    })
+
+    const rankedMemories = rankKeyMemories(retrievedMemories)
+    const defaultTarget = keyFinderConfig.defaultChestPos || keyFinderConfig.lockedChest || keyFinderConfig.keyItemPos
+    const plan = chooseKeySearchPlan(defaultTarget, rankedMemories)
 
     logger.log('key_attempt', {
       runId,
       attemptIndex,
       target: plan.chestPos,
       source: plan.source,
-      distilledCount: distilledMemories.length
+      distilledCount: rankedMemories.length
     })
 
     const searchResult = await executeSearch(bot, plan.chestPos, logger)

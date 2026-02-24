@@ -1,14 +1,17 @@
 const mazeConfig = {
   scenarioId: 'maze_v1',
-  startPos: { x: 0, y: 64, z: 0 },
-  goalPos: { x: 10, y: 64, z: 10 },
+  spawnPosition: { x: -1, y: 64, z: 14 },
+  startPos: { x: -1, y: 64, z: 14 },
+  goalPos: { x: -11, y: 64, z: -5 },
+  exitTriggerBlock: { x: -11, y: 63, z: -5, material: 'redstone_block' },
+  enforcedY: 64,
   maxSteps: 100,
   gridSize: 20,
   bounds: {
-    minX: -10,
-    maxX: 10,
-    minZ: -10,
-    maxZ: 10
+    minX: -20,
+    maxX: 20,
+    minZ: -15,
+    maxZ: 20
   }
 }
 

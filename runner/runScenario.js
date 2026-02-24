@@ -1,6 +1,6 @@
 const path = require('path')
 const { createLogger } = require('../logging/logger')
-const { getScenarioByName, scenarios } = require('./scenarioRegistry')
+const { getScenarioByName, scenarios, listScenarios } = require('./scenarioRegistry')
 
 function safeSlug(v) {
   return String(v).replace(/[^a-zA-Z0-9_-]+/g, '_')
@@ -26,6 +26,7 @@ async function runScenario(bot, scenarioName, options = {}) {
     scenarioId: scenario.id,
     runId,
     mode: options.mode || 'default',
+    runLabel: options.runLabel || null,
     git: options.git || null
   })
 
@@ -36,14 +37,16 @@ async function runScenario(bot, scenarioName, options = {}) {
     logger.log('run_end', {
       scenarioId: scenario.id,
       runId,
+      runLabel: options.runLabel || null,
       ms: Date.now() - startedAt,
       result
     })
-    return { scenarioId: scenario.id, runId, result }
+    return { scenarioId: scenario.id, runId, runLabel: options.runLabel || null, result }
   } catch (err) {
     logger.log('run_error', {
       scenarioId: scenario.id,
       runId,
+      runLabel: options.runLabel || null,
       ms: Date.now() - startedAt,
       message: err && err.message ? err.message : String(err),
       stack: err && err.stack ? err.stack : null
@@ -55,7 +58,7 @@ async function runScenario(bot, scenarioName, options = {}) {
 }
 
 async function runAll(bot, options = {}) {
-  const ordered = ['lever', 'key', 'maze']
+  const ordered = listScenarios().map(s => s.id)
   const results = []
   for (const name of ordered) {
     results.push(await runScenario(bot, name, options))

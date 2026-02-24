@@ -1,5 +1,26 @@
 const { v4: uuidv4 } = require('uuid')
 const { distillWithLLM } = require('./llm/distiller')
+
+function normalizeLeverSequenceText(attempt) {
+  if (!attempt || !Array.isArray(attempt.sequence) || attempt.sequence.length === 0) {
+    return null
+  }
+
+  const sequenceText = attempt.sequence
+    .map(n => Number(n))
+    .filter(n => Number.isFinite(n))
+    .join('-')
+
+  if (!sequenceText) return null
+
+  const attemptIndex =
+    typeof attempt.attemptIndex === 'number' && Number.isFinite(attempt.attemptIndex)
+      ? attempt.attemptIndex
+      : 'n/a'
+  const statusText = attempt.success ? 'Successful' : 'Failed'
+
+  return `${statusText} lever sequence ${sequenceText} at attempt ${attemptIndex}`
+}
 /**
  * Formats a turn sequence array into a JSON string representation.
  * @param {Array} turnSequence - Array of points (objects with x,y,z or arrays [x,y,z])
@@ -37,18 +58,15 @@ function distillLeverAttempt(attempt) {
     return []
   }
 
-  const sequenceText = Array.isArray(attempt.sequence)
-    ? attempt.sequence.join('-')
-    : 'unknown'
+  const normalizedText = normalizeLeverSequenceText(attempt) || 'Lever sequence: unknown'
   const success = Boolean(attempt.success)
-  const statusText = success ? 'Successful' : 'Failed'
   const confidence = success ? 0.9 : 0.55
 
   return [{
     id: uuidv4(),
     scenarioId: attempt.scenarioId,
     type: 'lever_sequence_distilled',
-    text: `${statusText} lever sequence ${sequenceText} at attempt ${attempt.attemptIndex ?? 'n/a'}`,
+    text: normalizedText,
     confidence,
     evidenceRunIds: attempt.runId ? [attempt.runId] : [],
     timestamp: attempt.timestamp || Date.now()
@@ -76,28 +94,40 @@ function distillKeyFinderAttempt(attempt) {
 
   const actionCount = Array.isArray(attempt.actions) ? attempt.actions.length : 0
   const found = Boolean(attempt.success)
-  
-  // Safely extract position coordinates
-  let focusPos = ''
-  if (attempt.targetPos && typeof attempt.targetPos === 'object') {
-    const x = attempt.targetPos.x ?? attempt.targetPos[0] ?? 0
-    const y = attempt.targetPos.y ?? attempt.targetPos[1] ?? 0
-    const z = attempt.targetPos.z ?? attempt.targetPos[2] ?? 0
-    focusPos = ` (${x},${y},${z})`
+  const visitedCount = Array.isArray(attempt.visitedCells) ? attempt.visitedCells.length : 0
+  const searchCount = Array.isArray(attempt.searchPath) ? attempt.searchPath.length : 0
+
+  const targetPos = attempt.targetPos || null
+  const targetPosText = targetPos
+    ? `(${targetPos.x ?? 0},${targetPos.y ?? 0},${targetPos.z ?? 0})`
+    : '(unknown)'
+
+  function resolveFocusPos() {
+    if (attempt.keyPos && typeof attempt.keyPos === 'object') return attempt.keyPos
+    if (attempt.targetPos && typeof attempt.targetPos === 'object') return attempt.targetPos
+    if (Array.isArray(attempt.searchPath) && attempt.searchPath.length > 0) {
+      return attempt.searchPath[attempt.searchPath.length - 1]
+    }
+    return null
   }
+
+  const focus = resolveFocusPos()
+  const focusPos = focus
+    ? ` (${focus.x ?? 0},${focus.y ?? 0},${focus.z ?? 0})`
+    : ''
   
   const statusText = found ? 'Key found' : 'Key not found'
-  const confidence = found ? 0.85 : 0.5
+  const confidence = found ? 0.9 : 0.45
 
   const advisory = found
     ? 'Prioritize this area for future searches.'
-    : 'Avoid repeating this exact search path unless new evidence appears.'
+    : `Area swept (${visitedCount} cells, ${searchCount} waypoints); deprioritize unless new clues emerge.`
 
   return [{
     id: uuidv4(),
     scenarioId: attempt.scenarioId,
     type: 'key_finder_distilled',
-    text: `${statusText}${focusPos} after ${actionCount} actions. ${advisory}`,
+    text: `${statusText} at ${focusPos} after ${actionCount} actions targeting ${targetPosText}. ${advisory}`,
     confidence,
     evidenceRunIds: attempt.runId ? [attempt.runId] : [],
     timestamp: attempt.timestamp || Date.now()
@@ -158,20 +188,44 @@ function distillMazeAttempt(attempt) {
  * @param {string} attempt.scenarioId - Scenario identifier (must be a string)
  * @returns {Array} Array of distilled memory units (empty if invalid or unknown scenario)
  */
-async function distillMemoryUnits(attempt) {
+async function distillMemoryUnits(attempt, options = {}) {
   if (!attempt || !attempt.scenarioId) return []
 
   if (typeof attempt.scenarioId !== 'string') {
     return []
   }
 
-  if (process.env.LLM_ENABLED === 'true') {
+  const distillStyle = options.distillStyle || 'template'
+  const llmEnabled = process.env.LLM_ENABLED === 'true'
+  const shouldUseLLM = distillStyle === 'ollama' && llmEnabled
+
+  if (shouldUseLLM) {
     try {
       const unit = await distillWithLLM(attempt)
-      if (unit) return [unit]
+      if (unit) {
+        if (attempt.scenarioId.startsWith('lever_puzzle')) {
+          const normalizedText = normalizeLeverSequenceText(attempt)
+          if (normalizedText) {
+            unit.type = 'lever_sequence_distilled'
+            unit.text = normalizedText
+            const defaultConfidence = attempt.success ? 0.9 : 0.55
+            const incoming = typeof unit.confidence === 'number' ? unit.confidence : defaultConfidence
+            unit.confidence = attempt.success
+              ? Math.max(incoming, defaultConfidence)
+              : Math.min(incoming, defaultConfidence)
+          }
+        }
+        return [unit]
+      }
     } catch (error) {
       console.error('LLM distillation failed, using template:', error.message)
     }
+  } else if (distillStyle === 'ollama' && !llmEnabled) {
+    console.warn('LLM distillation requested but LLM_ENABLED is not true; falling back to template distillation.')
+  }
+
+  if (distillStyle === 'none') {
+    return []
   }
 
   try {
@@ -179,7 +233,10 @@ async function distillMemoryUnits(attempt) {
       return distillLeverAttempt(attempt)
     }
 
-    if (attempt.scenarioId.startsWith('key_finder')) {
+    if (
+      attempt.scenarioId.startsWith('key_finder') ||
+      attempt.scenarioId.startsWith('key_unlock')
+    ) {
       return distillKeyFinderAttempt(attempt)
     }
 

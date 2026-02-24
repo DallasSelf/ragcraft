@@ -54,6 +54,7 @@ async function runLeverEpisode(bot, logger) {
   const maxAttempts = leverPuzzleConfig.maxAttempts || 6
   let attempts = 0
   let solved = false
+  const attemptHistory = []
 
   await closeDoor(bot, logger)
   await resetLevers(bot, logger)
@@ -64,10 +65,14 @@ async function runLeverEpisode(bot, logger) {
     const choice = chooseLeverSequence(
       scenarioId,
       leverPuzzleConfig.leverCount,
-      distilledMemories
+      distilledMemories,
+      attemptHistory
     )
 
     const sequence = choice.sequence
+    if (Array.isArray(sequence)) {
+      attemptHistory.push([...sequence])
+    }
 
     logger.log('lever_attempt', {
       runId,

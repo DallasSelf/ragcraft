@@ -7,18 +7,21 @@ const scenarios = {
     id: 'lever',
     displayName: 'Lever Puzzle',
     chatAliases: ['lever'],
+    order: 1,
     run: async (bot, logger, options = {}) => leverEpisodeEnhanced(bot, logger, options)
   },
   key: {
     id: 'key',
     displayName: 'Key Finder',
     chatAliases: ['key'],
+    order: 2,
     run: async (bot, logger, options = {}) => keyFinderEpisodeEnhanced(bot, logger, options)
   },
   maze: {
     id: 'maze',
     displayName: 'Maze',
     chatAliases: ['maze'],
+    order: 3,
     run: async (bot, logger, options = {}) => mazeEpisodeEnhanced(bot, logger, options)
   }
 }
@@ -34,4 +37,9 @@ function getScenarioByName(name) {
   return null
 }
 
-module.exports = { scenarios, getScenarioByName }
+function listScenarios() {
+  return Object.values(scenarios)
+    .sort((a, b) => (a.order || 0) - (b.order || 0))
+}
+
+module.exports = { scenarios, getScenarioByName, listScenarios }

@@ -1,4 +1,4 @@
-const { retrieveLeverAttempts } = require('../rag/kb')
+// Lever sequence selection utilities for puzzle agent
 
 function sequencesEqual(a, b) {
   if (!Array.isArray(a) || !Array.isArray(b)) return false
@@ -26,38 +26,67 @@ function permute(values) {
   return result
 }
 
-function parseSequenceFromText(text) {
-  const match = text && text.match(/sequence ([0-9-]+)/)
-  if (!match) return null
-  const seq = match[1].split('-').map(n => Number(n)).filter(n => !Number.isNaN(n))
-  return seq.length ? seq : null
+function parseNumbersFromFragment(fragment) {
+  if (typeof fragment !== 'string') return null
+  const numbers = fragment
+    .split(/[^0-9]+/)
+    .map(n => Number(n))
+    .filter(n => Number.isFinite(n))
+  return numbers.length ? numbers : null
 }
 
-function chooseLeverSequence(scenarioId, leverCount, distilledMemories = []) {
-  const attempts = retrieveLeverAttempts(scenarioId)
-  const tried = attempts.map(a => a.sequence)
+function parseSequenceFromText(text) {
+  if (typeof text !== 'string' || text.length === 0) return null
 
-  const avoidedSequences = distilledMemories
-    .map(mem => ({ mem, seq: parseSequenceFromText(mem.text) }))
-    .filter(({ mem, seq }) =>
-      mem &&
-      mem.type === 'lever_sequence_distilled' &&
-      typeof mem.text === 'string' &&
-      mem.text.includes('Failed') &&
-      Array.isArray(seq)
-    )
-    .map(x => x.seq)
+  const patterns = [
+    /sequence\s+([0-9]+(?:-[0-9]+)+)/i,
+    /sequence\s*[:\-]\s*([0-9,\s]+)/i,
+    /sequence\s*\[([^\]]+)\]/i,
+    /sequence\s*\(([^\)]+)\)/i
+  ]
 
-  const suggestedSequences = distilledMemories
-    .map(mem => ({ mem, seq: parseSequenceFromText(mem.text) }))
-    .filter(({ mem, seq }) =>
-      mem &&
-      mem.type === 'lever_sequence_distilled' &&
-      typeof mem.text === 'string' &&
-      mem.text.includes('Successful') &&
-      Array.isArray(seq)
-    )
-    .map(x => x.seq)
+  for (const pattern of patterns) {
+    const match = text.match(pattern)
+    if (match) {
+      const seq = parseNumbersFromFragment(match[1])
+      if (seq) return seq
+    }
+  }
+
+  return null
+}
+
+function classifyMemoryOutcome(mem) {
+  const text = typeof mem?.text === 'string' ? mem.text.toLowerCase() : ''
+  if (text.includes('successful')) return true
+  if (text.includes('failed') || text.includes('avoid')) return false
+
+  if (typeof mem?.confidence === 'number') {
+    if (mem.confidence >= 0.8) return true
+    if (mem.confidence <= 0.6) return false
+  }
+
+  return null
+}
+
+function chooseLeverSequence(scenarioId, leverCount, distilledMemories = [], attemptHistory = []) {
+  const tried = Array.isArray(attemptHistory) ? attemptHistory : []
+
+  const parsedMemories = distilledMemories
+    .filter(mem => mem && mem.type === 'lever_sequence_distilled')
+    .map(mem => ({
+      seq: parseSequenceFromText(mem.text),
+      outcome: classifyMemoryOutcome(mem)
+    }))
+    .filter(entry => Array.isArray(entry.seq) && entry.seq.length > 0)
+
+  const avoidedSequences = parsedMemories
+    .filter(entry => entry.outcome === false)
+    .map(entry => entry.seq)
+
+  const suggestedSequences = parsedMemories
+    .filter(entry => entry.outcome === true)
+    .map(entry => entry.seq)
 
   if (suggestedSequences.length > 0) {
     const firstGood = suggestedSequences.find(seq =>

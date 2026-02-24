@@ -17,7 +17,7 @@ function buildQueryText(observation, scenarioId) {
     return 'successful lever sequence puzzle solution'
   }
 
-  if (scenarioId.startsWith('key_finder')) {
+  if (scenarioId.startsWith('key_finder') || scenarioId.startsWith('key_unlock')) {
     const pos = observation?.position
     if (pos) {
       return `key search near position ${pos.x} ${pos.y} ${pos.z}`
@@ -43,7 +43,7 @@ async function ragRetrieveVector(params) {
     observation = {},
     topK = 5,
     includeDistilled = true,
-    includeRaw = false,  // Default to distilled only for efficiency
+    includeRaw = false,
     minSimilarity = 0.3
   } = params
 
@@ -66,13 +66,58 @@ async function ragRetrieveVector(params) {
  * @returns {Promise<Array>} - Retrieved memories
  */
 async function ragRetrieveHybrid(params) {
-  const { scenarioId, topK = 5 } = params
+  const {
+    scenarioId,
+    topK = 5,
+    includeDistilled = true,
+    includeRaw = false
+  } = params
 
   try {
-    const vectorResults = await ragRetrieveVector(params)
+    let vectorResults = await ragRetrieveVector({
+      scenarioId,
+      observation: params.observation,
+      topK,
+      includeDistilled,
+      includeRaw,
+      minSimilarity: params.minSimilarity
+    })
 
     if (vectorResults.length > 0) {
+      if (includeDistilled) {
+        const hasSuccessful = vectorResults.some(r =>
+          typeof r?.text === 'string' && r.text.includes('Successful')
+        )
+
+        if (!hasSuccessful) {
+          const distilled = retrieveDistilledMemories(scenarioId)
+            .filter(m => m.text && m.text.includes('Successful'))
+            .sort((a, b) => b.timestamp - a.timestamp)
+            .slice(0, topK)
+            .map(m => ({
+              ...m,
+              similarity: 1.0,
+              source: 'distilled_refresh',
+              boostedScore: 1.0
+            }))
+
+          if (distilled.length > 0) {
+            const existingIds = new Set(vectorResults.map(r => r.id))
+            const merged = vectorResults.concat(
+              distilled.filter(m => !existingIds.has(m.id))
+            )
+
+            merged.sort((a, b) => (b.boostedScore || 0) - (a.boostedScore || 0))
+            vectorResults = merged.slice(0, topK)
+          }
+        }
+      }
+
       return vectorResults
+    }
+
+    if (!includeDistilled) {
+      return []
     }
 
     console.log('Vector search returned no results, using fallback')

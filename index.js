@@ -1,7 +1,7 @@
 const mineflayer = require('mineflayer')
 const { pathfinder, Movements } = require('mineflayer-pathfinder')
 const mcDataLoader = require('minecraft-data')
-const { runScenario, runAllScenarios } = require('./runner/runScenario')
+const { runScenario, runAll } = require('./runner/runScenario')
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -49,7 +49,7 @@ bot.on('chat', async (username, message) => {
     await runWithLock(() => runScenario(bot, 'maze'))
   } else if (message === '!all') {
     await runWithLock(async () => {
-      await runAllScenarios(bot)
+      await runAll(bot)
       await wait(250)
     })
   }
