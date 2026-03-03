@@ -162,6 +162,11 @@ function distillMazeAttempt(attempt) {
     outcome: success ? 'success' : 'failed',
     stepCount,
     turnSequence,
+    optimalPathLength: attempt.optimalPathLength || stepCount,
+    wrongTurns: attempt.wrongTurns || 0,
+    revisitCount: attempt.revisitCount || 0,
+    decisionNodes: Array.isArray(attempt.decisionNodes) ? attempt.decisionNodes : [],
+    pathEfficiency: attempt.pathEfficiency || 0,
     rule: success
       ? serializedSequence
         ? `Successful route uses turn sequence ${serializedSequence}`

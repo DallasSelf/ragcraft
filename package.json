@@ -10,7 +10,8 @@
     "eval:clean": "CLEAR_STORE=true node evalRunner.js",
     "analyze": "node analyzeResults.js",
     "visualize": "node visualize.js",
-    "plots": "python generate_plots.py"
+    "plots": "python generate_plots.py",
+    "transfer:pipeline": "node transferExperiment.js"
   },
   "keywords": [],
   "author": "",

@@ -156,7 +156,7 @@ async function runKeyFinderEpisode(bot, logger) {
     })
 
     const rankedMemories = rankKeyMemories(retrievedMemories)
-    const defaultTarget = keyFinderConfig.defaultChestPos || keyFinderConfig.lockedChest || keyFinderConfig.keyItemPos
+    const defaultTarget = keyFinderConfig.defaultChestPos || keyFinderConfig.lockedChest
     const plan = chooseKeySearchPlan(defaultTarget, rankedMemories)
 
     logger.log('key_attempt', {

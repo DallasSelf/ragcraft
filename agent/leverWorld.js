@@ -27,7 +27,14 @@ async function debugScanLevers(bot, logger) {
   })
 }
 
+function ensureScenarioConfig(config) {
+  if (!config || typeof config !== 'object') {
+    throw new Error('Lever scenario configuration is required')
+  }
+}
+
 async function flipLever(bot, leverIndex, config, logger) {
+  ensureScenarioConfig(config)
   await debugScanLevers(bot, logger)
 
   const idx = leverIndex - 1
@@ -63,9 +70,68 @@ async function flipLever(bot, leverIndex, config, logger) {
 }
 
 async function trySequenceInWorld(bot, sequence, config, logger) {
+  ensureScenarioConfig(config)
   for (const leverIndex of sequence) {
     await flipLever(bot, leverIndex, config, logger)
   }
 }
 
-module.exports = { trySequenceInWorld }
+async function closeDoor(bot, logger, config) {
+  ensureScenarioConfig(config)
+  const pos = config.doorPowerBlock
+  if (!pos) return
+  const material = config.doorPowerOff
+  const cmd = `/setblock ${pos.x} ${pos.y} ${pos.z} ${material}`
+  bot.chat(cmd)
+  logger.log('lever_door_close', { cmd })
+  await wait(300)
+}
+
+async function openDoor(bot, logger, config) {
+  ensureScenarioConfig(config)
+  const pos = config.doorPowerBlock
+  if (!pos) return
+  const material = config.doorPowerOn
+  const cmd = `/setblock ${pos.x} ${pos.y} ${pos.z} ${material}`
+  bot.chat(cmd)
+  logger.log('lever_door_open', { cmd })
+  await wait(300)
+}
+
+async function resetLevers(bot, logger, config) {
+  ensureScenarioConfig(config)
+  const face = config.leverFace || 'wall'
+  const facing = config.leverFacing || 'north'
+  for (const pos of config.leverBlocks || []) {
+    const cmd = `/setblock ${pos.x} ${pos.y} ${pos.z} lever[face=${face},facing=${facing},powered=false]`
+    bot.chat(cmd)
+    logger.log('lever_reset_block', { cmd, pos })
+    await wait(150)
+  }
+  await wait(250)
+}
+
+async function teleportToLeverStart(bot, logger, config) {
+  ensureScenarioConfig(config)
+  const pos = config.spawnPosition
+  if (!pos) return
+  const cmd = `/tp ${bot.username} ${pos.x} ${pos.y} ${pos.z}`
+  bot.chat(cmd)
+  logger.log('lever_teleport_start', { cmd })
+  await wait(300)
+}
+
+function createLeverScenarioController(config) {
+  ensureScenarioConfig(config)
+  return {
+    teleportToStart: (bot, logger) => teleportToLeverStart(bot, logger, config),
+    closeDoor: (bot, logger) => closeDoor(bot, logger, config),
+    openDoor: (bot, logger) => openDoor(bot, logger, config),
+    resetLevers: (bot, logger) => resetLevers(bot, logger, config)
+  }
+}
+
+module.exports = {
+  trySequenceInWorld,
+  createLeverScenarioController
+}

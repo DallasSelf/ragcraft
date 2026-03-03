@@ -120,12 +120,19 @@ async function ingestMazeAttempt(attempt) {
     turnSequence: attempt.turnSequence,
     success: attempt.success,
     stepCount: attempt.stepCount,
+    wrongTurns: attempt.wrongTurns || 0,
+    revisitCount: attempt.revisitCount || 0,
+    pathEfficiency: attempt.pathEfficiency || 0,
+    optimalPathLength: attempt.optimalPathLength || null,
+    baselinePathLength: attempt.baselinePathLength || null,
+    decisionNodes: Array.isArray(attempt.decisionNodes) ? attempt.decisionNodes : [],
+    optimalPath: Array.isArray(attempt.optimalPath) ? attempt.optimalPath : [],
     timestamp: attempt.timestamp || Date.now()
   }
   kb.push(entry)
   saveKb(kb)
 
-  const text = `${attempt.success ? 'Successful' : 'Failed'} maze navigation with ${attempt.stepCount} steps`
+  const text = `${attempt.success ? 'Successful' : 'Failed'} maze navigation with ${attempt.stepCount} steps, ${entry.wrongTurns} wrong turns, efficiency ${entry.pathEfficiency || 0}`
   try {
     await addRawEpisode({
       id: entry.runId + '_' + attempt.attemptIndex,
@@ -142,6 +149,11 @@ function retrieveMazeAttempts(scenarioId) {
   return kb.filter(item => item.type === 'maze_attempt' && item.scenarioId === scenarioId)
 }
 
+function resetKb() {
+  kb = []
+  saveKb(kb)
+}
+
 module.exports = {
   ragRetrieve,
   ragIngestTrial,
@@ -150,5 +162,6 @@ module.exports = {
   ingestKeyFinderAttempt,
   retrieveKeyFinderAttempts,
   ingestMazeAttempt,
-  retrieveMazeAttempts
+  retrieveMazeAttempts,
+  resetKb
 }

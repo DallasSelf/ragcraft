@@ -29,6 +29,10 @@ function buildQueryText(observation, scenarioId) {
     return 'successful maze navigation turn sequence'
   }
 
+  if (scenarioId.startsWith('scout_area')) {
+    return 'environment scouting landmarks hazards interactables routes'
+  }
+
   return `task ${scenarioId} successful strategy`
 }
 

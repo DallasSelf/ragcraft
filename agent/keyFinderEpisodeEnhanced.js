@@ -10,6 +10,10 @@ const { ingestDistilledMemory } = require('../rag/distilledMemory')
 const { ragRetrieveHybrid } = require('../rag/retrieval')
 const { MetricsCollector } = require('../rag/eval/metrics')
 const { resolveMemoryMode } = require('./memoryModes')
+const { retrieveGoalAlignedClaims } = require('../rag/memory/goalRetriever')
+const { createScenarioPlan } = require('./planning/planner')
+const { snapshotInventory } = require('./planning/utils')
+const { createWorldModel } = require('./world_model')
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -20,15 +24,12 @@ const SEARCH_STEP = searchConfig.step || 4
 const STEPS_PER_ATTEMPT = searchConfig.stepsPerAttempt || 12
 const DETECTION_RADIUS = searchConfig.detectionRadius || 3
 const MEMORY_BIAS_RADIUS = searchConfig.memoryBiasRadius || 6
-const MIN_STEPS_BEFORE_KEY = searchConfig.minStepsBeforeKey || 2
 const MOVE_TIMEOUT_MS = searchConfig.moveTimeoutMs || 8000
 const MAX_MEMORY_TARGETS = searchConfig.maxMemoryTargets || 5
-const SEARCH_BOUNDS = searchConfig.bounds || {
-  minX: keyFinderConfig.keyItemPos.x - 8,
-  maxX: keyFinderConfig.keyItemPos.x + 8,
-  minZ: keyFinderConfig.keyItemPos.z - 8,
-  maxZ: keyFinderConfig.keyItemPos.z + 8,
-  y: keyFinderConfig.keyItemPos.y
+const DEFAULT_SEARCH_RADIUS = searchConfig.fallbackRadius || 16
+const SEARCH_BOUNDS = cloneBounds(searchConfig.bounds) || buildBoundsFromSpawn(keyFinderConfig.spawnPos, DEFAULT_SEARCH_RADIUS)
+if (SEARCH_BOUNDS && !Number.isFinite(SEARCH_BOUNDS.y) && keyFinderConfig.spawnPos) {
+  SEARCH_BOUNDS.y = keyFinderConfig.spawnPos.y
 }
 const ENTITY_SPOT_RADIUS = searchConfig.entitySpotRadius || 12
 const ENTITY_APPROACH_RADIUS = searchConfig.entityApproachRadius || 1.4
@@ -59,6 +60,29 @@ function cellKey(pos) {
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value))
+}
+
+function cloneBounds(bounds) {
+  if (!bounds || typeof bounds !== 'object') return null
+  return {
+    minX: Number.isFinite(bounds.minX) ? bounds.minX : bounds.min_x,
+    maxX: Number.isFinite(bounds.maxX) ? bounds.maxX : bounds.max_x,
+    minZ: Number.isFinite(bounds.minZ) ? bounds.minZ : bounds.min_z,
+    maxZ: Number.isFinite(bounds.maxZ) ? bounds.maxZ : bounds.max_z,
+    y: Number.isFinite(bounds.y) ? bounds.y : bounds.layer
+  }
+}
+
+function buildBoundsFromSpawn(spawn = { x: 0, y: 64, z: 0 }, radius = 16) {
+  const safeRadius = Number.isFinite(radius) ? Math.max(4, radius) : 16
+  const origin = spawn && typeof spawn === 'object' ? spawn : { x: 0, y: 64, z: 0 }
+  return {
+    minX: Math.floor(origin.x - safeRadius),
+    maxX: Math.ceil(origin.x + safeRadius),
+    minZ: Math.floor(origin.z - safeRadius),
+    maxZ: Math.ceil(origin.z + safeRadius),
+    y: origin.y
+  }
 }
 
 function snapToSearchPlane(pos = {}) {
@@ -120,7 +144,19 @@ function scoreMemoryTarget(memory) {
   return baseScore + successBonus
 }
 
-function buildMemoryTargetQueue(memories = [], limit = MAX_MEMORY_TARGETS) {
+function buildMemoryTargetQueue(memories = [], goalClaims = [], plan = null, limit = MAX_MEMORY_TARGETS) {
+  const preferredLocations = Array.isArray(plan?.metadata?.preferredLocations)
+    ? plan.metadata.preferredLocations.filter(isCoordinate)
+    : []
+
+  const planCandidates = preferredLocations.map(pos => ({ pos, success: true, score: 1.8 }))
+
+  const claimCandidates = extractLocationsFromClaims(goalClaims).map(pos => ({
+    pos,
+    success: true,
+    score: 2
+  }))
+
   const candidates = memories
     .filter(mem => mem && mem.type === 'key_finder_distilled' && typeof mem.text === 'string')
     .map(mem => ({
@@ -131,9 +167,11 @@ function buildMemoryTargetQueue(memories = [], limit = MAX_MEMORY_TARGETS) {
     .filter(entry => entry.pos)
     .sort((a, b) => b.score - a.score)
 
+  const combined = planCandidates.concat(claimCandidates, candidates)
+
   const unique = []
   const seenCells = new Set()
-  for (const candidate of candidates) {
+  for (const candidate of combined) {
     const key = cellKey(candidate.pos)
     if (seenCells.has(key)) continue
     unique.push(candidate)
@@ -142,6 +180,30 @@ function buildMemoryTargetQueue(memories = [], limit = MAX_MEMORY_TARGETS) {
   }
 
   return unique
+}
+
+function extractLocationsFromClaims(goalClaims = []) {
+  const positions = []
+  for (const claim of goalClaims) {
+    if (!claim || typeof claim !== 'object') continue
+    if (isCoordinate(claim.door_location)) {
+      positions.push(claim.door_location)
+    }
+    const locationEntities = Array.isArray(claim.entities?.location) ? claim.entities.location : []
+    for (const loc of locationEntities) {
+      if (isCoordinate(loc)) positions.push(loc)
+    }
+    const doorEntities = Array.isArray(claim.entities?.door) ? claim.entities.door : []
+    for (const door of doorEntities) {
+      if (isCoordinate(door?.location)) positions.push(door.location)
+    }
+  }
+  return positions
+}
+
+function isCoordinate(obj) {
+  if (!obj || typeof obj !== 'object') return false
+  return ['x', 'y', 'z'].every(axis => Number.isFinite(obj[axis]))
 }
 
 function nextMemoryTarget(queue, visitedCells) {
@@ -185,12 +247,7 @@ function chooseSearchWaypoint(memoryHintsOrMemories, visitedCells, opts = {}) {
 
     const avoidList = opts.customAvoid || hints.avoid
     const nearAvoid = avoidList.some(pt => distance2D(pt, candidate) <= MEMORY_BIAS_RADIUS)
-    const avoidTarget = opts.avoidNear
-    const avoidCenter = avoidTarget?.center
-    const avoidRadius = avoidTarget?.radius || 0
-    const nearForcedAvoid = avoidCenter ? distance2D(candidate, avoidCenter) <= avoidRadius : false
-
-    if (!nearAvoid && !nearForcedAvoid) {
+    if (!nearAvoid) {
       return candidate
     }
     attempts += 1
@@ -202,13 +259,31 @@ function chooseSearchWaypoint(memoryHintsOrMemories, visitedCells, opts = {}) {
 function hasKeyInInventory(bot) {
   const expectedId = keyFinderConfig.keyItem.id
   const custom = keyFinderConfig.keyItem.customName?.toLowerCase()
-  return bot.inventory.items().some(item => {
+  const items = bot && bot.inventory && typeof bot.inventory.items === 'function'
+    ? bot.inventory.items()
+    : []
+  return items.some(item => {
     if (!item) return false
     if (item.name !== expectedId) return false
     if (!custom) return true
     const label = (item.customName || item.displayName || '').toLowerCase()
     return label.includes(custom)
   })
+}
+
+function buildKeyWorldState(bot) {
+  return {
+    hasKeyInInventory: hasKeyInInventory(bot),
+    lockedChest: keyFinderConfig.lockedChest,
+    keyItem: keyFinderConfig.keyItem,
+    resourceType: 'key',
+    resourceSearch: {
+      bounds: SEARCH_BOUNDS,
+      maxActions: STEPS_PER_ATTEMPT,
+      stepSize: SEARCH_STEP,
+      description: 'key search grid'
+    }
+  }
 }
 
 function findKeyItem(bot) {
@@ -336,14 +411,6 @@ async function gotoPosition(bot, pos, label, actions, opts = {}) {
   }
 }
 
-function inDetectionRange(botPos, target, radius) {
-  if (!botPos || !target) return false
-  const dx = botPos.x - target.x
-  const dy = botPos.y - target.y
-  const dz = botPos.z - target.z
-  return Math.sqrt(dx * dx + dy * dy + dz * dz) <= radius
-}
-
 async function waitForKeyPickup(bot) {
   const timeoutMs = 6000
   const started = Date.now()
@@ -420,6 +487,7 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
   const memoryMode = resolveMemoryMode(mode)
 
   const metrics = new MetricsCollector(runId, scenarioId, mode)
+  const keyGoalContext = buildKeyGoalContext()
 
   logger.log('key_finder_episode_start', { runId, scenarioId, mode })
 
@@ -431,8 +499,83 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
   await ensureBotAtSpawn(bot, logger)
   ensureSearchMovements(bot)
   metrics.snapshotStore()
+  const worldModel = createWorldModel()
+
+  const loadGoalClaims = async attemptIndex => {
+    let claims = []
+    try {
+      claims = await retrieveGoalAlignedClaims({
+        goalText: keyGoalContext.text,
+        goal: keyGoalContext.goal,
+        topK: 5,
+        scenarioId
+      })
+    } catch (err) {
+      logger.log('key_goal_claim_error', {
+        runId,
+        attemptIndex,
+        message: err.message
+      })
+    }
+
+    if (claims.length > 0) {
+      logger.log('key_goal_claims', {
+        runId,
+        attemptIndex,
+        claimCount: claims.length,
+        explanations: claims.map(c => c.explanation)
+      })
+    }
+
+    if (claims.length > 0) {
+      worldModel.ingestClaims(claims)
+    }
+
+    return claims
+  }
+
+  let goalClaims = await loadGoalClaims(0)
+  let searchActionsAvoided = 0
 
   while (attempts < maxAttempts && !found) {
+
+    const plan = createScenarioPlan({
+      scenarioId,
+      goalText: keyGoalContext.text,
+      goal: keyGoalContext.goal,
+      worldState: buildKeyWorldState(bot),
+      inventory: snapshotInventory(bot),
+      claimMemories: goalClaims,
+      worldModel
+    })
+
+    const claimPriorityTarget = Array.isArray(plan.metadata?.preferredLocations)
+      ? plan.metadata.preferredLocations.find(isCoordinate)
+      : null
+
+    logger.log('key_plan', {
+      runId,
+      attemptIndex: attempts,
+      strategy: plan.strategy,
+      steps: plan.steps.map(step => ({ id: step.id, kind: step.kind, claimRef: step.claimRef })),
+      resourcePlan: plan.metadata?.resourceAcquisition || null
+    })
+
+    const resourcePlanMeta = plan.metadata?.resourceAcquisition
+    if (resourcePlanMeta) {
+      logger.log('key_resource_plan', {
+        runId,
+        attemptIndex: attempts,
+        resourceType: resourcePlanMeta.resourceType,
+        strategy: resourcePlanMeta.strategy,
+        avoidedSearchActions: resourcePlanMeta.avoidedSearchActions || 0,
+        searchBounds: resourcePlanMeta.searchBounds || null
+      })
+      if (Number.isFinite(resourcePlanMeta.avoidedSearchActions) && resourcePlanMeta.avoidedSearchActions > 0) {
+        searchActionsAvoided = Math.max(searchActionsAvoided, resourcePlanMeta.avoidedSearchActions)
+      }
+    }
+
     const retrievalStart = Date.now()
 
     const memories = await ragRetrieveHybrid({
@@ -445,7 +588,7 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
 
     const retrievalLatency = Date.now() - retrievalStart
     const memoryHints = parseMemoryHints(memories)
-    const memoryTargetQueue = buildMemoryTargetQueue(memories)
+    const memoryTargetQueue = buildMemoryTargetQueue(memories, goalClaims, plan)
 
     metrics.recordRetrieval({
       queryText: `key search near position ${bot.entity.position.x} ${bot.entity.position.y} ${bot.entity.position.z}`,
@@ -478,14 +621,22 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
 
     while (steps < STEPS_PER_ATTEMPT && !obtainedKey) {
       const stepNumber = steps + 1
-      const avoidNear = stepNumber <= MIN_STEPS_BEFORE_KEY
-        ? { center: keyFinderConfig.keyItemPos, radius: DETECTION_RADIUS * 3 }
-        : null
 
-      let waypoint
-      if (!obtainedKey && FORCED_KEY_STEP > 0 && stepNumber === FORCED_KEY_STEP) {
-        waypoint = snapToSearchPlane(keyFinderConfig.keyItemPos)
-        actions.push({ type: 'search_forced_key_waypoint', step: stepNumber, pos: waypoint })
+      let waypoint = null
+      if (
+        !obtainedKey &&
+        FORCED_KEY_STEP > 0 &&
+        stepNumber === FORCED_KEY_STEP &&
+        claimPriorityTarget &&
+        isCoordinate(claimPriorityTarget)
+      ) {
+        waypoint = snapToSearchPlane(claimPriorityTarget)
+        actions.push({
+          type: 'search_claim_waypoint',
+          step: stepNumber,
+          pos: waypoint,
+          source: 'preferred_location'
+        })
       } else {
         const memoryTarget = nextMemoryTarget(memoryTargetQueue, visitedCells)
         if (memoryTarget) {
@@ -500,7 +651,7 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
               : memoryTarget.score
           })
         } else {
-          waypoint = chooseSearchWaypoint(memoryHints, visitedCells, { avoidNear })
+          waypoint = chooseSearchWaypoint(memoryHints, visitedCells)
         }
       }
 
@@ -510,7 +661,6 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
         searchPath.push({ x: waypoint.x, y: waypoint.y, z: waypoint.z })
       }
 
-      const botPos = bot.entity.position
       let spottedEntity = null
 
       if (!obtainedKey) {
@@ -554,12 +704,6 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
         } else {
           actions.push({ type: 'key_entity_unreachable', pos: lastKnownKeyPos })
         }
-      } else if (
-        !obtainedKey &&
-        stepNumber >= MIN_STEPS_BEFORE_KEY &&
-        inDetectionRange(botPos, keyFinderConfig.keyItemPos, DETECTION_RADIUS)
-      ) {
-        actions.push({ type: 'key_location_empty', pos: keyFinderConfig.keyItemPos })
       }
 
       steps += 1
@@ -590,7 +734,7 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
       runId,
       attemptIndex: attempts,
       targetPos: keyFinderConfig.lockedChest,
-      keyPos: keyFinderConfig.keyItemPos,
+      keyPos: lastKnownKeyPos,
       searchPath,
       visitedCells: Array.from(visitedCells),
       actions,
@@ -617,6 +761,10 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
     attempts += 1
     metrics.snapshotStore()
 
+    if (!found && attempts < maxAttempts) {
+      goalClaims = await loadGoalClaims(attempts)
+    }
+
     if (!found) {
       await resetScenarioWorld(bot, logger)
       await ensureBotAtSpawn(bot, logger)
@@ -627,7 +775,8 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
 
   metrics.recordOutcome({
     success: found,
-    attempts
+    attempts,
+    searchActionsAvoided
   })
 
   metrics.save()
@@ -636,10 +785,34 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
     runId,
     scenarioId,
     attempts,
-    found
+    found,
+    searchActionsAvoided
   })
 
   return { runId, scenarioId, attempts, found }
 }
 
-module.exports = { runKeyFinderEpisodeEnhanced }
+function buildKeyGoalContext() {
+  const searchRegion = cloneBounds(keyFinderConfig.search?.bounds)
+  return {
+    text: 'Find the hidden key and unlock the locked chest.',
+    goal: {
+      goal_id: 'key_unlock',
+      goal_tags: ['key', 'unlock', 'chest', 'retrieve'],
+      entities: {
+        key: [],
+        chest: [keyFinderConfig.lockedChest],
+        door: [],
+        code: []
+      },
+      symbolic_entities: ['key', 'chest'],
+      search_region: searchRegion
+    }
+  }
+}
+
+module.exports = {
+  runKeyFinderEpisodeEnhanced,
+  resetKeyFinderWorld: resetScenarioWorld,
+  ensureKeyFinderSpawn: ensureBotAtSpawn
+}

@@ -5,7 +5,7 @@ const { runLeverEpisodeEnhanced } = require('./agent/leverEpisodeEnhanced')
 const { runMazeEpisodeEnhanced } = require('./agent/mazeEpisodeEnhanced')
 const { runKeyFinderEpisodeEnhanced } = require('./agent/keyFinderEpisodeEnhanced')
 const { createLogger } = require('./logging/logger')
-const { leverPuzzleConfig } = require('./scenarios/leverPuzzleConfig')
+const { getLeverScenarioView } = require('./scenarios/leverPuzzleConfig')
 const { mazeConfig } = require('./scenarios/mazeConfig')
 const { keyFinderConfig } = require('./scenarios/keyFinderConfig')
 const { printComparisonReport, printStoreStats, generateMarkdownReport } = require('./rag/eval/comparison')
@@ -19,6 +19,7 @@ function wait(ms) {
 }
 
 async function runEvaluation() {
+  const leverScenario = getLeverScenarioView()
   console.log('='.repeat(60))
   console.log('FULL RAG SYSTEM EVALUATION')
   console.log('='.repeat(60))
@@ -89,11 +90,11 @@ async function runEvaluation() {
   console.log('\n')
   printStoreStats()
 
-  printComparisonReport(leverPuzzleConfig.scenarioId)
+  printComparisonReport(leverScenario.scenarioId)
   printComparisonReport(mazeConfig.scenarioId)
   printComparisonReport(keyFinderConfig.scenarioId)
 
-  generateMarkdownReport(leverPuzzleConfig.scenarioId, path.join(__dirname, 'rag', 'eval', 'REPORT_LEVER.md'))
+  generateMarkdownReport(leverScenario.scenarioId, path.join(__dirname, 'rag', 'eval', 'REPORT_LEVER.md'))
   generateMarkdownReport(mazeConfig.scenarioId, path.join(__dirname, 'rag', 'eval', 'REPORT_MAZE.md'))
   generateMarkdownReport(keyFinderConfig.scenarioId, path.join(__dirname, 'rag', 'eval', 'REPORT_KEY.md'))
 

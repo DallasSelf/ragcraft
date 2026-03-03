@@ -5,12 +5,52 @@ const { getStoreStats } = require('../store/vectorStore')
 const metricsDir = path.join(__dirname, 'runs')
 if (!fs.existsSync(metricsDir)) fs.mkdirSync(metricsDir, { recursive: true })
 
+function toArray(value) {
+  if (!value) return []
+  if (Array.isArray(value)) return value.filter(Boolean).map(String)
+  if (typeof value === 'string') return [value]
+  if (typeof value === 'object') {
+    return Object.entries(value)
+      .filter(([, flag]) => Boolean(flag))
+      .map(([key]) => String(key))
+  }
+  return []
+}
+
+function normalizeRunContext(scenarioId, mode, provided = {}) {
+  const scenarioType = provided.scenarioType || provided.scenario_type || scenarioId
+  const goalType = provided.goalType || provided.goal_type || scenarioType
+  const conditionName = provided.conditionName || provided.condition_name || null
+  const scoutProvided = provided.scoutEnabled ?? provided.scout_enabled
+  const scoutEnabled = typeof scoutProvided === 'boolean' ? scoutProvided : false
+  const transferMode = provided.transferMode || provided.transfer_mode || mode
+  const transferFlags = Array.from(new Set(toArray(provided.transferFlags || provided.transfer_used_flags)))
+  const totalActions = Number(provided.totalActions ?? provided.total_actions ?? 0)
+  const hazardExposures = Number(provided.hazardExposures ?? provided.hazard_exposures ?? 0)
+  const redundantSearchEvents = Number(provided.redundantSearchEvents ?? provided.redundant_search_events ?? 0)
+
+  return {
+    scenario_type: scenarioType,
+    goal_type: goalType,
+    condition_name: conditionName,
+    scout_enabled: scoutEnabled,
+    transfer_mode: transferMode,
+    transfer_used_flags: transferFlags,
+    total_actions: Number.isFinite(totalActions) ? totalActions : 0,
+    completion_time_ms: null,
+    wrong_turns: null,
+    hazard_exposures: Number.isFinite(hazardExposures) ? hazardExposures : 0,
+    redundant_search_events: Number.isFinite(redundantSearchEvents) ? redundantSearchEvents : 0,
+    success: null
+  }
+}
+
 /**
  * Metrics tracking for RAG system evaluation
  */
 
 class MetricsCollector {
-  constructor(runId, scenarioId, mode = 'distilled') {
+  constructor(runId, scenarioId, mode = 'distilled', context = {}) {
     this.runId = runId
     this.scenarioId = scenarioId
     this.mode = mode  // 'distilled', 'raw', 'hybrid'
@@ -24,6 +64,7 @@ class MetricsCollector {
       storeSnapshots: [],
       taskOutcome: null
     }
+    this.runContext = normalizeRunContext(scenarioId, mode, context)
   }
 
   /**
@@ -63,7 +104,12 @@ class MetricsCollector {
       success: outcome.success || false,
       attempts: outcome.attempts || 0,
       totalSteps: outcome.steps || 0,
-      solved: outcome.solved || false
+      solved: outcome.solved || false,
+      wrongTurns: Number.isFinite(outcome.wrongTurns) ? outcome.wrongTurns : null,
+      revisits: Number.isFinite(outcome.revisits) ? outcome.revisits : null,
+      pathEfficiency: Number.isFinite(outcome.pathEfficiency) ? outcome.pathEfficiency : null,
+      optimalPathLength: Number.isFinite(outcome.optimalPathLength) ? outcome.optimalPathLength : null,
+      searchActionsAvoided: Number.isFinite(outcome.searchActionsAvoided) ? outcome.searchActionsAvoided : 0
     }
     this.metrics.endTime = Date.now()
   }
@@ -83,6 +129,7 @@ class MetricsCollector {
       : 0
 
     const finalStore = this.metrics.storeSnapshots[this.metrics.storeSnapshots.length - 1] || {}
+    const outcome = this.metrics.taskOutcome || {}
 
     return {
       totalRetrievals,
@@ -92,8 +139,13 @@ class MetricsCollector {
       finalStoreSize: finalStore.storeSizeBytes || 0,
       finalDistilledCount: finalStore.distilledCount || 0,
       finalRawCount: finalStore.rawCount || 0,
-      taskSuccess: this.metrics.taskOutcome?.success || false,
-      attemptsToSolve: this.metrics.taskOutcome?.attempts || 0
+      taskSuccess: outcome.success || false,
+      attemptsToSolve: outcome.attempts || 0,
+      mazeWrongTurns: outcome.wrongTurns ?? null,
+      mazeRevisits: outcome.revisits ?? null,
+      mazePathEfficiency: outcome.pathEfficiency ?? null,
+      mazeOptimalPathLength: outcome.optimalPathLength ?? null,
+      searchActionsAvoided: outcome.searchActionsAvoided || 0
     }
   }
 

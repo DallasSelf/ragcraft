@@ -44,6 +44,15 @@ function cellKey(pos) {
   return `${Math.round(pos.x)},${Math.round(pos.y)},${Math.round(pos.z)}`
 }
 
+function cloneCell(pos) {
+  if (!pos) return { x: 0, y: 0, z: 0 }
+  return {
+    x: Math.round(pos.x ?? 0),
+    y: Math.round(pos.y ?? 0),
+    z: Math.round(pos.z ?? 0)
+  }
+}
+
 function distance2D(a, b) {
   if (!a || !b) return Infinity
   return Math.hypot(a.x - b.x, a.z - b.z)
@@ -126,6 +135,88 @@ function buildInitialStack(sequence, fallback) {
     stack.push(fallback)
   }
   return stack
+}
+
+function compressSimplePath(sequence = []) {
+  if (!Array.isArray(sequence) || sequence.length === 0) return []
+  const stack = []
+  const stackKeys = []
+  sequence.forEach(cell => {
+    const cloned = cloneCell(cell)
+    const key = cellKey(cloned)
+    const existingIndex = stackKeys.indexOf(key)
+    if (existingIndex === -1) {
+      stack.push(cloned)
+      stackKeys.push(key)
+    } else {
+      stack.splice(existingIndex + 1)
+      stackKeys.splice(existingIndex + 1)
+    }
+  })
+  return stack
+}
+
+function computeDecisionNodes(path = []) {
+  if (!Array.isArray(path) || path.length < 3) return []
+  const nodes = []
+  for (let i = 1; i < path.length - 1; i++) {
+    const prev = path[i - 1]
+    const current = path[i]
+    const next = path[i + 1]
+    const dirIn = { x: current.x - prev.x, z: current.z - prev.z }
+    const dirOut = { x: next.x - current.x, z: next.z - current.z }
+    if ((dirIn.x === dirOut.x && dirIn.z === dirOut.z)) continue
+    if (dirIn.x === 0 && dirIn.z === 0) continue
+    if (dirOut.x === 0 && dirOut.z === 0) continue
+    nodes.push(cloneCell(current))
+  }
+  return nodes
+}
+
+function analyzeMazePath(sequence = []) {
+  if (!Array.isArray(sequence) || sequence.length === 0) {
+    return {
+      wrongTurns: 0,
+      revisitCount: 0,
+      optimalPath: [],
+      decisionNodes: [],
+      optimalPathLength: 0
+    }
+  }
+
+  const normalized = sequence.map(cloneCell)
+  const visited = new Set()
+  let revisits = 0
+  let wrongTurns = 0
+
+  for (let i = 0; i < normalized.length; i++) {
+    const key = cellKey(normalized[i])
+    if (visited.has(key)) {
+      revisits += 1
+    } else {
+      visited.add(key)
+    }
+
+    if (i <= normalized.length - 3) {
+      const aheadKey = cellKey(normalized[i + 2])
+      const betweenKey = cellKey(normalized[i + 1])
+      if (aheadKey === key && betweenKey !== key) {
+        wrongTurns += 1
+      }
+    }
+  }
+
+  const optimalPath = compressSimplePath(normalized)
+  const decisionNodes = computeDecisionNodes(optimalPath)
+  const optimalPathLength = Math.max(0, optimalPath.length - 1)
+
+  return {
+    wrongTurns,
+    revisitCount: revisits,
+    optimalPath,
+    decisionNodes,
+    optimalPathLength
+  }
 }
 
 function createRunState(bot, mazeConfig) {
@@ -365,12 +456,14 @@ async function trySolveMazeInWorld(bot, plan, mazeConfig, logger) {
 
   const movedToStart = await moveToStart(bot, state, logger)
   if (!movedToStart) {
+    const pathStats = analyzeMazePath(state.turnSequence)
     return {
       success: false,
       actions: state.actions,
       stepCount: state.stepCount,
       turnSequence: state.turnSequence,
-      reason: 'start_unreachable'
+      reason: 'start_unreachable',
+      pathStats
     }
   }
 
@@ -380,6 +473,8 @@ async function trySolveMazeInWorld(bot, plan, mazeConfig, logger) {
     await triggerExitBlock(bot, logger, mazeConfig).catch(err => {
       logger.log('maze_exit_trigger_error', { message: err.message })
     })
+
+    const pathStats = analyzeMazePath(state.turnSequence)
 
     logger.log('maze_attempt_end', {
       success: true,
@@ -394,7 +489,8 @@ async function trySolveMazeInWorld(bot, plan, mazeConfig, logger) {
       actions: state.actions,
       stepCount: state.stepCount,
       turnSequence: state.turnSequence,
-      reason: 'plan_completion'
+      reason: 'plan_completion',
+      pathStats
     }
   }
 
@@ -414,12 +510,15 @@ async function trySolveMazeInWorld(bot, plan, mazeConfig, logger) {
     distanceToGoal: distance2D(state.currentCell, state.goalPos)
   })
 
+  const pathStats = analyzeMazePath(state.turnSequence)
+
   return {
     success: exploreResult.success,
     actions: state.actions,
     stepCount: state.stepCount,
     turnSequence: state.turnSequence,
-    reason: exploreResult.reason
+    reason: exploreResult.reason,
+    pathStats
   }
 }
 

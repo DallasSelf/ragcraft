@@ -69,8 +69,12 @@ function classifyMemoryOutcome(mem) {
   return null
 }
 
-function chooseLeverSequence(scenarioId, leverCount, distilledMemories = [], attemptHistory = []) {
+function chooseLeverSequence(scenarioId, leverCount, distilledMemories = [], attemptHistory = [], options = {}) {
   const tried = Array.isArray(attemptHistory) ? attemptHistory : []
+  const goalSequences = extractSequencesFromGoalClaims(options.goalClaims || [])
+  const planSequences = Array.isArray(options.plan?.metadata?.claimSequences)
+    ? options.plan.metadata.claimSequences.map(seq => Array.isArray(seq) ? seq : null).filter(Boolean)
+    : []
 
   const parsedMemories = distilledMemories
     .filter(mem => mem && mem.type === 'lever_sequence_distilled')
@@ -88,13 +92,29 @@ function chooseLeverSequence(scenarioId, leverCount, distilledMemories = [], att
     .filter(entry => entry.outcome === true)
     .map(entry => entry.seq)
 
-  if (suggestedSequences.length > 0) {
-    const firstGood = suggestedSequences.find(seq =>
-      !tried.some(t => sequencesEqual(t, seq)) &&
-      !avoidedSequences.some(a => sequencesEqual(a, seq))
+  const prioritized = []
+  const appendSequence = (seq, source) => {
+    if (!Array.isArray(seq) || seq.length === 0) return
+    prioritized.push({ seq, source })
+  }
+  for (const seq of planSequences) {
+    appendSequence(seq, 'plan_claim')
+  }
+  for (const seq of goalSequences) {
+    appendSequence(seq, 'goal_claim')
+  }
+  for (const seq of suggestedSequences) {
+    appendSequence(seq, 'distilled_memory_success')
+  }
+
+  if (prioritized.length > 0) {
+    const firstGood = prioritized.find(entry =>
+      Array.isArray(entry.seq) &&
+      !tried.some(t => sequencesEqual(t, entry.seq)) &&
+      !avoidedSequences.some(a => sequencesEqual(a, entry.seq))
     )
     if (firstGood) {
-      return { sequence: firstGood, source: 'distilled_memory_success' }
+      return { sequence: firstGood.seq, source: firstGood.source }
     }
   }
 
@@ -120,6 +140,32 @@ function chooseLeverSequence(scenarioId, leverCount, distilledMemories = [], att
 
   const idx = Math.floor(Math.random() * allPerms.length)
   return { sequence: allPerms[idx], source: 'last_resort' }
+}
+
+function extractSequencesFromGoalClaims(goalClaims = []) {
+  return goalClaims
+    .map(claim => {
+      if (!claim) return null
+      if (Array.isArray(claim.sequence)) {
+        return claim.sequence.map(n => Number(n)).filter(Number.isFinite)
+      }
+      if (Array.isArray(claim.entities?.code) && claim.entities.code.length > 0) {
+        const codeEntity = claim.entities.code.find(entry => Array.isArray(entry.sequence) || typeof entry.value === 'string')
+        if (codeEntity) {
+          if (Array.isArray(codeEntity.sequence)) {
+            return codeEntity.sequence.map(n => Number(n)).filter(Number.isFinite)
+          }
+          if (typeof codeEntity.value === 'string') {
+            return parseNumbersFromFragment(codeEntity.value)
+          }
+        }
+      }
+      if (typeof claim.code === 'string') {
+        return parseNumbersFromFragment(claim.code)
+      }
+      return null
+    })
+    .filter(seq => Array.isArray(seq) && seq.length > 0)
 }
 
 module.exports = { chooseLeverSequence }

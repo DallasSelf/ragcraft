@@ -5,6 +5,71 @@ const { embedText, cosineSimilarity } = require('../embeddings/embedder')
 const storeDir = __dirname
 const vectorFile = path.join(storeDir, 'vectors.json')
 
+function formatCoordinates(pos) {
+  if (!pos || typeof pos !== 'object') return null
+  const { x, y, z } = pos
+  if (![x, y, z].every(v => Number.isFinite(v))) return null
+  return `${x},${y},${z}`
+}
+
+function describeDoorClaim(memory) {
+  const doorEntity = memory.entities?.door?.[0]
+  const coordText = formatCoordinates(memory.door_location || doorEntity?.location)
+  const codeEntity = memory.entities?.code?.[0]
+  const sequence = Array.isArray(codeEntity?.sequence) && codeEntity.sequence.length > 0
+    ? codeEntity.sequence.join('-')
+    : memory.code
+  if (!sequence) return null
+  const doorId = memory.door_id || doorEntity?.id || 'door'
+  const locationText = coordText ? ` at (${coordText})` : ''
+  return `Door ${doorId}${locationText} opens when toggling levers ${sequence} in order.`
+}
+
+function deriveDistilledText(memory) {
+  if (!memory || typeof memory !== 'object') return null
+
+  const direct = typeof memory.text === 'string' ? memory.text.trim() : ''
+  if (direct) return direct
+
+  const recipe = typeof memory.action_recipe === 'string' ? memory.action_recipe.trim() : ''
+  if (recipe) return recipe
+
+  if (typeof memory.how_to_apply === 'string' && memory.how_to_apply.trim()) {
+    return memory.how_to_apply.trim()
+  }
+
+  const normalizedType = typeof memory.type === 'string' ? memory.type.toLowerCase() : ''
+  if (normalizedType === 'door_code_claim') {
+    const doorText = describeDoorClaim(memory)
+    if (doorText) return doorText
+  }
+
+  const description = typeof memory.description === 'string' ? memory.description.trim() : ''
+  if (description) return description
+
+  const summary = typeof memory.summary === 'string' ? memory.summary.trim() : ''
+  if (summary) return summary
+
+  if (Array.isArray(memory.goal_tags) && memory.goal_tags.length > 0) {
+    const scenarioLabel = memory.scenarioId || memory.task_id || 'scenario'
+    return `Claim for ${scenarioLabel} related to goals: ${memory.goal_tags.join(', ')}`
+  }
+
+  if (memory.scenarioId || memory.task_id) {
+    return `Claim for scenario ${memory.scenarioId || memory.task_id}`
+  }
+
+  try {
+    return JSON.stringify({
+      id: memory.id,
+      type: memory.type || memory.memory_type,
+      scenarioId: memory.scenarioId || memory.task_id || null
+    })
+  } catch {
+    return null
+  }
+}
+
 /**
  * Vector store structure:
  * {
@@ -40,15 +105,17 @@ let vectorStore = loadVectorStore()
  * @param {Object} memory - Distilled memory unit with text
  */
 async function addDistilledMemory(memory) {
-  if (!memory || !memory.text) {
+  const text = deriveDistilledText(memory)
+  if (!text) {
     console.warn('addDistilledMemory: invalid memory', memory)
     return
   }
 
-  const embedding = await embedText(memory.text)
+  const embedding = await embedText(text)
 
   const entry = {
     ...memory,
+    text,
     embedding,
     addedAt: Date.now()
   }

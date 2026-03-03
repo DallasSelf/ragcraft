@@ -13,6 +13,13 @@ const MODE_PROFILES = {
     distillStyle: 'template',
     dataset: 'distilled_template'
   },
+  hybrid: {
+    id: 'hybrid',
+    includeRaw: true,
+    includeDistilled: true,
+    distillStyle: 'template',
+    dataset: 'hybrid_mix'
+  },
   'distilled-ollama': {
     id: 'distilled-ollama',
     includeRaw: false,

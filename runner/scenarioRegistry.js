@@ -1,8 +1,17 @@
 const { runLeverEpisodeEnhanced: leverEpisodeEnhanced } = require('../agent/leverEpisodeEnhanced')
 const { runKeyFinderEpisodeEnhanced: keyFinderEpisodeEnhanced } = require('../agent/keyFinderEpisodeEnhanced')
 const { runMazeEpisodeEnhanced: mazeEpisodeEnhanced } = require('../agent/mazeEpisodeEnhanced')
+const { runCaptiveRescueEpisode } = require('../agent/captiveRescueEpisode')
+const { runScoutEpisode } = require('../agent/scoutEpisode')
 
 const scenarios = {
+  scout: {
+    id: 'scout_area_v1',
+    displayName: 'Scout Mode',
+    chatAliases: ['scout', 'survey', 'scan'],
+    order: 0,
+    run: async (bot, logger, options = {}) => runScoutEpisode(bot, logger, options)
+  },
   lever: {
     id: 'lever',
     displayName: 'Lever Puzzle',
@@ -23,6 +32,13 @@ const scenarios = {
     chatAliases: ['maze'],
     order: 3,
     run: async (bot, logger, options = {}) => mazeEpisodeEnhanced(bot, logger, options)
+  },
+  captive: {
+    id: 'captive_rescue_v1',
+    displayName: 'Captive Rescue',
+    chatAliases: ['captive', 'rescue'],
+    order: 4,
+    run: async (bot, logger, options = {}) => runCaptiveRescueEpisode(bot, logger, options)
   }
 }
 

@@ -13,13 +13,18 @@ function normalizeSequence(sequence) {
   )
 }
 
-function chooseMazePlan(scenarioId, mazeConfig, distilledMemories = []) {
+function chooseMazePlan(scenarioId, mazeConfig, distilledMemories = [], options = {}) {
   const attempts = retrieveMazeAttempts(scenarioId)
   const triedSequences = new Set(
     attempts
       .map(a => normalizeSequence(a.turnSequence))
       .filter(Boolean)
   )
+
+  const goalClaimSequences = extractTurnSequencesFromClaims(options.goalClaims || [])
+  const planSequences = Array.isArray(options.plan?.metadata?.preferredTurnSequences)
+    ? options.plan.metadata.preferredTurnSequences.filter(seq => Array.isArray(seq) && seq.length > 0)
+    : []
 
   const parsedDistilled = distilledMemories
     .filter(mem => mem.type === 'maze_distilled')
@@ -44,7 +49,9 @@ function chooseMazePlan(scenarioId, mazeConfig, distilledMemories = []) {
     .map(item => item.data.turnSequence)
     .filter(seq => Array.isArray(seq) && seq.length > 0)
 
-  const preferredSuccess = successCandidates.find(seq => {
+  const combinedSuccess = planSequences.concat(goalClaimSequences, successCandidates)
+
+  const preferredSuccess = combinedSuccess.find(seq => {
     const normalized = normalizeSequence(seq)
     if (!normalized) return false
     if (triedSequences.has(normalized)) return false
@@ -83,6 +90,31 @@ function chooseMazePlan(scenarioId, mazeConfig, distilledMemories = []) {
     turnSequence: null,
     source: avoidedSequences.size > 0 ? 'avoidance_mode' : 'naive_exploration'
   }
+}
+
+function extractTurnSequencesFromClaims(goalClaims = []) {
+  const sequences = []
+  for (const claim of goalClaims) {
+    if (!claim) continue
+    if (Array.isArray(claim.turnSequence) && claim.turnSequence.length > 0) {
+      sequences.push(claim.turnSequence)
+      continue
+    }
+    if (typeof claim.action_recipe === 'string' && claim.action_recipe.includes('turn sequence')) {
+      try {
+        const jsonMatch = claim.action_recipe.match(/\[.*\]/)
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0])
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            sequences.push(parsed)
+          }
+        }
+      } catch (err) {
+        // ignore parse failures for free-form text
+      }
+    }
+  }
+  return sequences
 }
 
 module.exports = { chooseMazePlan }

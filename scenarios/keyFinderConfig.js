@@ -8,7 +8,7 @@ const searchBounds = {
   y: 63
 }
 
-const keyFinderConfig = {
+const SECRET_CONFIG = Object.freeze({
   scenarioId: 'key_finder_v1',
   spawnPos: { x: 7, y: 64, z: 10 },
   keyItemPos,
@@ -40,7 +40,55 @@ const keyFinderConfig = {
     clearKeyTemplate: '/clear __PLAYER__ tripwire_hook'
   },
   maxAttempts: 6
+})
+
+const PUBLIC_FIELDS = [
+  'scenarioId',
+  'spawnPos',
+  'lockedChest',
+  'keyItem',
+  'search',
+  'commands',
+  'maxAttempts'
+]
+
+function cloneValue(value) {
+  if (value == null) return value
+  if (Array.isArray(value)) return value.map(cloneValue)
+  if (typeof value === 'object') {
+    return Object.keys(value).reduce((acc, key) => {
+      acc[key] = cloneValue(value[key])
+      return acc
+    }, {})
+  }
+  return value
 }
+
+function extractFields(source, fields) {
+  return fields.reduce((acc, key) => {
+    if (source[key] === undefined) return acc
+    acc[key] = cloneValue(source[key])
+    return acc
+  }, {})
+}
+
+function flagSecretAccess(field) {
+  const err = new Error(`Denied secret access to ${field}`)
+  const stack = err.stack ? err.stack.split('\n').slice(1, 3).join(' | ') : 'no-stack'
+  console.warn(`[secret-guard] ${field} is restricted. Access ignored.`, { stack })
+}
+
+const publicConfig = extractFields(SECRET_CONFIG, PUBLIC_FIELDS)
+Object.defineProperty(publicConfig, 'keyItemPos', {
+  enumerable: false,
+  configurable: false,
+  get() {
+    flagSecretAccess('keyFinderConfig.keyItemPos')
+    return undefined
+  }
+})
+
+const keyFinderConfig = Object.freeze(publicConfig)
 
 module.exports = { keyFinderConfig }
 

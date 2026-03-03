@@ -1,85 +1,163 @@
 const { v4: uuidv4 } = require('uuid')
-const { trySequenceInWorld } = require('./leverWorld')
+const { trySequenceInWorld, createLeverScenarioController } = require('./leverWorld')
 const { chooseLeverSequence } = require('./leverStrategy')
-const { leverPuzzleConfig } = require('../scenarios/leverPuzzleConfig')
+const { getLeverScenarioView, verifyLeverSequence, getLeverLockType } = require('../scenarios/leverPuzzleConfig')
 const { ingestLeverAttempt } = require('../rag/kb')
 const { distillMemoryUnits } = require('../memoryDistiller')
 const { ingestDistilledMemory } = require('../rag/distilledMemory')
 const { ragRetrieveHybrid } = require('../rag/retrieval')
 const { MetricsCollector } = require('../rag/eval/metrics')
 const { resolveMemoryMode } = require('./memoryModes')
+const { retrieveGoalAlignedClaims } = require('../rag/memory/goalRetriever')
+const { createScenarioPlan } = require('./planning/planner')
+const { snapshotInventory } = require('./planning/utils')
+const { debugLog } = require('../logging/debugFlags')
+const { createWorldModel } = require('./world_model')
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-async function closeDoor(bot, logger) {
-  const pos = leverPuzzleConfig.doorPowerBlock
-  const material = leverPuzzleConfig.doorPowerOff
-  const cmd = `/setblock ${pos.x} ${pos.y} ${pos.z} ${material}`
-  bot.chat(cmd)
-  logger.log('lever_door_close', { cmd })
-  await wait(300)
-}
-
-async function openDoor(bot, logger) {
-  const pos = leverPuzzleConfig.doorPowerBlock
-  const material = leverPuzzleConfig.doorPowerOn
-  const cmd = `/setblock ${pos.x} ${pos.y} ${pos.z} ${material}`
-  bot.chat(cmd)
-  logger.log('lever_door_open', { cmd })
-  await wait(300)
-}
-
-async function resetLevers(bot, logger) {
-  const face = leverPuzzleConfig.leverFace || 'wall'
-  const facing = leverPuzzleConfig.leverFacing || 'north'
-
-  for (const pos of leverPuzzleConfig.leverBlocks) {
-    const cmd = `/setblock ${pos.x} ${pos.y} ${pos.z} lever[face=${face},facing=${facing},powered=false]`
-    bot.chat(cmd)
-    logger.log('lever_reset_block', { cmd, pos })
-    await wait(150)
+function buildLeverWorldState(leverScenario, lockType) {
+  return {
+    doorLocation: leverScenario.doorBlock,
+    leverCount: leverScenario.leverCount,
+    doorLocked: true,
+    doorId: leverScenario.doorId || `${leverScenario.scenarioId || 'lever'}_door`,
+    lockType: lockType || null
   }
-
-  await wait(250)
 }
 
-async function teleportToLeverStart(bot, logger) {
-  const pos = leverPuzzleConfig.spawnPosition
-  if (!pos) return
-
-  const cmd = `/tp ${bot.username} ${pos.x} ${pos.y} ${pos.z}`
-  bot.chat(cmd)
-  logger.log('lever_teleport_start', { cmd })
-  await wait(300)
+function buildLeverGoalContext(leverScenario, lockType) {
+  const doorLocation = leverScenario.doorBlock || null
+  const leverBlocks = Array.isArray(leverScenario.leverBlocks) ? leverScenario.leverBlocks : []
+  const doorId = leverScenario.doorId || `${leverScenario.scenarioId || 'lever'}_door`
+  return {
+    text: 'Open the locked exit door using the correct lever code sequence.',
+    goal: {
+      goal_id: 'lever_unlock',
+      goal_tags: ['door', 'code', 'lever', 'unlock'],
+      entities: {
+        door: doorLocation
+          ? [{ id: doorId, location: doorLocation, lockType: lockType || null }]
+          : [],
+        code: [{ length: leverScenario.leverCount }],
+        lever: leverBlocks.map((pos, idx) => ({ id: `lever_${idx + 1}`, location: pos }))
+      },
+      symbolic_entities: ['door', 'lever', 'code'],
+      lockType: lockType || null
+    }
+  }
 }
 
 /**
  * Enhanced lever episode with vector RAG retrieval and metrics
  */
 async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
-  const scenarioId = leverPuzzleConfig.scenarioId
+  const leverScenario = getLeverScenarioView()
+  const lockType = getLeverLockType(leverScenario)
+  const scenarioController = createLeverScenarioController(leverScenario)
+  const scenarioId = leverScenario.scenarioId
   const runId = uuidv4()
-    const mode = options.mode || 'distilled'
-    const memoryMode = resolveMemoryMode(mode)
+  const mode = options.mode || 'distilled'
+  const memoryMode = resolveMemoryMode(mode)
 
   const metrics = new MetricsCollector(runId, scenarioId, mode)
+  const leverGoalContext = buildLeverGoalContext(leverScenario, lockType)
 
   logger.log('lever_episode_start', { runId, scenarioId, mode })
 
-  const maxAttempts = leverPuzzleConfig.maxAttempts || 6
+  const maxAttempts = leverScenario.maxAttempts || 6
   let attempts = 0
   let solved = false
+  let solvedSequence = null
   const attemptHistory = []
 
-  await teleportToLeverStart(bot, logger)
-  await closeDoor(bot, logger)
-  await resetLevers(bot, logger)
+  await scenarioController.teleportToStart(bot, logger)
+  await scenarioController.closeDoor(bot, logger)
+  await scenarioController.resetLevers(bot, logger)
 
   metrics.snapshotStore()
 
+  const worldModel = createWorldModel()
+
+  const loadGoalClaims = async attemptIndex => {
+    let claims = []
+    try {
+      claims = await retrieveGoalAlignedClaims({
+        goalText: leverGoalContext.text,
+        goal: leverGoalContext.goal,
+        topK: 4,
+        scenarioId
+      })
+    } catch (err) {
+      logger.log('lever_goal_claim_error', {
+        runId,
+        attemptIndex,
+        message: err.message
+      })
+    }
+
+    if (claims.length > 0) {
+      logger.log('lever_goal_claims', {
+        runId,
+        attemptIndex,
+        claimCount: claims.length,
+        explanations: claims.map(c => c.explanation)
+      })
+    }
+
+    debugLog('retrieval', 'Lever goal claims', {
+      runId,
+      scenarioId,
+      attemptIndex,
+      claims_found: claims.length,
+      samples: claims.slice(0, 2).map(claim => ({
+        id: claim.id || claim.memory_id || 'unknown',
+        explanation: claim.explanation,
+        text_preview: typeof claim.text === 'string' ? claim.text.slice(0, 80) : null
+      }))
+    })
+
+    if (claims.length > 0) {
+      worldModel.ingestClaims(claims)
+    }
+
+    return claims
+  }
+
+  let goalClaims = await loadGoalClaims(0)
+
   while (attempts < maxAttempts && !solved) {
+
+    const plan = createScenarioPlan({
+      scenarioId,
+      goalText: leverGoalContext.text,
+      goal: leverGoalContext.goal,
+      worldState: buildLeverWorldState(leverScenario, lockType),
+      inventory: snapshotInventory(bot),
+      claimMemories: goalClaims,
+      worldModel
+    })
+
+    logger.log('lever_plan', {
+      runId,
+      attemptIndex: attempts,
+      strategy: plan.strategy,
+      steps: plan.steps.map(step => ({ id: step.id, kind: step.kind, claimRef: step.claimRef })),
+      unlockStrategy: plan.metadata?.doorUnlockPlan || null
+    })
+
+    debugLog('plan', 'Lever plan generated', {
+      runId,
+      scenarioId,
+      attemptIndex: attempts,
+      strategy: plan.strategy,
+      step_count: plan.steps.length,
+      claim_refs: plan.metadata?.claimReferences || [],
+      unlockStrategy: plan.metadata?.doorUnlockPlan || null
+    })
+
     const retrievalStart = Date.now()
 
     const memories = await ragRetrieveHybrid({
@@ -99,11 +177,28 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
       source: memoryMode.dataset
     })
 
+    debugLog('retrieval', 'Lever memory retrieval', {
+      runId,
+      scenarioId,
+      attemptIndex: attempts,
+      dataset: memoryMode.dataset,
+      memory_count: memories.length,
+      latency_ms: retrievalLatency,
+      top_memory: memories[0]
+        ? {
+            id: memories[0].id || memories[0].memory_id || 'unknown',
+            similarity: memories[0].similarity,
+            text_preview: typeof memories[0].text === 'string' ? memories[0].text.slice(0, 60) : null
+          }
+        : null
+    })
+
     const choice = chooseLeverSequence(
       scenarioId,
-      leverPuzzleConfig.leverCount,
+      leverScenario.leverCount,
       memories,
-      attemptHistory
+      attemptHistory,
+      { goalClaims, plan }
     )
 
     const sequence = choice.sequence
@@ -120,11 +215,23 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
       retrievalLatency
     })
 
-    await trySequenceInWorld(bot, sequence, leverPuzzleConfig, logger)
+    debugLog('claims', 'Lever sequence decision', {
+      runId,
+      scenarioId,
+      attemptIndex: attempts,
+      sequence,
+      source: choice.source,
+      avoided_sequences: attemptHistory.length,
+      claim_support: {
+        goal_claims: goalClaims.length,
+        plan_claims: plan.metadata?.claimReferences?.length || 0
+      }
+    })
+
+    await trySequenceInWorld(bot, sequence, leverScenario, logger)
     await wait(300)
 
-    const isCorrect =
-      JSON.stringify(sequence) === JSON.stringify(leverPuzzleConfig.correctSequence)
+    const isCorrect = verifyLeverSequence(sequence)
 
     const attemptLog = {
       scenarioId,
@@ -150,16 +257,17 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
     })
 
     if (isCorrect) {
-      await openDoor(bot, logger)
+      await scenarioController.openDoor(bot, logger)
       logger.log('lever_solved', {
         runId,
         attempts: attempts + 1,
         sequence
       })
       solved = true
+      solvedSequence = Array.isArray(sequence) ? [...sequence] : null
     } else {
-      await closeDoor(bot, logger)
-      await resetLevers(bot, logger)
+      await scenarioController.closeDoor(bot, logger)
+      await scenarioController.resetLevers(bot, logger)
       logger.log('lever_incorrect', {
         runId,
         attemptIndex: attempts,
@@ -170,6 +278,10 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
     }
 
     metrics.snapshotStore()
+
+    if (!solved && attempts < maxAttempts) {
+      goalClaims = await loadGoalClaims(attempts)
+    }
   }
 
   metrics.recordOutcome({
@@ -187,7 +299,24 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
     solved
   })
 
-  return { runId, scenarioId, attempts, solved }
+  const successSequence = solvedSequence ? [...solvedSequence] : null
+  const successEvidence = solved
+    ? {
+        doorUnlocked: true,
+        verification: 'door_open_event',
+        sequence: successSequence,
+        doorLocation: leverScenario.doorBlock,
+        doorId: leverScenario.doorId || `${scenarioId}_door`,
+        howToApply: successSequence && successSequence.length > 0
+          ? `Toggle levers in order ${successSequence.join('-')} to open the door.`
+          : 'Toggle the known lever sequence to open the door.',
+        sourceEpisodeId: runId,
+        confidence: 0.97,
+        lockType
+      }
+    : null
+
+  return { runId, scenarioId, attempts, solved, successEvidence }
 }
 
 module.exports = { runLeverEpisodeEnhanced }
