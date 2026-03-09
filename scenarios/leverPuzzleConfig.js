@@ -1,3 +1,5 @@
+const { FACILITY_POINTS } = require('./facilityLayout')
+
 const SECRET_CONFIG = Object.freeze({
   scenarioId: 'lever_puzzle_3',
   leverCount: 3,
@@ -9,9 +11,9 @@ const SECRET_CONFIG = Object.freeze({
   ],
   leverFace: 'wall',
   leverFacing: 'west',
-  spawnPosition: { x: 13, y: 64, z: 0 },
-  doorBlock: { x: 13, y: 63, z: 2 },
-  doorPowerBlock: { x: 13, y: 63, z: 2 },
+  spawnPosition: { ...FACILITY_POINTS.leverRoomCenter },
+  doorBlock: { ...FACILITY_POINTS.leverDoorBase },
+  doorPowerBlock: { ...FACILITY_POINTS.leverDoorBase },
   doorPowerOn: 'redstone_block',
   doorPowerOff: 'stripped_warped_stem',
   doorId: 'lever_exit_door',

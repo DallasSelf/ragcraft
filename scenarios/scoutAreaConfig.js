@@ -1,12 +1,22 @@
+const { FACILITY_POINTS, FACILITY_BOUNDS, FACILITY_CENTER, FACILITY_RADIUS } = require('./facilityLayout')
+
 const DEFAULT_SCOUT_CONFIG = Object.freeze({
   scenarioId: 'scout_area_v1',
-  center: { x: 12, y: 65, z: 12 },
-  radius: 14,
-  scanRadius: 6,
-  maxSteps: 18,
-  gridStep: 4,
-  spawnPosition: { x: 12, y: 65, z: 12 },
-  navigationTimeoutMs: 12000
+  center: { ...FACILITY_CENTER },
+  radius: FACILITY_RADIUS,
+  scanRadius: 7,
+  maxSteps: 28,
+  gridStep: 3,
+  spawnPosition: { ...FACILITY_POINTS.leverRoomCenter },
+  cornerA: { ...FACILITY_BOUNDS.cornerA },
+  cornerB: { ...FACILITY_BOUNDS.cornerB },
+  priorityWaypoints: [
+    FACILITY_POINTS.mazeEntranceDoor,
+    FACILITY_POINTS.captiveDoorBase,
+    FACILITY_POINTS.supplyRoomDoor,
+    FACILITY_POINTS.captiveChest
+  ].map(point => ({ ...point })),
+  navigationTimeoutMs: 14000
 })
 
 function toPoint(value, fallback = { x: 0, y: 64, z: 0 }) {
@@ -48,6 +58,18 @@ function computeBounds(params) {
   }
 }
 
+function normalizeWaypointArray(values, fallbackY) {
+  if (!Array.isArray(values)) return []
+  const defaultFallback = Number.isFinite(fallbackY) ? fallbackY : DEFAULT_SCOUT_CONFIG.center.y
+  return values
+    .map(value => toPoint(value, { x: 0, y: defaultFallback, z: 0 }))
+    .map(point => ({
+      x: Math.round(point.x),
+      y: Number.isFinite(point.y) ? point.y : defaultFallback,
+      z: Math.round(point.z)
+    }))
+}
+
 function resolveScoutAreaConfig(overrides = {}) {
   const boundsInput = overrides.bounds || {}
   const merged = {
@@ -61,6 +83,7 @@ function resolveScoutAreaConfig(overrides = {}) {
     spawnPosition: overrides.spawnPosition || DEFAULT_SCOUT_CONFIG.spawnPosition,
     cornerA: overrides.cornerA || boundsInput.cornerA,
     cornerB: overrides.cornerB || boundsInput.cornerB,
+    priorityWaypoints: overrides.priorityWaypoints || DEFAULT_SCOUT_CONFIG.priorityWaypoints,
     navigationTimeoutMs: overrides.navigationTimeoutMs ?? DEFAULT_SCOUT_CONFIG.navigationTimeoutMs
   }
 
@@ -71,13 +94,17 @@ function resolveScoutAreaConfig(overrides = {}) {
   const maxSteps = Math.max(1, Math.floor(resolveNumber(merged.maxSteps, DEFAULT_SCOUT_CONFIG.maxSteps)))
   const gridStep = Math.max(2, Math.floor(resolveNumber(merged.gridStep, DEFAULT_SCOUT_CONFIG.gridStep)))
   const navigationTimeoutMs = Math.max(4000, resolveNumber(merged.navigationTimeoutMs, DEFAULT_SCOUT_CONFIG.navigationTimeoutMs))
+  const resolvedCornerA = merged.cornerA || DEFAULT_SCOUT_CONFIG.cornerA
+  const resolvedCornerB = merged.cornerB || DEFAULT_SCOUT_CONFIG.cornerB
 
   const bounds = computeBounds({
     center,
     radius,
-    cornerA: merged.cornerA,
-    cornerB: merged.cornerB
+    cornerA: resolvedCornerA,
+    cornerB: resolvedCornerB
   })
+  const priorityWaypoints = normalizeWaypointArray(merged.priorityWaypoints, center.y)
+
 
   return {
     scenarioId: DEFAULT_SCOUT_CONFIG.scenarioId,
@@ -88,7 +115,8 @@ function resolveScoutAreaConfig(overrides = {}) {
     gridStep,
     spawnPosition,
     bounds,
-    navigationTimeoutMs
+    navigationTimeoutMs,
+    priorityWaypoints
   }
 }
 

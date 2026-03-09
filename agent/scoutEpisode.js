@@ -8,6 +8,8 @@ const { HAZARD_BLOCK_TAGS, DEFAULT_HAZARD_RADIUS, SAFE_PATH_BUFFER_RADIUS } = re
 const LANDMARK_KEYS = ['beacon', 'bell', 'lodestone', 'campfire', 'fountain', 'portal']
 const INTERACTABLE_KEYS = ['lever', 'button', 'pressure_plate', 'tripwire']
 const TOOL_BLOCKS = ['crafting_table', 'smithing_table', 'anvil', 'grindstone', 'loom', 'cartography_table', 'stonecutter', 'brewing_stand', 'enchanting_table']
+const SUPPLY_BLOCK_KEYS = ['chest', 'trapped_chest', 'barrel', 'ender_chest', 'shulker_box']
+const FRAME_ENTITY_TYPES = ['item_frame', 'glow_item_frame']
 const DOOR_KEYS = ['door', 'fence_gate', 'trapdoor']
 const SAFE_PATH_MIN_DISTANCE = 2
 
@@ -182,6 +184,22 @@ function detectHazards(bot, scanRadius) {
     maxDistance: scanRadius,
     count: 32
   })
+}
+
+function detectSupplyCaches(bot, scanRadius) {
+  return bot.findBlocks({
+    matching: block => block && SUPPLY_BLOCK_KEYS.some(key => block.name.includes(key)),
+    maxDistance: scanRadius,
+    count: 32
+  })
+}
+
+function detectItemFrames(bot, scanRadius) {
+  if (!Number.isFinite(scanRadius) || scanRadius <= 0) return []
+  const origin = bot.entity.position
+  return Object.values(bot.entities)
+    .filter(entity => entity && FRAME_ENTITY_TYPES.includes(entity.name))
+    .filter(entity => origin.distanceTo(entity.position) <= scanRadius)
 }
 
 function hazardKey3D(pos) {
@@ -364,6 +382,24 @@ function detectFeatures(bot, config, runCtx) {
     pushClaim(claims, claim, dedupe, `tool:${blockName}:${loc.x}:${loc.y}:${loc.z}`)
   }
 
+  const supplyPositions = detectSupplyCaches(bot, config.scanRadius)
+  for (const pos of supplyPositions) {
+    const loc = quantize(pos)
+    const blockName = blockNameAt(bot, pos)
+    const description = `Supply cache ${prettify(blockName)} located at (${loc.x}, ${loc.y}, ${loc.z}).`
+    const claim = createClaimPayload({
+      type: 'SupplyCacheClaim',
+      description,
+      goalTags: ['scouting', 'supply'],
+      location: loc,
+      metadata: { block: blockName },
+      confidence: 0.8,
+      runId,
+      scenarioId
+    })
+    pushClaim(claims, claim, dedupe, `supply:${blockName}:${loc.x}:${loc.y}:${loc.z}`)
+  }
+
   const doorPositions = detectDoors(bot, config.scanRadius)
   for (const pos of doorPositions) {
     const loc = quantize(pos)
@@ -402,6 +438,26 @@ function detectFeatures(bot, config, runCtx) {
       scenarioId
     })
     pushClaim(claims, claim, dedupe, `hazard:${blockName}:${loc.x}:${loc.y}:${loc.z}`)
+  }
+
+  const itemFrames = detectItemFrames(bot, config.scanRadius)
+  for (const frame of itemFrames) {
+    const loc = quantize(frame.position)
+    const description = `Item frame observed at (${loc.x}, ${loc.y}, ${loc.z}).`
+    const claim = createClaimPayload({
+      type: 'ItemFrameClaim',
+      description,
+      goalTags: ['scouting', 'frame', 'supply'],
+      location: loc,
+      metadata: {
+        frameType: frame.name,
+        facing: frame.metadata?.[6]?.value ?? null
+      },
+      confidence: 0.74,
+      runId,
+      scenarioId
+    })
+    pushClaim(claims, claim, dedupe, `item_frame:${loc.x}:${loc.y}:${loc.z}`)
   }
 
   return claims
@@ -444,12 +500,23 @@ async function runScoutEpisode(bot, logger, options = {}) {
   await teleportToStart(bot, logger, config.spawnPosition)
 
   const waypoints = buildWaypointGrid(config.bounds, config.gridStep, config.center)
+  if (Array.isArray(config.priorityWaypoints) && config.priorityWaypoints.length > 0) {
+    config.priorityWaypoints.forEach(point => {
+      if (!point) return
+      waypoints.push({
+        x: Math.round(point.x),
+        y: Number.isFinite(point.y) ? point.y : config.center.y,
+        z: Math.round(point.z)
+      })
+    })
+  }
   const visitedCells = new Set()
   const claims = []
   const dedupe = new Set()
   const visitLog = []
   const routeLog = []
   const hazardRecords = new Map()
+  const failedWaypointCounts = new Map()
   let steps = 0
   let failedMoves = 0
 
@@ -475,6 +542,7 @@ async function runScoutEpisode(bot, logger, options = {}) {
     routeLog.push({ from: currentPos, to: arrivedPos, success: navigation.success })
 
     if (navigation.success) {
+      failedWaypointCounts.delete(cellKey(target))
       const routeClaim = buildRouteClaim(currentPos, arrivedPos, scenarioId, runId, steps + 1)
       pushClaim(claims, routeClaim, dedupe, `route:${routeClaim.metadata.start.x}:${routeClaim.metadata.end.x}:${steps}`)
       const featureClaims = detectFeatures(bot, config, runCtx)
@@ -487,6 +555,12 @@ async function runScoutEpisode(bot, logger, options = {}) {
       trackSafePathSegments(hazardRecords, currentPos, arrivedPos)
     } else {
       failedMoves += 1
+      const waypointKey = cellKey(target)
+      const attempts = (failedWaypointCounts.get(waypointKey) || 0) + 1
+      failedWaypointCounts.set(waypointKey, attempts)
+      if (attempts >= 2) {
+        visitedCells.add(waypointKey)
+      }
     }
 
     visitLog.push({

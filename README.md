@@ -169,6 +169,10 @@ Join the server in Minecraft Java Edition
 
 Use the chat commands to trigger scenarios
 
+Memory Profiles (Raw vs Distilled)
+
+You can keep testing data separated without manual file juggling. When you run `node run.js <scenario> --mode raw`, the agent automatically switches to a dedicated `raw` profile that writes to `rag/store/vectors.raw.json`, `rag/kb.raw.json`, and `rag/distilledMemory/memory.raw.json`, so raw experiments never touch the default distilled knowledge base. All other modes continue to use the existing `distilled` profile (`vectors.json`, `kb.json`, `memory.json`). Override the selection explicitly with `--memory-profile raw|distilled` whenever you need to mix-and-match (for example, `node run.js maze --mode distilled --memory-profile raw` runs the planner with distilled logic but keeps the blank raw data store).
+
 One-command bootstrap
 
 If you want a single command that boots the Paper server, launches the bot, and runs a scenario loop, you have two options:

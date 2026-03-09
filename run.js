@@ -1,5 +1,10 @@
 require('dotenv').config()
 
+const { applyMemoryProfile } = require('./rag/memory/profile')
+
+const parsedArgs = parseArgs(process.argv)
+applyMemoryProfile({ mode: parsedArgs.mode, profile: parsedArgs.memoryProfile })
+
 const mineflayer = require('mineflayer')
 const { pathfinder, Movements } = require('mineflayer-pathfinder')
 const mcDataLoader = require('minecraft-data')
@@ -7,7 +12,7 @@ const { runScenario } = require('./runner/runScenario')
 const { listScenarios } = require('./runner/scenarioRegistry')
 
 function parseArgs(argv) {
-  const out = { scenario: null, mode: 'distilled', runLabel: '' }
+  const out = { scenario: null, mode: 'distilled', runLabel: '', memoryProfile: null }
 
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i]
@@ -23,6 +28,11 @@ function parseArgs(argv) {
 
     if (a === '--label' && argv[i + 1]) {
       out.runLabel = argv[++i]
+      continue
+    }
+
+    if (a === '--memory-profile' && argv[i + 1]) {
+      out.memoryProfile = argv[++i]
       continue
     }
   }
@@ -42,12 +52,12 @@ function createScenarioBot() {
   return bot
 }
 
-async function main() {
-  const { scenario, mode, runLabel } = parseArgs(process.argv)
+async function main(args) {
+  const { scenario, mode, runLabel } = args
 
   if (!scenario) {
     const available = listScenarios().map(s => s.id).join(', ')
-    console.log(`Usage: node run.js <scenario> [--mode rag|distilled|distilled-ollama] [--label text]`)
+    console.log(`Usage: node run.js <scenario> [--mode rag|distilled|distilled-ollama] [--label text] [--memory-profile raw|distilled]`)
     console.log(`Scenarios: ${available}`)
     process.exit(1)
   }
@@ -71,4 +81,4 @@ async function main() {
   })
 }
 
-main()
+main(parsedArgs)

@@ -7,11 +7,14 @@ const {
   createEpisodeMemory,
   validateMemoryRecord
 } = require('./memory/schema')
+const { getProfileAwarePath, onMemoryProfileChange } = require('./memory/profile')
 
 const distilledDir = path.join(__dirname, 'distilledMemory')
 if (!fs.existsSync(distilledDir)) fs.mkdirSync(distilledDir, { recursive: true })
 
-const distilledFile = path.join(distilledDir, 'memory.json')
+function getDistilledFilePath() {
+  return getProfileAwarePath(distilledDir, 'memory.json')
+}
 
 function normalizeCollection(records, type) {
   if (!Array.isArray(records)) return []
@@ -45,9 +48,10 @@ function normalizeStore(raw) {
 }
 
 function loadStore() {
-  if (!fs.existsSync(distilledFile)) return { claims: [], episodes: [] }
+  const file = getDistilledFilePath()
+  if (!fs.existsSync(file)) return { claims: [], episodes: [] }
   try {
-    const raw = fs.readFileSync(distilledFile, 'utf8')
+    const raw = fs.readFileSync(file, 'utf8')
     const parsed = JSON.parse(raw)
     return normalizeStore(parsed)
   } catch {
@@ -56,10 +60,15 @@ function loadStore() {
 }
 
 function saveStore(store) {
-  fs.writeFileSync(distilledFile, JSON.stringify(store, null, 2), 'utf8')
+  const file = getDistilledFilePath()
+  fs.writeFileSync(file, JSON.stringify(store, null, 2), 'utf8')
 }
 
 let memoryStore = loadStore()
+
+onMemoryProfileChange(() => {
+  memoryStore = loadStore()
+})
 
 function addToStore(record) {
   if (record.memory_type === MemoryTypes.EPISODE) {

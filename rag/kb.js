@@ -2,16 +2,20 @@
 const fs = require('fs')
 const path = require('path')
 const { addRawEpisode } = require('./store/vectorStore')
+const { getProfileAwarePath, onMemoryProfileChange } = require('./memory/profile')
 
 const ragDir = __dirname
 if (!fs.existsSync(ragDir)) fs.mkdirSync(ragDir, { recursive: true })
 
-const kbFile = path.join(ragDir, 'kb.json')
+function getKbFilePath() {
+  return getProfileAwarePath(ragDir, 'kb.json')
+}
 
 function loadKb() {
-  if (!fs.existsSync(kbFile)) return []
+  const file = getKbFilePath()
+  if (!fs.existsSync(file)) return []
   try {
-    const raw = fs.readFileSync(kbFile, 'utf8')
+    const raw = fs.readFileSync(file, 'utf8')
     return JSON.parse(raw)
   } catch {
     return []
@@ -19,10 +23,15 @@ function loadKb() {
 }
 
 function saveKb(kb) {
-  fs.writeFileSync(kbFile, JSON.stringify(kb, null, 2), 'utf8')
+  const file = getKbFilePath()
+  fs.writeFileSync(file, JSON.stringify(kb, null, 2), 'utf8')
 }
 
 let kb = loadKb()
+
+onMemoryProfileChange(() => {
+  kb = loadKb()
+})
 
 function ragRetrieve(query) {
   const scenarioId = query.scenarioId

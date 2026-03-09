@@ -5,6 +5,7 @@ const { distillClaimsFromEpisode } = require('../rag/memory/claimDistiller')
 const { ingestDistilledMemory } = require('../rag/distilledMemory')
 const { attachHazardExposureLogger } = require('../agent/utils/hazardExposureTracker')
 const { buildRunContext } = require('../agent/utils/runContext')
+const { applySafetyRails } = require('../agent/utils/safetyRails')
 
 function safeSlug(v) {
   return String(v).replace(/[^a-zA-Z0-9_-]+/g, '_')
@@ -26,6 +27,7 @@ async function runScenario(bot, scenarioName, options = {}) {
   const scenarioDir = path.join(baseDir, scenario.id)
 
   const logger = createLogger({ dirPath: scenarioDir, fileBase: safeSlug(runId) })
+  applySafetyRails(bot, logger)
   const executionMode = options.mode || 'default'
   const runContext = buildRunContext({ scenarioId: scenario.id, mode: executionMode })
   const hazardStats = { exposureCount: 0 }

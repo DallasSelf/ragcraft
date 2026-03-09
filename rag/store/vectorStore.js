@@ -1,9 +1,13 @@
 const fs = require('fs')
 const path = require('path')
 const { embedText, cosineSimilarity } = require('../embeddings/embedder')
+const { getProfileAwarePath, onMemoryProfileChange } = require('../memory/profile')
 
 const storeDir = __dirname
-const vectorFile = path.join(storeDir, 'vectors.json')
+
+function getVectorFilePath() {
+  return getProfileAwarePath(storeDir, 'vectors.json')
+}
 
 function formatCoordinates(pos) {
   if (!pos || typeof pos !== 'object') return null
@@ -83,11 +87,12 @@ function deriveDistilledText(memory) {
  */
 
 function loadVectorStore() {
-  if (!fs.existsSync(vectorFile)) {
+  const file = getVectorFilePath()
+  if (!fs.existsSync(file)) {
     return { distilled: [], raw: [] }
   }
   try {
-    const data = fs.readFileSync(vectorFile, 'utf8')
+    const data = fs.readFileSync(file, 'utf8')
     return JSON.parse(data)
   } catch {
     return { distilled: [], raw: [] }
@@ -95,10 +100,15 @@ function loadVectorStore() {
 }
 
 function saveVectorStore(store) {
-  fs.writeFileSync(vectorFile, JSON.stringify(store, null, 2), 'utf8')
+  const file = getVectorFilePath()
+  fs.writeFileSync(file, JSON.stringify(store, null, 2), 'utf8')
 }
 
 let vectorStore = loadVectorStore()
+
+onMemoryProfileChange(() => {
+  vectorStore = loadVectorStore()
+})
 
 /**
  * Add distilled memory to vector store
@@ -220,11 +230,12 @@ async function searchVectorStore(queryText, options = {}) {
  * Get store statistics
  */
 function getStoreStats() {
+  const file = getVectorFilePath()
   return {
     distilledCount: vectorStore.distilled.length,
     rawCount: vectorStore.raw.length,
     totalCount: vectorStore.distilled.length + vectorStore.raw.length,
-    storeSizeBytes: fs.existsSync(vectorFile) ? fs.statSync(vectorFile).size : 0
+    storeSizeBytes: fs.existsSync(file) ? fs.statSync(file).size : 0
   }
 }
 
