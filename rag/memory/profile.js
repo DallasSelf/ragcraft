@@ -1,11 +1,18 @@
 const path = require('path')
 
 const DEFAULT_PROFILE = 'distilled'
+const DEFAULT_MODE = 'distilled'
+
 let activeProfile = normalizeProfile(process.env.RAG_MEMORY_PROFILE || DEFAULT_PROFILE)
+let activeMode = normalizeMode(process.env.RAG_MEMORY_MODE || DEFAULT_MODE)
 const listeners = new Set()
 
 function normalizeProfile(input) {
   return (input || '').toString().trim().toLowerCase() || DEFAULT_PROFILE
+}
+
+function normalizeMode(input) {
+  return (input || '').toString().trim().toLowerCase() || DEFAULT_MODE
 }
 
 function getMemoryProfile() {
@@ -36,7 +43,7 @@ function onMemoryProfileChange(listener) {
 }
 
 function profileFromMode(mode) {
-  const normalized = (mode || '').toString().trim().toLowerCase()
+  const normalized = normalizeMode(mode)
   if (normalized === 'raw' || normalized === 'rag') {
     return 'raw'
   }
@@ -44,11 +51,13 @@ function profileFromMode(mode) {
 }
 
 function applyMemoryProfile({ mode, profile }) {
+  activeMode = normalizeMode(mode)
+
   if (profile) {
     setMemoryProfile(profile)
     return
   }
-  const derived = profileFromMode(mode)
+  const derived = profileFromMode(activeMode)
   setMemoryProfile(derived)
 }
 
@@ -68,12 +77,23 @@ function getProfileAwarePath(baseDir, baseName) {
   return path.join(baseDir, fileName)
 }
 
+function getMemoryMode() {
+  return activeMode
+}
+
+function isRawModeActive() {
+  return activeMode === 'raw'
+}
+
 module.exports = {
   DEFAULT_PROFILE,
+  DEFAULT_MODE,
   getMemoryProfile,
+  getMemoryMode,
   setMemoryProfile,
   profileFromMode,
   applyMemoryProfile,
+  isRawModeActive,
   getProfileAwarePath,
   onMemoryProfileChange
 }

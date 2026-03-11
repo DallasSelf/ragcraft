@@ -1,4 +1,11 @@
 const MODE_PROFILES = {
+  raw: {
+    id: 'raw',
+    includeRaw: false,
+    includeDistilled: false,
+    distillStyle: 'none',
+    dataset: 'raw_blank'
+  },
   rag: {
     id: 'rag',
     includeRaw: true,
@@ -28,8 +35,6 @@ const MODE_PROFILES = {
     dataset: 'distilled_ollama'
   }
 }
-
-MODE_PROFILES.raw = MODE_PROFILES.rag
 
 function resolveMemoryMode(mode = 'distilled') {
   return MODE_PROFILES[mode] || MODE_PROFILES.distilled

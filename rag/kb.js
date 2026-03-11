@@ -2,7 +2,7 @@
 const fs = require('fs')
 const path = require('path')
 const { addRawEpisode } = require('./store/vectorStore')
-const { getProfileAwarePath, onMemoryProfileChange } = require('./memory/profile')
+const { getProfileAwarePath, onMemoryProfileChange, isRawModeActive } = require('./memory/profile')
 
 const ragDir = __dirname
 if (!fs.existsSync(ragDir)) fs.mkdirSync(ragDir, { recursive: true })
@@ -34,6 +34,7 @@ onMemoryProfileChange(() => {
 })
 
 function ragRetrieve(query) {
+  if (isRawModeActive()) return []
   const scenarioId = query.scenarioId
   const items = kb.filter(item => item.scenarioId === scenarioId && item.success)
   const sorted = items.sort((a, b) => b.timestamp - a.timestamp)
@@ -41,6 +42,7 @@ function ragRetrieve(query) {
 }
 
 function ragIngestTrial(trial) {
+  if (isRawModeActive()) return
   const item = {
     scenarioId: trial.scenarioId,
     runId: trial.runId,
@@ -55,6 +57,7 @@ function ragIngestTrial(trial) {
 }
 
 async function ingestLeverAttempt(attempt) {
+  if (isRawModeActive()) return
   const entry = {
     type: 'lever_attempt',
     scenarioId: attempt.scenarioId,
@@ -80,10 +83,12 @@ async function ingestLeverAttempt(attempt) {
 }
 
 function retrieveLeverAttempts(scenarioId) {
+  if (isRawModeActive()) return []
   return kb.filter(item => item.type === 'lever_attempt' && item.scenarioId === scenarioId)
 }
 
 async function ingestKeyFinderAttempt(attempt) {
+  if (isRawModeActive()) return
   const entry = {
     type: 'key_attempt',
     scenarioId: attempt.scenarioId,
@@ -116,10 +121,12 @@ async function ingestKeyFinderAttempt(attempt) {
 }
 
 function retrieveKeyFinderAttempts(scenarioId) {
+  if (isRawModeActive()) return []
   return kb.filter(item => item.type === 'key_attempt' && item.scenarioId === scenarioId)
 }
 
 async function ingestMazeAttempt(attempt) {
+  if (isRawModeActive()) return
   const entry = {
     type: 'maze_attempt',
     scenarioId: attempt.scenarioId,
@@ -155,6 +162,7 @@ async function ingestMazeAttempt(attempt) {
 }
 
 function retrieveMazeAttempts(scenarioId) {
+  if (isRawModeActive()) return []
   return kb.filter(item => item.type === 'maze_attempt' && item.scenarioId === scenarioId)
 }
 

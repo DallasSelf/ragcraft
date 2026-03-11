@@ -5,18 +5,20 @@ const DEFAULT_SCOUT_CONFIG = Object.freeze({
   center: { ...FACILITY_CENTER },
   radius: FACILITY_RADIUS,
   scanRadius: 7,
-  maxSteps: 28,
+  maxSteps: 56,
   gridStep: 3,
-  spawnPosition: { ...FACILITY_POINTS.leverRoomCenter },
+  spawnPosition: { ...FACILITY_POINTS.scoutSpawn },
   cornerA: { ...FACILITY_BOUNDS.cornerA },
   cornerB: { ...FACILITY_BOUNDS.cornerB },
   priorityWaypoints: [
+    FACILITY_POINTS.leverDoorBase,
     FACILITY_POINTS.mazeEntranceDoor,
     FACILITY_POINTS.captiveDoorBase,
     FACILITY_POINTS.supplyRoomDoor,
     FACILITY_POINTS.captiveChest
   ].map(point => ({ ...point })),
-  navigationTimeoutMs: 14000
+  navigationTimeoutMs: 14000,
+  waypointJitter: 0.35
 })
 
 function toPoint(value, fallback = { x: 0, y: 64, z: 0 }) {
@@ -84,7 +86,8 @@ function resolveScoutAreaConfig(overrides = {}) {
     cornerA: overrides.cornerA || boundsInput.cornerA,
     cornerB: overrides.cornerB || boundsInput.cornerB,
     priorityWaypoints: overrides.priorityWaypoints || DEFAULT_SCOUT_CONFIG.priorityWaypoints,
-    navigationTimeoutMs: overrides.navigationTimeoutMs ?? DEFAULT_SCOUT_CONFIG.navigationTimeoutMs
+    navigationTimeoutMs: overrides.navigationTimeoutMs ?? DEFAULT_SCOUT_CONFIG.navigationTimeoutMs,
+    waypointJitter: overrides.waypointJitter ?? overrides.waypoint_jitter ?? DEFAULT_SCOUT_CONFIG.waypointJitter
   }
 
   const center = toPoint(merged.center, DEFAULT_SCOUT_CONFIG.center)
@@ -94,6 +97,7 @@ function resolveScoutAreaConfig(overrides = {}) {
   const maxSteps = Math.max(1, Math.floor(resolveNumber(merged.maxSteps, DEFAULT_SCOUT_CONFIG.maxSteps)))
   const gridStep = Math.max(2, Math.floor(resolveNumber(merged.gridStep, DEFAULT_SCOUT_CONFIG.gridStep)))
   const navigationTimeoutMs = Math.max(4000, resolveNumber(merged.navigationTimeoutMs, DEFAULT_SCOUT_CONFIG.navigationTimeoutMs))
+  const waypointJitter = Math.max(0, resolveNumber(merged.waypointJitter, DEFAULT_SCOUT_CONFIG.waypointJitter))
   const resolvedCornerA = merged.cornerA || DEFAULT_SCOUT_CONFIG.cornerA
   const resolvedCornerB = merged.cornerB || DEFAULT_SCOUT_CONFIG.cornerB
 
@@ -116,7 +120,8 @@ function resolveScoutAreaConfig(overrides = {}) {
     spawnPosition,
     bounds,
     navigationTimeoutMs,
-    priorityWaypoints
+    priorityWaypoints,
+    waypointJitter
   }
 }
 

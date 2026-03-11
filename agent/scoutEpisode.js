@@ -12,6 +12,21 @@ const SUPPLY_BLOCK_KEYS = ['chest', 'trapped_chest', 'barrel', 'ender_chest', 's
 const FRAME_ENTITY_TYPES = ['item_frame', 'glow_item_frame']
 const DOOR_KEYS = ['door', 'fence_gate', 'trapdoor']
 const SAFE_PATH_MIN_DISTANCE = 2
+const DETOUR_PRIMARY_RADII = [2, 4, 6]
+const DETOUR_ESCAPE_RADII = [1, 2, 3]
+const SLIDE_DISTANCES = [1, 2, 3]
+const SLIDE_MAX_ITERATIONS = 4
+const SLIDE_TIMEOUT_MIN_MS = 1800
+const DETOUR_OFFSETS = Object.freeze([
+  { x: 1, z: 0 },
+  { x: -1, z: 0 },
+  { x: 0, z: 1 },
+  { x: 0, z: -1 },
+  { x: 1, z: 1 },
+  { x: -1, z: 1 },
+  { x: 1, z: -1 },
+  { x: -1, z: -1 }
+])
 
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -60,7 +75,7 @@ function buildWaypointGrid(bounds, step, center) {
   return waypoints
 }
 
-function chooseNextWaypoint(current, waypoints, visited, gridStep) {
+function chooseNextWaypoint(current, waypoints, visited, gridStep, jitter = 0) {
   const candidates = waypoints.filter(point => !visited.has(cellKey(point)))
   if (candidates.length === 0) return null
 
@@ -68,12 +83,124 @@ function chooseNextWaypoint(current, waypoints, visited, gridStep) {
   for (const point of candidates) {
     const novelty = 1 / (1 + countVisitedNeighbors(point, visited, gridStep))
     const dist = distance2D(current, point)
-    const score = novelty * 2 - dist * 0.01
+    const randomness = jitter > 0 ? (Math.random() - 0.5) * jitter : 0
+    const score = novelty * 2 - dist * 0.01 + randomness
     if (!best || score > best.score) {
       best = { point, score }
     }
   }
   return best.point
+}
+
+function clampPointToBounds(point, bounds) {
+  if (!bounds) return point
+  return {
+    x: Math.max(bounds.min.x, Math.min(bounds.max.x, point.x)),
+    y: Math.max(bounds.min.y, Math.min(bounds.max.y, point.y)),
+    z: Math.max(bounds.min.z, Math.min(bounds.max.z, point.z))
+  }
+}
+
+function generateDetourCandidates(current, target, bounds) {
+  const candidates = []
+  const seen = new Set()
+
+  function pushCandidate(basePoint) {
+    if (!basePoint) return
+    const snapped = {
+      x: Math.round(basePoint.x),
+      y: Math.round(basePoint.y),
+      z: Math.round(basePoint.z)
+    }
+    const clamped = clampPointToBounds(snapped, bounds)
+    const key = cellKey(clamped)
+    if (seen.has(key)) return
+    seen.add(key)
+    candidates.push(clamped)
+  }
+
+  if (current) {
+    DETOUR_ESCAPE_RADII.forEach(radius => {
+      DETOUR_OFFSETS.forEach(offset => {
+        pushCandidate({
+          x: current.x + offset.x * radius,
+          y: current.y,
+          z: current.z + offset.z * radius
+        })
+      })
+    })
+  }
+
+  if (target) {
+    DETOUR_PRIMARY_RADII.forEach(radius => {
+      DETOUR_OFFSETS.forEach(offset => {
+        pushCandidate({
+          x: target.x + offset.x * radius,
+          y: target.y,
+          z: target.z + offset.z * radius
+        })
+      })
+    })
+  }
+
+  if (current && target) {
+    pushCandidate({
+      x: (current.x + target.x) / 2,
+      y: (current.y + target.y) / 2,
+      z: (current.z + target.z) / 2
+    })
+  }
+
+  return candidates
+}
+
+function deriveHeading(current, target) {
+  if (!current || !target) {
+    return { x: 1, z: 0 }
+  }
+  const dx = Math.sign(Math.round(target.x) - Math.round(current.x))
+  const dz = Math.sign(Math.round(target.z) - Math.round(current.z))
+  if (dx === 0 && dz === 0) {
+    return { x: 1, z: 0 }
+  }
+  return { x: dx, z: dz }
+}
+
+function normalizeHeadingVector(vector) {
+  const x = Math.sign(vector.x)
+  const z = Math.sign(vector.z)
+  if (x === 0 && z === 0) return null
+  return { x, z }
+}
+
+function buildSlideOffsets(direction) {
+  const forward = normalizeHeadingVector(direction)
+  const left = normalizeHeadingVector({ x: -direction.z, z: direction.x })
+  const right = normalizeHeadingVector({ x: direction.z, z: -direction.x })
+  const back = normalizeHeadingVector({ x: -direction.x, z: -direction.z })
+  const forwardLeft = forward && left ? normalizeHeadingVector({ x: forward.x + left.x, z: forward.z + left.z }) : null
+  const forwardRight = forward && right ? normalizeHeadingVector({ x: forward.x + right.x, z: forward.z + right.z }) : null
+  const bases = [
+    { label: 'forward', vec: forward },
+    { label: 'left', vec: left },
+    { label: 'right', vec: right },
+    { label: 'forward_left', vec: forwardLeft },
+    { label: 'forward_right', vec: forwardRight },
+    { label: 'back', vec: back }
+  ].filter(entry => entry.vec)
+
+  const offsets = []
+  bases.forEach(entry => {
+    SLIDE_DISTANCES.forEach(distance => {
+      offsets.push({
+        label: entry.label,
+        x: entry.vec.x * distance,
+        z: entry.vec.z * distance,
+        distance
+      })
+    })
+  })
+  return offsets
 }
 
 async function teleportToStart(bot, logger, position) {
@@ -84,22 +211,196 @@ async function teleportToStart(bot, logger, position) {
   await wait(200)
 }
 
-async function moveToWaypoint(bot, waypoint, timeoutMs) {
-  const goal = new goals.GoalNear(Math.floor(waypoint.x), Math.floor(waypoint.y), Math.floor(waypoint.z), 1)
+async function gotoWithTimeout(bot, goal, timeoutMs) {
   try {
     const movePromise = bot.pathfinder.goto(goal)
-    const result = await Promise.race([
+    const outcome = await Promise.race([
       movePromise.then(() => 'arrived'),
       wait(timeoutMs).then(() => 'timeout')
     ])
-    if (result === 'timeout') {
+    if (outcome === 'timeout') {
       bot.pathfinder.stop()
       return { success: false, reason: 'timeout' }
     }
     return { success: true }
   } catch (err) {
     bot.pathfinder.stop()
-    return { success: false, reason: err.message }
+    return { success: false, reason: err?.message || 'navigation_error' }
+  }
+}
+
+async function attemptWallSlide(bot, waypoint, timeoutMs, options = {}) {
+  const { currentPos, bounds, logger, runId, stepIndex } = options
+  if (!currentPos || !waypoint) {
+    return { success: false, reason: 'slide_unavailable' }
+  }
+
+  let workingPos = { ...currentPos }
+  let attempts = 0
+  let lastReason = null
+  let progressMade = false
+
+  for (let iteration = 0; iteration < SLIDE_MAX_ITERATIONS; iteration += 1) {
+    const direction = deriveHeading(workingPos, waypoint)
+    const offsets = buildSlideOffsets(direction)
+    let movedThisLoop = false
+
+    for (const offset of offsets) {
+      attempts += 1
+      const candidate = clampPointToBounds({
+        x: workingPos.x + offset.x,
+        y: workingPos.y,
+        z: workingPos.z + offset.z
+      }, bounds)
+
+      if (logger) {
+        logger.log('scout_slide_attempt', {
+          runId,
+          stepIndex,
+          candidate,
+          waypoint,
+          offset
+        })
+      }
+
+      const slideGoal = new goals.GoalNear(Math.floor(candidate.x), Math.floor(candidate.y), Math.floor(candidate.z), 1)
+      const slideResult = await gotoWithTimeout(bot, slideGoal, Math.max(SLIDE_TIMEOUT_MIN_MS, Math.floor(timeoutMs * 0.35)))
+
+      if (slideResult.success) {
+        movedThisLoop = true
+        progressMade = true
+        const slideArrived = quantize(bot.entity.position)
+        workingPos = slideArrived
+
+        if (logger) {
+          logger.log('scout_slide_success', {
+            runId,
+            stepIndex,
+            candidate,
+            arrived: slideArrived
+          })
+        }
+
+        const retryGoal = new goals.GoalNear(Math.floor(waypoint.x), Math.floor(waypoint.y), Math.floor(waypoint.z), 1)
+        const retryResult = await gotoWithTimeout(bot, retryGoal, Math.max(4000, Math.floor(timeoutMs * 0.7)))
+        if (retryResult.success) {
+          if (logger) {
+            logger.log('scout_slide_retry_success', {
+              runId,
+              stepIndex,
+              waypoint,
+              arrived: quantize(bot.entity.position)
+            })
+          }
+          return { success: true, via: 'slide', reachedTarget: true }
+        }
+
+        if (logger) {
+          logger.log('scout_slide_retry_failed', {
+            runId,
+            stepIndex,
+            waypoint,
+            reason: retryResult.reason || 'navigation_failed'
+          })
+        }
+        break
+      }
+
+      lastReason = slideResult.reason || 'slide_failed'
+      if (logger) {
+        logger.log('scout_slide_failed', {
+          runId,
+          stepIndex,
+          candidate,
+          reason: lastReason
+        })
+      }
+    }
+
+    if (!movedThisLoop) {
+      break
+    }
+  }
+
+  if (progressMade) {
+    if (logger) {
+      logger.log('scout_slide_partial_progress', {
+        runId,
+        stepIndex,
+        waypoint
+      })
+    }
+    return { success: true, via: 'slide_partial', reachedTarget: false, partial: true }
+  }
+
+  return { success: false, reason: lastReason || 'slide_failed', slideAttempts: attempts }
+}
+
+async function moveToWaypoint(bot, waypoint, timeoutMs, options = {}) {
+  const { currentPos, bounds, allowDetours = true, logger, runId, stepIndex } = options
+  const goal = new goals.GoalNear(Math.floor(waypoint.x), Math.floor(waypoint.y), Math.floor(waypoint.z), 1)
+  const directResult = await gotoWithTimeout(bot, goal, timeoutMs)
+  if (directResult.success) {
+    return { success: true, via: 'direct' }
+  }
+
+  if (allowDetours && currentPos) {
+    const slideResult = await attemptWallSlide(bot, waypoint, timeoutMs, {
+      currentPos,
+      bounds,
+      logger,
+      runId,
+      stepIndex
+    })
+    if (slideResult.success) {
+      return slideResult
+    }
+  }
+
+  if (!allowDetours || !currentPos) {
+    return { success: false, reason: directResult.reason || 'navigation_failed' }
+  }
+
+  const detourCandidates = generateDetourCandidates(currentPos, waypoint, bounds)
+  let attempts = 0
+  for (const candidate of detourCandidates) {
+    attempts += 1
+    if (logger) {
+      logger.log('scout_detour_attempt', {
+        runId,
+        stepIndex,
+        waypoint,
+        candidate
+      })
+    }
+    const detourGoal = new goals.GoalNear(Math.floor(candidate.x), Math.floor(candidate.y), Math.floor(candidate.z), 1)
+    const detourResult = await gotoWithTimeout(bot, detourGoal, Math.max(4000, Math.floor(timeoutMs * 0.6)))
+    if (detourResult.success) {
+      if (logger) {
+        logger.log('scout_detour_success', {
+          runId,
+          stepIndex,
+          waypoint,
+          candidate
+        })
+      }
+      return { success: true, via: 'detour', detourTarget: candidate }
+    }
+    if (logger) {
+      logger.log('scout_detour_failed', {
+        runId,
+        stepIndex,
+        waypoint,
+        candidate,
+        reason: detourResult.reason || 'detour_failed'
+      })
+    }
+  }
+
+  return {
+    success: false,
+    reason: directResult.reason || 'navigation_failed',
+    detourAttempts: attempts
   }
 }
 
@@ -526,7 +827,7 @@ async function runScoutEpisode(bot, logger, options = {}) {
   const runCtx = { dedupe, scenarioId, runId }
 
   while (steps < config.maxSteps) {
-    const target = chooseNextWaypoint(currentPos, waypoints, visitedCells, config.gridStep)
+    const target = chooseNextWaypoint(currentPos, waypoints, visitedCells, config.gridStep, config.waypointJitter)
     if (!target) break
 
     logger.log('scout_waypoint_selected', {
@@ -535,7 +836,14 @@ async function runScoutEpisode(bot, logger, options = {}) {
       stepIndex: steps
     })
 
-    const navigation = await moveToWaypoint(bot, target, config.navigationTimeoutMs)
+    const navigation = await moveToWaypoint(bot, target, config.navigationTimeoutMs, {
+      currentPos,
+      bounds: config.bounds,
+      allowDetours: true,
+      logger,
+      runId,
+      stepIndex: steps
+    })
     const arrivedPos = quantize(bot.entity.position)
     visitedCells.add(cellKey(arrivedPos))
 
@@ -556,6 +864,12 @@ async function runScoutEpisode(bot, logger, options = {}) {
     } else {
       failedMoves += 1
       const waypointKey = cellKey(target)
+      logger.log('scout_navigation_failed', {
+        runId,
+        target,
+        arrived: arrivedPos,
+        reason: navigation.reason || 'unknown'
+      })
       const attempts = (failedWaypointCounts.get(waypointKey) || 0) + 1
       failedWaypointCounts.set(waypointKey, attempts)
       if (attempts >= 2) {

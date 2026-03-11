@@ -24,6 +24,7 @@ const FACILITY_CENTER = Object.freeze(midpoint(CORNER_A, CORNER_B))
 const FACILITY_RADIUS = computeCoverRadius(FACILITY_CENTER, [CORNER_A, CORNER_B])
 
 const FACILITY_POINTS = Object.freeze({
+  scoutSpawn: { x: 2, y: 64, z: 8 },
   leverRoomCenter: { x: 13, y: 63, z: 0 },
   leverDoorBase: { x: 13, y: 63, z: 2 },
   captiveDoorBase: { x: 18, y: 64, z: 4 },

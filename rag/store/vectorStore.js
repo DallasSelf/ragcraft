@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const { embedText, cosineSimilarity } = require('../embeddings/embedder')
-const { getProfileAwarePath, onMemoryProfileChange } = require('../memory/profile')
+const { getProfileAwarePath, onMemoryProfileChange, isRawModeActive } = require('../memory/profile')
 
 const storeDir = __dirname
 
@@ -167,6 +167,9 @@ async function addRawEpisode(episode) {
  * @returns {Promise<Array>} - Ranked results
  */
 async function searchVectorStore(queryText, options = {}) {
+  if (isRawModeActive()) {
+    return []
+  }
   const {
     scenarioId = null,
     topK = 5,

@@ -1,166 +1,63 @@
 {
   "claims": [
     {
-      "id": "1bb2a2a2-d06b-4233-bd15-4e1cbf05e430",
-      "scenarioId": "maze_v1",
+      "id": "c306d26a-4452-4546-b36f-bcf10bb4abc4",
       "memory_type": "claim",
-      "type": "route_claim",
-      "text": "Optimal maze route completes in 17 steps with 5 decision nodes.",
+      "task_id": "lever",
+      "scenarioId": "lever",
       "goal_tags": [
-        "maze",
-        "navigation",
-        "route"
+        "door_unlock",
+        "lever_sequence"
       ],
       "entities": {
-        "door": [],
-        "code": [],
+        "door": [
+          {
+            "id": "lever_exit_door",
+            "location": {
+              "x": 13,
+              "y": 63,
+              "z": 2
+            },
+            "lockType": "lever_lock_3_wall_west"
+          }
+        ],
+        "code": [
+          {
+            "value": "2-3-1",
+            "sequence": [
+              2,
+              3,
+              1
+            ]
+          }
+        ],
         "location": [
           {
-            "x": -11,
+            "x": 13,
             "y": 63,
-            "z": -5
+            "z": 2
           }
         ],
         "tool": []
       },
-      "turnSequence": [
-        {
-          "x": 0,
-          "y": 64,
-          "z": 14
-        },
-        {
-          "x": -3,
-          "y": 64,
-          "z": 2
-        },
-        {
-          "x": -4,
-          "y": 64,
-          "z": 2
-        },
-        {
-          "x": -5,
-          "y": 64,
-          "z": 2
-        },
-        {
-          "x": -5,
-          "y": 64,
-          "z": 1
-        },
-        {
-          "x": -5,
-          "y": 64,
-          "z": 0
-        },
-        {
-          "x": -5,
-          "y": 64,
-          "z": -1
-        },
-        {
-          "x": -5,
-          "y": 64,
-          "z": -2
-        },
-        {
-          "x": -6,
-          "y": 64,
-          "z": -2
-        },
-        {
-          "x": -6,
-          "y": 64,
-          "z": -3
-        },
-        {
-          "x": -6,
-          "y": 64,
-          "z": -4
-        },
-        {
-          "x": -6,
-          "y": 64,
-          "z": -5
-        },
-        {
-          "x": -6,
-          "y": 64,
-          "z": -6
-        },
-        {
-          "x": -7,
-          "y": 64,
-          "z": -6
-        },
-        {
-          "x": -8,
-          "y": 64,
-          "z": -6
-        },
-        {
-          "x": -9,
-          "y": 64,
-          "z": -6
-        },
-        {
-          "x": -10,
-          "y": 64,
-          "z": -6
-        },
-        {
-          "x": -11,
-          "y": 64,
-          "z": -6
-        }
-      ],
-      "decisionNodes": [
-        {
-          "x": -3,
-          "y": 64,
-          "z": 2
-        },
-        {
-          "x": -5,
-          "y": 64,
-          "z": 2
-        },
-        {
-          "x": -5,
-          "y": 64,
-          "z": -2
-        },
-        {
-          "x": -6,
-          "y": 64,
-          "z": -2
-        },
-        {
-          "x": -6,
-          "y": 64,
-          "z": -6
-        }
-      ],
-      "route_metadata": {
-        "pathLength": 17,
-        "decisionNodeCount": 5,
-        "wrongTurns": 0,
-        "revisitCount": 0
-      },
-      "action_recipe": "turn sequence [{\"x\":0,\"y\":64,\"z\":14},{\"x\":-3,\"y\":64,\"z\":2},{\"x\":-4,\"y\":64,\"z\":2},{\"x\":-5,\"y\":64,\"z\":2},{\"x\":-5,\"y\":64,\"z\":1},{\"x\":-5,\"y\":64,\"z\":0},{\"x\":-5,\"y\":64,\"z\":-1},{\"x\":-5,\"y\":64,\"z\":-2},{\"x\":-6,\"y\":64,\"z\":-2},{\"x\":-6,\"y\":64,\"z\":-3},{\"x\":-6,\"y\":64,\"z\":-4},{\"x\":-6,\"y\":64,\"z\":-5},{\"x\":-6,\"y\":64,\"z\":-6},{\"x\":-7,\"y\":64,\"z\":-6},{\"x\":-8,\"y\":64,\"z\":-6},{\"x\":-9,\"y\":64,\"z\":-6},{\"x\":-10,\"y\":64,\"z\":-6},{\"x\":-11,\"y\":64,\"z\":-6}]",
-      "confidence": 0.95,
-      "prerequisites": [
-        "reach_maze_goal"
-      ],
-      "evidenceRunIds": [
-        "f33186a4-a5a7-4815-801e-890712965118"
-      ],
-      "timestamp": 1773022303167,
-      "task_id": "maze_v1",
+      "prerequisites": [],
+      "action_recipe": "Toggle levers in order 2-3-1 to open the door.",
+      "confidence": 0.97,
+      "timestamp": 1773030263470,
       "source_episode_ids": [
-        "f33186a4-a5a7-4815-801e-890712965118"
-      ]
+        "lever-2026-03-09T04-24-16-699Z",
+        "a09af375-f96b-4cd5-8b16-f81066d583ad"
+      ],
+      "type": "door_code_claim",
+      "door_id": "lever_exit_door",
+      "code": "2-3-1",
+      "door_location": {
+        "x": 13,
+        "y": 63,
+        "z": 2
+      },
+      "how_to_apply": "Toggle levers in order 2-3-1 to open the door.",
+      "lock_type": "lever_lock_3_wall_west"
     }
   ],
   "episodes": []

@@ -7,7 +7,7 @@ const {
   createEpisodeMemory,
   validateMemoryRecord
 } = require('./memory/schema')
-const { getProfileAwarePath, onMemoryProfileChange } = require('./memory/profile')
+const { getProfileAwarePath, onMemoryProfileChange, isRawModeActive } = require('./memory/profile')
 
 const distilledDir = path.join(__dirname, 'distilledMemory')
 if (!fs.existsSync(distilledDir)) fs.mkdirSync(distilledDir, { recursive: true })
@@ -91,6 +91,9 @@ async function persistVectorStore(record) {
 }
 
 async function ingestMemoryRecords(records, options = {}) {
+  if (isRawModeActive()) {
+    return { claims: 0, episodes: 0 }
+  }
   if (!Array.isArray(records) || records.length === 0) return { claims: 0, episodes: 0 }
 
   const defaultType = options.defaultType || MemoryTypes.CLAIM
@@ -134,6 +137,7 @@ async function ingestEpisodeMemory(units) {
 }
 
 function retrieveMemoryByType(type, scenarioId) {
+  if (isRawModeActive()) return []
   const source = type === MemoryTypes.EPISODE ? memoryStore.episodes : memoryStore.claims
   if (!scenarioId) return source
   return source.filter(m => m.scenarioId === scenarioId)

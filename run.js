@@ -52,6 +52,20 @@ function createScenarioBot() {
   return bot
 }
 
+function enableDoorNavigation(movements, mcData) {
+  if (!movements || !mcData || !mcData.blocksByName) return
+  movements.canOpenDoors = true
+
+  Object.values(mcData.blocksByName).forEach(block => {
+    if (!block || typeof block.name !== 'string') return
+    const name = block.name.toLowerCase()
+    if (!name.includes('door')) return
+    if (name.includes('trapdoor')) return
+    if (name.includes('iron_door')) return
+    movements.openable.add(block.id)
+  })
+}
+
 async function main(args) {
   const { scenario, mode, runLabel } = args
 
@@ -67,6 +81,7 @@ async function main(args) {
   bot.once('spawn', async () => {
     const mcData = mcDataLoader(bot.version)
     const movements = new Movements(bot, mcData)
+    enableDoorNavigation(movements, mcData)
     bot.pathfinder.setMovements(movements)
 
     try {

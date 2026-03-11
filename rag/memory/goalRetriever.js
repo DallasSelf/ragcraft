@@ -1,5 +1,6 @@
 const { searchVectorStore } = require('../store/vectorStore')
 const { MemoryTypes } = require('./schema')
+const { isRawModeActive } = require('./profile')
 
 const SYMBOLIC_KEYWORDS = ['door', 'captive', 'chest', 'key', 'code', 'lever', 'landmark', 'route', 'tool', 'hazard', 'interactable', 'scout', 'survey']
 const CLAIM_TYPE_SUFFIX = '_claim'
@@ -134,6 +135,9 @@ function resolveAllowedSources(input) {
 }
 
 async function retrieveGoalAlignedClaims({ goalText = '', goal = {}, topK = 5, scenarioId = null, scope, allowedSources } = {}) {
+  if (isRawModeActive()) {
+    return []
+  }
   const queryText = buildGoalQuery(goalText, goal) || goalText || 'goal memory retrieval'
   const searchLimit = Math.max(topK * 3, topK + 5)
   const scopeMode = scope || process.env.GOAL_CLAIM_SCOPE || 'global'
