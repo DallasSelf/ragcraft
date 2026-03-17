@@ -255,7 +255,8 @@ function createRunState(bot, mazeConfig) {
 }
 
 function hasReachedGoal(cell, goalPos) {
-  return distance2D(cell, goalPos) < 1.2
+  if (!cell || !goalPos) return false
+  return Math.round(cell.x) === Math.round(goalPos.x) && Math.round(cell.z) === Math.round(goalPos.z)
 }
 
 async function moveToCell(bot, target, logger, timeoutMs = 8000) {

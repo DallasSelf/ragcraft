@@ -5,28 +5,6 @@ function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-let scannedOnce = false
-
-async function debugScanLevers(bot, logger) {
-  if (scannedOnce) return
-  scannedOnce = true
-
-  const levers = bot.findBlocks({
-    matching: block => block && block.name === 'lever',
-    maxDistance: 10,
-    count: 50
-  })
-
-  logger.log('debug_lever_scan', {
-    botPosition: {
-      x: bot.entity.position.x,
-      y: bot.entity.position.y,
-      z: bot.entity.position.z
-    },
-    foundLevers: levers
-  })
-}
-
 function ensureScenarioConfig(config) {
   if (!config || typeof config !== 'object') {
     throw new Error('Lever scenario configuration is required')
@@ -35,7 +13,6 @@ function ensureScenarioConfig(config) {
 
 async function flipLever(bot, leverIndex, config, logger) {
   ensureScenarioConfig(config)
-  await debugScanLevers(bot, logger)
 
   const idx = leverIndex - 1
   const pos = config.leverBlocks[idx]
@@ -52,7 +29,7 @@ async function flipLever(bot, leverIndex, config, logger) {
         z: bot.entity.position.z
       }
     })
-    return
+    return false
   }
 
   logger.log('lever_block_found', {
@@ -65,15 +42,26 @@ async function flipLever(bot, leverIndex, config, logger) {
 
   await bot.lookAt(target, true)
   await wait(200)
-  await bot.activateBlock(block)
+  try {
+    await bot.activateBlock(block)
+  } catch (err) {
+    logger.log('lever_flip_failed', {
+      leverIndex,
+      message: err.message
+    })
+    return false
+  }
   await wait(300)
+  return true
 }
 
 async function trySequenceInWorld(bot, sequence, config, logger) {
   ensureScenarioConfig(config)
   for (const leverIndex of sequence) {
-    await flipLever(bot, leverIndex, config, logger)
+    const ok = await flipLever(bot, leverIndex, config, logger)
+    if (!ok) return false
   }
+  return true
 }
 
 async function closeDoor(bot, logger, config) {
@@ -111,6 +99,42 @@ async function resetLevers(bot, logger, config) {
   await wait(250)
 }
 
+function isDoorPowerOn(bot, config) {
+  ensureScenarioConfig(config)
+  const pos = config.doorPowerBlock
+  if (!pos) return false
+  const block = bot.blockAt(new Vec3(pos.x, pos.y, pos.z))
+  if (!block) return false
+  return block.name === config.doorPowerOn
+}
+
+function getLeverPoweredState(block) {
+  if (!block) return null
+  if (typeof block.getProperties === 'function') {
+    const props = block.getProperties()
+    if (props && typeof props.powered === 'boolean') return props.powered
+  }
+  if (block._properties && typeof block._properties.powered === 'boolean') {
+    return block._properties.powered
+  }
+  return null
+}
+
+function areLeversReset(bot, config) {
+  ensureScenarioConfig(config)
+  for (const pos of config.leverBlocks || []) {
+    const block = bot.blockAt(new Vec3(pos.x, pos.y, pos.z))
+    if (!block || block.name !== 'lever') {
+      return false
+    }
+    const powered = getLeverPoweredState(block)
+    if (powered !== false) {
+      return false
+    }
+  }
+  return true
+}
+
 async function teleportToLeverStart(bot, logger, config) {
   ensureScenarioConfig(config)
   const pos = config.spawnPosition
@@ -127,7 +151,9 @@ function createLeverScenarioController(config) {
     teleportToStart: (bot, logger) => teleportToLeverStart(bot, logger, config),
     closeDoor: (bot, logger) => closeDoor(bot, logger, config),
     openDoor: (bot, logger) => openDoor(bot, logger, config),
-    resetLevers: (bot, logger) => resetLevers(bot, logger, config)
+    resetLevers: (bot, logger) => resetLevers(bot, logger, config),
+    verifyDoorOpen: bot => isDoorPowerOn(bot, config),
+    verifyReset: bot => areLeversReset(bot, config)
   }
 }
 

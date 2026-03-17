@@ -36,6 +36,22 @@ function buildQueryText(observation, scenarioId) {
   return `task ${scenarioId} successful strategy`
 }
 
+function isSuccessfulDistilledMemory(scenarioId, memory) {
+  if (!memory || typeof memory.text !== 'string') return false
+  if (memory.text.includes('Successful')) return true
+
+  if (scenarioId && scenarioId.startsWith('maze')) {
+    try {
+      const parsed = JSON.parse(memory.text)
+      return parsed && parsed.outcome === 'success'
+    } catch {
+      return false
+    }
+  }
+
+  return false
+}
+
 /**
  * Retrieve relevant memories using vector search
  * @param {Object} params - Search parameters
@@ -89,13 +105,11 @@ async function ragRetrieveHybrid(params) {
 
     if (vectorResults.length > 0) {
       if (includeDistilled) {
-        const hasSuccessful = vectorResults.some(r =>
-          typeof r?.text === 'string' && r.text.includes('Successful')
-        )
+        const hasSuccessful = vectorResults.some(r => isSuccessfulDistilledMemory(scenarioId, r))
 
         if (!hasSuccessful) {
           const distilled = retrieveDistilledMemories(scenarioId)
-            .filter(m => m.text && m.text.includes('Successful'))
+            .filter(m => isSuccessfulDistilledMemory(scenarioId, m))
             .sort((a, b) => b.timestamp - a.timestamp)
             .slice(0, topK)
             .map(m => ({
@@ -128,7 +142,7 @@ async function ragRetrieveHybrid(params) {
     const distilled = retrieveDistilledMemories(scenarioId)
 
     const successful = distilled
-      .filter(m => m.text && m.text.includes('Successful'))
+      .filter(m => isSuccessfulDistilledMemory(scenarioId, m))
       .sort((a, b) => b.timestamp - a.timestamp)
       .slice(0, topK)
 

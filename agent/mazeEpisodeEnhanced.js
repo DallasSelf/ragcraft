@@ -89,6 +89,7 @@ async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
   let finalPathMetrics = null
 
   while (attempts < maxAttempts && !solved) {
+    await teleportToMazeStart(bot, logger)
 
     const plan = createScenarioPlan({
       scenarioId,

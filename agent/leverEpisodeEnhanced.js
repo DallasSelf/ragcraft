@@ -76,6 +76,12 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
   await scenarioController.teleportToStart(bot, logger)
   await scenarioController.closeDoor(bot, logger)
   await scenarioController.resetLevers(bot, logger)
+  if (!scenarioController.verifyReset(bot)) {
+    logger.log('lever_reset_verification_failed', {
+      runId,
+      phase: 'initial'
+    })
+  }
 
   metrics.snapshotStore()
 
@@ -129,6 +135,7 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
   let goalClaims = await loadGoalClaims(0)
 
   while (attempts < maxAttempts && !solved) {
+    await scenarioController.teleportToStart(bot, logger)
 
     const plan = createScenarioPlan({
       scenarioId,
@@ -228,10 +235,24 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
       }
     })
 
-    await trySequenceInWorld(bot, sequence, leverScenario, logger)
+    const interactionOk = await trySequenceInWorld(bot, sequence, leverScenario, logger)
     await wait(300)
 
-    const isCorrect = verifyLeverSequence(sequence)
+    const sequenceMatches = interactionOk && verifyLeverSequence(sequence)
+    let worldValidated = false
+    if (sequenceMatches) {
+      await scenarioController.openDoor(bot, logger)
+      await wait(200)
+      worldValidated = scenarioController.verifyDoorOpen(bot)
+      if (!worldValidated) {
+        logger.log('lever_world_validation_failed', {
+          runId,
+          attemptIndex: attempts,
+          sequence
+        })
+      }
+    }
+    const isCorrect = sequenceMatches && worldValidated
 
     const attemptLog = {
       scenarioId,
@@ -257,7 +278,6 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
     })
 
     if (isCorrect) {
-      await scenarioController.openDoor(bot, logger)
       logger.log('lever_solved', {
         runId,
         attempts: attempts + 1,
@@ -268,6 +288,12 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
     } else {
       await scenarioController.closeDoor(bot, logger)
       await scenarioController.resetLevers(bot, logger)
+      if (!scenarioController.verifyReset(bot)) {
+        logger.log('lever_reset_verification_failed', {
+          runId,
+          attemptIndex: attempts
+        })
+      }
       logger.log('lever_incorrect', {
         runId,
         attemptIndex: attempts,
