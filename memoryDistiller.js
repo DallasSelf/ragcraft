@@ -112,9 +112,9 @@ function distillKeyFinderAttempt(attempt) {
   }
 
   const focus = resolveFocusPos()
-  const focusPos = focus
-    ? ` (${focus.x ?? 0},${focus.y ?? 0},${focus.z ?? 0})`
-    : ''
+  const keyPosText = focus
+    ? `(${focus.x ?? 0},${focus.y ?? 0},${focus.z ?? 0})`
+    : '(unknown)'
   
   const statusText = found ? 'Key found' : 'Key not found'
   const confidence = found ? 0.9 : 0.45
@@ -127,7 +127,7 @@ function distillKeyFinderAttempt(attempt) {
     id: uuidv4(),
     scenarioId: attempt.scenarioId,
     type: 'key_finder_distilled',
-    text: `${statusText} at ${focusPos} after ${actionCount} actions targeting ${targetPosText}. ${advisory}`,
+    text: `${statusText} keyPos=${keyPosText} chestPos=${targetPosText} after ${actionCount} actions. ${advisory}`,
     confidence,
     evidenceRunIds: attempt.runId ? [attempt.runId] : [],
     timestamp: attempt.timestamp || Date.now()

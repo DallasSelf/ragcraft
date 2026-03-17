@@ -1,5 +1,4 @@
 const { v4: uuidv4 } = require('uuid')
-const { once } = require('events')
 const { goals, Movements } = require('mineflayer-pathfinder')
 const { Vec3 } = require('vec3')
 const mcDataLoader = require('minecraft-data')
@@ -34,6 +33,22 @@ if (SEARCH_BOUNDS && !Number.isFinite(SEARCH_BOUNDS.y) && keyFinderConfig.spawnP
 const ENTITY_SPOT_RADIUS = searchConfig.entitySpotRadius || 12
 const ENTITY_APPROACH_RADIUS = searchConfig.entityApproachRadius || 1.4
 const FORCED_KEY_STEP = searchConfig.forceKeyStep || 0
+const WAYPOINT_PAUSE_MS = searchConfig.waypointPauseMs || 200
+const DETOUR_PRIMARY_RADII = [2, 4, 6]
+const DETOUR_ESCAPE_RADII = [1, 2, 3]
+const SLIDE_DISTANCES = [1, 2, 3]
+const SLIDE_MAX_ITERATIONS = 4
+const SLIDE_TIMEOUT_MIN_MS = 1800
+const DETOUR_OFFSETS = Object.freeze([
+  { x: 1, z: 0 },
+  { x: -1, z: 0 },
+  { x: 0, z: 1 },
+  { x: 0, z: -1 },
+  { x: 1, z: 1 },
+  { x: -1, z: 1 },
+  { x: 1, z: -1 },
+  { x: -1, z: -1 }
+])
 
 let cachedSearchMovements = null
 let cachedMovementsVersion = null
@@ -115,16 +130,32 @@ function extractCoordsFromText(text) {
   }
 }
 
+function extractTaggedCoordsFromText(text, tag) {
+  if (!text || !tag) return null
+  const escapedTag = tag.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const num = '(-?\\d+(?:\\.\\d+)?)'
+  const pattern = new RegExp(`${escapedTag}\\s*=\\s*\\(\\s*${num}\\s*,\\s*${num}\\s*,\\s*${num}\\s*\\)`, 'i')
+  const match = text.match(pattern)
+  if (!match) return null
+  return {
+    x: Number(match[1]),
+    y: Number(match[2]),
+    z: Number(match[3])
+  }
+}
+
+function extractKeyTargetFromMemoryText(text) {
+  return extractTaggedCoordsFromText(text, 'keyPos')
+}
+
 function parseMemoryHints(memories = []) {
   const hints = { prefer: [], avoid: [] }
   for (const mem of memories) {
     if (mem.type !== 'key_finder_distilled' || !mem.text) continue
-    const coords = extractCoordsFromText(mem.text)
+    const coords = extractKeyTargetFromMemoryText(mem.text)
     if (!coords) continue
     if (mem.text.startsWith('Key found')) {
       hints.prefer.push(coords)
-    } else if (mem.text.startsWith('Key not found')) {
-      hints.avoid.push(coords)
     }
   }
   return hints
@@ -145,33 +176,20 @@ function scoreMemoryTarget(memory) {
 }
 
 function buildMemoryTargetQueue(memories = [], goalClaims = [], plan = null, limit = MAX_MEMORY_TARGETS) {
-  const preferredLocations = Array.isArray(plan?.metadata?.preferredLocations)
-    ? plan.metadata.preferredLocations.filter(isCoordinate)
-    : []
-
-  const planCandidates = preferredLocations.map(pos => ({ pos, success: true, score: 1.8 }))
-
-  const claimCandidates = extractLocationsFromClaims(goalClaims).map(pos => ({
-    pos,
-    success: true,
-    score: 2
-  }))
-
   const candidates = memories
     .filter(mem => mem && mem.type === 'key_finder_distilled' && typeof mem.text === 'string')
     .map(mem => ({
-      pos: extractCoordsFromText(mem.text),
+      pos: extractKeyTargetFromMemoryText(mem.text),
       success: mem.text.startsWith('Key found'),
       score: scoreMemoryTarget(mem)
     }))
-    .filter(entry => entry.pos)
+    // Only successful memories should seed target waypoints; failures are handled as avoid hints.
+    .filter(entry => entry.pos && entry.success)
     .sort((a, b) => b.score - a.score)
-
-  const combined = planCandidates.concat(claimCandidates, candidates)
 
   const unique = []
   const seenCells = new Set()
-  for (const candidate of combined) {
+  for (const candidate of candidates) {
     const key = cellKey(candidate.pos)
     if (seenCells.has(key)) continue
     unique.push(candidate)
@@ -180,6 +198,14 @@ function buildMemoryTargetQueue(memories = [], goalClaims = [], plan = null, lim
   }
 
   return unique
+}
+
+function hasSuccessfulKeyMemoryTarget(memories = []) {
+  return memories.some(mem => {
+    if (!mem || mem.type !== 'key_finder_distilled' || typeof mem.text !== 'string') return false
+    if (!mem.text.startsWith('Key found')) return false
+    return Boolean(extractKeyTargetFromMemoryText(mem.text))
+  })
 }
 
 function extractLocationsFromClaims(goalClaims = []) {
@@ -259,16 +285,62 @@ function chooseSearchWaypoint(memoryHintsOrMemories, visitedCells, opts = {}) {
 function hasKeyInInventory(bot) {
   const expectedId = keyFinderConfig.keyItem.id
   const custom = keyFinderConfig.keyItem.customName?.toLowerCase()
+  const allowIdFallback = expectedId === 'tripwire_hook'
   const items = bot && bot.inventory && typeof bot.inventory.items === 'function'
     ? bot.inventory.items()
     : []
   return items.some(item => {
     if (!item) return false
     if (item.name !== expectedId) return false
+    if (allowIdFallback) return true
     if (!custom) return true
     const label = (item.customName || item.displayName || '').toLowerCase()
     return label.includes(custom)
   })
+}
+
+function inspectCustomKeyInInventory(bot) {
+  const expectedId = keyFinderConfig.keyItem.id
+  const custom = keyFinderConfig.keyItem.customName?.toLowerCase()
+  const items = bot && bot.inventory && typeof bot.inventory.items === 'function'
+    ? bot.inventory.items()
+    : []
+  const matches = items
+    .filter(item => item && item.name === expectedId)
+    .map(item => {
+      const label = (item.customName || item.displayName || '').toLowerCase()
+      const customMatch = !custom || label.includes(custom)
+      return {
+        name: item.name,
+        displayName: item.displayName || null,
+        customName: item.customName || null,
+        customMatch
+      }
+    })
+  return {
+    hasIdMatch: matches.length > 0,
+    hasMatchingKey: matches.some(entry => entry.customMatch),
+    matches
+  }
+}
+
+function getNearbyItemEntities(bot, radius = ENTITY_SPOT_RADIUS) {
+  const origin = bot?.entity?.position
+  if (!origin) return []
+  return Object.values(bot.entities || {})
+    .filter(entity => entity && entity.name === 'item' && entity.position)
+    .filter(entity => !radius || entity.position.distanceTo(origin) <= radius)
+    .map(entity => ({
+      name: entity.name,
+      id: entity.id,
+      objectType: entity.objectType || null,
+      position: {
+        x: entity.position.x,
+        y: entity.position.y,
+        z: entity.position.z
+      },
+      distance: entity.position.distanceTo(origin)
+    }))
 }
 
 function buildKeyWorldState(bot) {
@@ -344,71 +416,237 @@ function buildGoal(pos, opts = {}) {
   return new goals.GoalXZ(x, z)
 }
 
-function createMoveTimeout() {
-  let timer = null
-  let rejectFn = null
-
-  const promise = new Promise((_, reject) => {
-    rejectFn = reject
-    timer = setTimeout(() => {
-      const err = new Error('move_timeout')
-      err.code = 'move_timeout'
-      reject(err)
-    }, MOVE_TIMEOUT_MS)
-  })
-
+function quantize(pos) {
   return {
-    promise,
-    cancel() {
-      if (timer !== null) {
-        clearTimeout(timer)
-        timer = null
+    x: Math.round(pos.x),
+    y: Math.round(pos.y),
+    z: Math.round(pos.z)
+  }
+}
+
+function clampPointToBounds(point, bounds) {
+  if (!bounds) return point
+  return {
+    x: Math.max(bounds.minX, Math.min(bounds.maxX, point.x)),
+    y: Number.isFinite(bounds.y) ? bounds.y : point.y,
+    z: Math.max(bounds.minZ, Math.min(bounds.maxZ, point.z))
+  }
+}
+
+function generateDetourCandidates(current, target, bounds) {
+  const candidates = []
+  const seen = new Set()
+
+  function pushCandidate(basePoint) {
+    if (!basePoint) return
+    const snapped = {
+      x: Math.round(basePoint.x),
+      y: Math.round(basePoint.y),
+      z: Math.round(basePoint.z)
+    }
+    const clamped = clampPointToBounds(snapped, bounds)
+    const key = `${clamped.x}:${clamped.z}`
+    if (seen.has(key)) return
+    seen.add(key)
+    candidates.push(clamped)
+  }
+
+  if (current) {
+    DETOUR_ESCAPE_RADII.forEach(radius => {
+      DETOUR_OFFSETS.forEach(offset => {
+        pushCandidate({
+          x: current.x + offset.x * radius,
+          y: current.y,
+          z: current.z + offset.z * radius
+        })
+      })
+    })
+  }
+
+  if (target) {
+    DETOUR_PRIMARY_RADII.forEach(radius => {
+      DETOUR_OFFSETS.forEach(offset => {
+        pushCandidate({
+          x: target.x + offset.x * radius,
+          y: target.y,
+          z: target.z + offset.z * radius
+        })
+      })
+    })
+  }
+
+  if (current && target) {
+    pushCandidate({
+      x: (current.x + target.x) / 2,
+      y: (current.y + target.y) / 2,
+      z: (current.z + target.z) / 2
+    })
+  }
+
+  return candidates
+}
+
+function deriveHeading(current, target) {
+  if (!current || !target) return { x: 1, z: 0 }
+  const dx = Math.sign(Math.round(target.x) - Math.round(current.x))
+  const dz = Math.sign(Math.round(target.z) - Math.round(current.z))
+  if (dx === 0 && dz === 0) return { x: 1, z: 0 }
+  return { x: dx, z: dz }
+}
+
+function normalizeHeadingVector(vector) {
+  const x = Math.sign(vector.x)
+  const z = Math.sign(vector.z)
+  if (x === 0 && z === 0) return null
+  return { x, z }
+}
+
+function buildSlideOffsets(direction) {
+  const forward = normalizeHeadingVector(direction)
+  const left = normalizeHeadingVector({ x: -direction.z, z: direction.x })
+  const right = normalizeHeadingVector({ x: direction.z, z: -direction.x })
+  const back = normalizeHeadingVector({ x: -direction.x, z: -direction.z })
+  const forwardLeft = forward && left ? normalizeHeadingVector({ x: forward.x + left.x, z: forward.z + left.z }) : null
+  const forwardRight = forward && right ? normalizeHeadingVector({ x: forward.x + right.x, z: forward.z + right.z }) : null
+  const bases = [
+    { vec: forward },
+    { vec: left },
+    { vec: right },
+    { vec: forwardLeft },
+    { vec: forwardRight },
+    { vec: back }
+  ].filter(entry => entry.vec)
+
+  const offsets = []
+  bases.forEach(entry => {
+    SLIDE_DISTANCES.forEach(distance => {
+      offsets.push({
+        x: entry.vec.x * distance,
+        z: entry.vec.z * distance,
+        distance
+      })
+    })
+  })
+  return offsets
+}
+
+async function gotoWithTimeoutGoal(bot, goal, timeoutMs) {
+  try {
+    const movePromise = bot.pathfinder.goto(goal)
+    const outcome = await Promise.race([
+      movePromise.then(() => 'arrived'),
+      wait(timeoutMs).then(() => 'timeout')
+    ])
+    if (outcome === 'timeout') {
+      bot.pathfinder.stop()
+      return { success: false, reason: 'timeout' }
+    }
+    return { success: true }
+  } catch (err) {
+    bot.pathfinder.stop()
+    return { success: false, reason: err?.message || 'navigation_error' }
+  }
+}
+
+async function attemptWallSlide(bot, waypoint, timeoutMs, bounds) {
+  const currentPos = quantize(bot.entity.position)
+  if (!currentPos || !waypoint) {
+    return { success: false, reason: 'slide_unavailable' }
+  }
+
+  let workingPos = { ...currentPos }
+  let lastReason = null
+  let progressMade = false
+
+  for (let iteration = 0; iteration < SLIDE_MAX_ITERATIONS; iteration += 1) {
+    const direction = deriveHeading(workingPos, waypoint)
+    const offsets = buildSlideOffsets(direction)
+    let movedThisLoop = false
+
+    for (const offset of offsets) {
+      const candidate = clampPointToBounds({
+        x: workingPos.x + offset.x,
+        y: workingPos.y,
+        z: workingPos.z + offset.z
+      }, bounds)
+
+      const slideGoal = new goals.GoalNear(Math.floor(candidate.x), Math.floor(candidate.y), Math.floor(candidate.z), 1)
+      const slideResult = await gotoWithTimeoutGoal(bot, slideGoal, Math.max(SLIDE_TIMEOUT_MIN_MS, Math.floor(timeoutMs * 0.35)))
+
+      if (slideResult.success) {
+        movedThisLoop = true
+        progressMade = true
+        workingPos = quantize(bot.entity.position)
+
+        const retryGoal = buildGoal(waypoint, { radius: 1 })
+        const retryResult = await gotoWithTimeoutGoal(bot, retryGoal, Math.max(4000, Math.floor(timeoutMs * 0.7)))
+        if (retryResult.success) {
+          return { success: true, via: 'slide' }
+        }
+        break
       }
-      rejectFn = null
+
+      lastReason = slideResult.reason || 'slide_failed'
+    }
+
+    if (!movedThisLoop) {
+      break
     }
   }
+
+  if (progressMade) {
+    return { success: true, via: 'slide_partial' }
+  }
+
+  return { success: false, reason: lastReason || 'slide_failed' }
 }
 
-async function waitForPathStop(bot) {
-  try {
-    await once(bot, 'path_stop')
-  } catch (err) {
-    // ignore emitter teardown issues
+async function moveWithDetours(bot, pos, opts = {}) {
+  const directGoal = buildGoal(pos, opts)
+  const directResult = await gotoWithTimeoutGoal(bot, directGoal, MOVE_TIMEOUT_MS)
+  if (directResult.success) {
+    return { success: true, via: 'direct' }
   }
-}
 
-async function cancelActiveMove(bot, movePromise) {
-  const awaitingStop = bot.pathfinder.isMoving() ? waitForPathStop(bot) : Promise.resolve()
-  bot.pathfinder.stop()
-  try {
-    await movePromise
-  } catch (err) {
-    // swallow rejection from cancellation
+  const slideResult = await attemptWallSlide(bot, pos, MOVE_TIMEOUT_MS, SEARCH_BOUNDS)
+  if (slideResult.success) {
+    return slideResult
   }
-  await awaitingStop
+
+  const currentPos = quantize(bot.entity.position)
+  const targetPos = quantize({ x: pos.x, y: pos.y ?? currentPos.y, z: pos.z })
+  const detourCandidates = generateDetourCandidates(currentPos, targetPos, SEARCH_BOUNDS)
+
+  for (const candidate of detourCandidates) {
+    const detourGoal = new goals.GoalNear(Math.floor(candidate.x), Math.floor(candidate.y), Math.floor(candidate.z), 1)
+    const detourResult = await gotoWithTimeoutGoal(bot, detourGoal, Math.max(4000, Math.floor(MOVE_TIMEOUT_MS * 0.6)))
+    if (detourResult.success) {
+      const retryResult = await gotoWithTimeoutGoal(bot, directGoal, Math.max(4000, Math.floor(MOVE_TIMEOUT_MS * 0.7)))
+      if (retryResult.success) {
+        return { success: true, via: 'detour', detourTarget: candidate }
+      }
+    }
+  }
+
+  return { success: false, reason: directResult.reason || slideResult.reason || 'navigation_failed' }
 }
 
 async function gotoPosition(bot, pos, label, actions, opts = {}) {
-  const goal = buildGoal(pos, opts)
-  const movePromise = bot.pathfinder.goto(goal)
-  const timeout = createMoveTimeout()
   const actionType = opts.actionType || 'search_move'
+  const move = await moveWithDetours(bot, pos, opts)
 
-  try {
-    await Promise.race([movePromise, timeout.promise])
-    timeout.cancel()
+  if (move.success) {
     actions.push({ type: actionType, label, pos })
+    actions.push({ type: `${actionType}_route`, label, pos, via: move.via || 'direct' })
     return true
-  } catch (err) {
-    timeout.cancel()
-    if (err.code === 'move_timeout') {
-      await cancelActiveMove(bot, movePromise)
-      actions.push({ type: `${actionType}_timeout`, label, pos })
-    } else {
-      actions.push({ type: `${actionType}_error`, label, pos, error: err.message })
-    }
-    return false
   }
+
+  if (move.reason === 'timeout') {
+    actions.push({ type: `${actionType}_timeout`, label, pos })
+  } else {
+    actions.push({ type: `${actionType}_error`, label, pos, error: move.reason || 'navigation_failed' })
+  }
+  return false
 }
 
 async function waitForKeyPickup(bot) {
@@ -587,8 +825,11 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
     })
 
     const retrievalLatency = Date.now() - retrievalStart
-    const memoryHints = parseMemoryHints(memories)
-    const memoryTargetQueue = buildMemoryTargetQueue(memories, goalClaims, plan)
+    const canUseDistilledGuidance = hasSuccessfulKeyMemoryTarget(memories)
+    const memoryHints = canUseDistilledGuidance ? parseMemoryHints(memories) : { prefer: [], avoid: [] }
+    const memoryTargetQueue = canUseDistilledGuidance
+      ? buildMemoryTargetQueue(memories, goalClaims, plan)
+      : []
 
     metrics.recordRetrieval({
       queryText: `key search near position ${bot.entity.position.x} ${bot.entity.position.y} ${bot.entity.position.z}`,
@@ -604,6 +845,7 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
     let unlocked = false
     let steps = 0
     let lastKnownKeyPos = null
+    let acquiredKeyPos = null
     let lastKeyApproachStep = -1
 
     logger.log('key_attempt', {
@@ -619,11 +861,19 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
       }))
     })
 
+    logger.log('key_debug_key_recognition', {
+      runId,
+      attemptIndex: attempts,
+      stage: 'attempt_start',
+      ...inspectCustomKeyInInventory(bot)
+    })
+
     while (steps < STEPS_PER_ATTEMPT && !obtainedKey) {
       const stepNumber = steps + 1
 
       let waypoint = null
       if (
+        canUseDistilledGuidance &&
         !obtainedKey &&
         FORCED_KEY_STEP > 0 &&
         stepNumber === FORCED_KEY_STEP &&
@@ -655,15 +905,39 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
         }
       }
 
+      logger.log('key_debug_waypoint_generated', {
+        runId,
+        attemptIndex: attempts,
+        step: stepNumber,
+        waypoint
+      })
+
       const successMove = await gotoPosition(bot, waypoint, `step_${stepNumber}`, actions)
+      logger.log('key_debug_waypoint_move', {
+        runId,
+        attemptIndex: attempts,
+        step: stepNumber,
+        waypoint,
+        success: successMove
+      })
       visitedCells.add(cellKey(waypoint))
       if (successMove) {
         searchPath.push({ x: waypoint.x, y: waypoint.y, z: waypoint.z })
+        await wait(WAYPOINT_PAUSE_MS)
       }
 
       let spottedEntity = null
 
       if (!obtainedKey) {
+        const nearbyItems = getNearbyItemEntities(bot, ENTITY_SPOT_RADIUS)
+        logger.log('key_debug_nearby_items', {
+          runId,
+          attemptIndex: attempts,
+          step: stepNumber,
+          count: nearbyItems.length,
+          items: nearbyItems
+        })
+
         spottedEntity = findKeyEntity(bot, ENTITY_SPOT_RADIUS)
         if (spottedEntity) {
           lastKnownKeyPos = {
@@ -671,6 +945,17 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
             y: spottedEntity.position.y,
             z: spottedEntity.position.z
           }
+          logger.log('key_debug_item_detected', {
+            runId,
+            attemptIndex: attempts,
+            step: stepNumber,
+            item: {
+              name: spottedEntity.name,
+              id: spottedEntity.id,
+              objectType: spottedEntity.objectType || null,
+              position: lastKnownKeyPos
+            }
+          })
           actions.push({
             type: 'key_spotted',
             pos: lastKnownKeyPos,
@@ -688,8 +973,22 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
         })
 
         if (approached) {
+          logger.log('key_debug_pickup_attempt', {
+            runId,
+            attemptIndex: attempts,
+            step: stepNumber,
+            pos: lastKnownKeyPos
+          })
           const pickupStart = Date.now()
           const pickupSuccess = await waitForKeyPickup(bot)
+          const keyStateAfterPickup = inspectCustomKeyInInventory(bot)
+          logger.log('key_debug_inventory_after_pickup', {
+            runId,
+            attemptIndex: attempts,
+            step: stepNumber,
+            pickupSuccess,
+            ...keyStateAfterPickup
+          })
           actions.push({
             type: 'key_pickup',
             success: pickupSuccess,
@@ -697,6 +996,11 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
           })
           obtainedKey = pickupSuccess
           if (pickupSuccess) {
+            acquiredKeyPos = {
+              x: lastKnownKeyPos.x,
+              y: lastKnownKeyPos.y,
+              z: lastKnownKeyPos.z
+            }
             lastKnownKeyPos = null
           } else {
             actions.push({ type: 'key_pickup_failed', pos: lastKnownKeyPos })
@@ -710,10 +1014,25 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
     }
 
     if (obtainedKey) {
-      const chestMove = await gotoPosition(bot, keyFinderConfig.lockedChest, 'locked_chest', actions)
+      logger.log('key_debug_chest_interaction_attempt', {
+        runId,
+        attemptIndex: attempts,
+        stage: 'move_to_chest',
+        chestPos: keyFinderConfig.lockedChest
+      })
+      const chestMove = await gotoPosition(bot, keyFinderConfig.lockedChest, 'locked_chest', actions, {
+        radius: 2,
+        actionType: 'chest_move'
+      })
       if (chestMove) {
         const equipped = await equipKey(bot, logger, actions)
         if (equipped) {
+          logger.log('key_debug_chest_interaction_attempt', {
+            runId,
+            attemptIndex: attempts,
+            stage: 'open_chest',
+            chestPos: keyFinderConfig.lockedChest
+          })
           unlocked = await unlockChest(bot, keyFinderConfig.lockedChest, actions)
         }
       } else {
@@ -734,7 +1053,7 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
       runId,
       attemptIndex: attempts,
       targetPos: keyFinderConfig.lockedChest,
-      keyPos: lastKnownKeyPos,
+      keyPos: acquiredKeyPos || lastKnownKeyPos,
       searchPath,
       visitedCells: Array.from(visitedCells),
       actions,

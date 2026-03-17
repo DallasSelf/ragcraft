@@ -44,7 +44,14 @@ function rankKeyMemories(memories = []) {
 function chooseKeySearchPlan(defaultChestPos, rankedMemories = []) {
   if (rankedMemories.length > 0) {
     const top = rankedMemories[0]
-    return { chestPos: top.pos, source: top.success ? 'distilled_success' : 'distilled_hint' }
+    return {
+      chestPos: {
+        x: top.pos.x,
+        y: defaultChestPos.y,
+        z: top.pos.z
+      },
+      source: top.success ? 'distilled_success' : 'distilled_hint'
+    }
   }
 
   return { chestPos: defaultChestPos, source: 'default' }

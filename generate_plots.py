@@ -10,7 +10,7 @@ import matplotlib.patches as mpatches
 import numpy as np
 from collections import defaultdict
 
-# Set style for publication-quality plots
+
 plt.style.use('seaborn-v0_8-darkgrid')
 plt.rcParams['figure.figsize'] = (12, 8)
 plt.rcParams['font.size'] = 12
@@ -199,7 +199,7 @@ def plot_success_rate(metrics_data, output_dir):
     ax.legend()
     ax.grid(axis='y', alpha=0.3)
     
-    # Add value labels on bars
+  
     for bars in [bars1, bars2]:
         for bar in bars:
             height = bar.get_height()
@@ -221,7 +221,7 @@ def plot_combined_comparison(metrics_data, output_dir):
     x = np.arange(len(scenarios))
     width = 0.35
     
-    # Completion Time
+  
     ax1 = axes[0]
     distilled_ct = []
     raw_ct = []
@@ -261,7 +261,7 @@ def plot_combined_comparison(metrics_data, output_dir):
     ax2.legend()
     ax2.grid(axis='y', alpha=0.3)
     
-    # Success Rate
+    
     ax3 = axes[2]
     distilled_sr = []
     raw_sr = []
