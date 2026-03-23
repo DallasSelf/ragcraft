@@ -6,10 +6,7 @@ const { ingestDistilledMemory } = require('../rag/distilledMemory')
 const { attachHazardExposureLogger } = require('../agent/utils/hazardExposureTracker')
 const { buildRunContext } = require('../agent/utils/runContext')
 const { applySafetyRails } = require('../agent/utils/safetyRails')
-
-function safeSlug(v) {
-  return String(v).replace(/[^a-zA-Z0-9_-]+/g, '_')
-}
+const { buildStandardRunRecord, writeRunArtifacts } = require('./runSummary')
 
 function nowStamp() {
   return new Date().toISOString().replace(/[:.]/g, '-')
@@ -23,12 +20,13 @@ async function runScenario(bot, scenarioName, options = {}) {
   }
 
   const runId = options.runId || `${scenario.id}-${nowStamp()}`
-  const baseDir = options.runsDir || path.join(__dirname, '..', 'runs')
-  const scenarioDir = path.join(baseDir, scenario.id)
-
-  const logger = createLogger({ dirPath: scenarioDir, fileBase: safeSlug(runId) })
-  applySafetyRails(bot, logger)
   const executionMode = options.mode || 'default'
+  const logger = createLogger({
+    scenarioId: scenario.id,
+    runId,
+    memoryMode: executionMode
+  })
+  applySafetyRails(bot, logger)
   const runContext = buildRunContext({ scenarioId: scenario.id, mode: executionMode })
   const hazardStats = { exposureCount: 0 }
 
@@ -53,6 +51,7 @@ async function runScenario(bot, scenarioName, options = {}) {
     ...options,
     runId,
     scenarioId: scenario.id,
+    runOutputDir: logger.runDir,
     runContext,
     hazardStats
   }
@@ -90,6 +89,28 @@ async function runScenario(bot, scenarioName, options = {}) {
       hazardExposures: hazardStats.exposureCount,
       result
     })
+
+    const loggerStats = typeof logger.getStats === 'function' ? logger.getStats() : {}
+    const runSummary = buildStandardRunRecord({
+      runId,
+      scenario: scenario.id,
+      memoryMode: executionMode,
+      startedAt,
+      endedAt: Date.now(),
+      result,
+      runLabel: options.runLabel || null,
+      eventLogPath: logger.logPath,
+      metricsPath: logger.runDir ? path.join(logger.runDir, 'metrics.json') : null,
+      entriesWritten: loggerStats.entriesWritten,
+      hazardExposures: hazardStats.exposureCount
+    })
+
+    writeRunArtifacts({
+      runDir: logger.runDir,
+      summaryRecord: runSummary,
+      repoRoot: path.join(__dirname, '..')
+    })
+
     return {
       scenarioId: scenario.id,
       runId,
@@ -105,6 +126,28 @@ async function runScenario(bot, scenarioName, options = {}) {
       ms: Date.now() - startedAt,
       message: err && err.message ? err.message : String(err),
       stack: err && err.stack ? err.stack : null
+    })
+
+    const loggerStats = typeof logger.getStats === 'function' ? logger.getStats() : {}
+    const runSummary = buildStandardRunRecord({
+      runId,
+      scenario: scenario.id,
+      memoryMode: executionMode,
+      startedAt,
+      endedAt: Date.now(),
+      result,
+      error: err,
+      runLabel: options.runLabel || null,
+      eventLogPath: logger.logPath,
+      metricsPath: logger.runDir ? path.join(logger.runDir, 'metrics.json') : null,
+      entriesWritten: loggerStats.entriesWritten,
+      hazardExposures: hazardStats.exposureCount
+    })
+
+    writeRunArtifacts({
+      runDir: logger.runDir,
+      summaryRecord: runSummary,
+      repoRoot: path.join(__dirname, '..')
     })
     throw err
   } finally {

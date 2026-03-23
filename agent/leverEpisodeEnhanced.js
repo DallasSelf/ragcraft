@@ -58,11 +58,13 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
   const lockType = getLeverLockType(leverScenario)
   const scenarioController = createLeverScenarioController(leverScenario)
   const scenarioId = leverScenario.scenarioId
-  const runId = uuidv4()
+  const runId = options.runId || uuidv4()
   const mode = options.mode || 'distilled'
   const memoryMode = resolveMemoryMode(mode)
 
-  const metrics = new MetricsCollector(runId, scenarioId, mode)
+  const metrics = new MetricsCollector(runId, scenarioId, mode, {
+    runOutputDir: options.runOutputDir
+  })
   const leverGoalContext = buildLeverGoalContext(leverScenario, lockType)
 
   logger.log('lever_episode_start', { runId, scenarioId, mode })
@@ -94,7 +96,8 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
         goalText: leverGoalContext.text,
         goal: leverGoalContext.goal,
         topK: 4,
-        scenarioId
+        scenarioId,
+        consumerScenarioId: scenarioId
       })
     } catch (err) {
       logger.log('lever_goal_claim_error', {
@@ -169,6 +172,7 @@ async function runLeverEpisodeEnhanced(bot, logger, options = {}) {
 
     const memories = await ragRetrieveHybrid({
       scenarioId,
+      consumerScenarioId: scenarioId,
       observation: {},
       topK: 5,
       includeDistilled: memoryMode.includeDistilled,

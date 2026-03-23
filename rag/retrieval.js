@@ -1,5 +1,6 @@
 const { searchVectorStore } = require('./store/vectorStore')
 const { retrieveDistilledMemories } = require('./distilledMemory')
+const { canConsumeMemory } = require('./memory/policy')
 
 /**
  * Enhanced RAG retrieval using hybrid search
@@ -60,6 +61,7 @@ function isSuccessfulDistilledMemory(scenarioId, memory) {
 async function ragRetrieveVector(params) {
   const {
     scenarioId,
+    consumerScenarioId = scenarioId,
     observation = {},
     topK = 5,
     includeDistilled = true,
@@ -71,6 +73,7 @@ async function ragRetrieveVector(params) {
 
   const results = await searchVectorStore(queryText, {
     scenarioId,
+    consumerScenarioId,
     topK,
     includeDistilled,
     includeRaw,
@@ -88,6 +91,7 @@ async function ragRetrieveVector(params) {
 async function ragRetrieveHybrid(params) {
   const {
     scenarioId,
+    consumerScenarioId = scenarioId,
     topK = 5,
     includeDistilled = true,
     includeRaw = false
@@ -96,6 +100,7 @@ async function ragRetrieveHybrid(params) {
   try {
     let vectorResults = await ragRetrieveVector({
       scenarioId,
+      consumerScenarioId,
       observation: params.observation,
       topK,
       includeDistilled,
@@ -109,6 +114,7 @@ async function ragRetrieveHybrid(params) {
 
         if (!hasSuccessful) {
           const distilled = retrieveDistilledMemories(scenarioId)
+            .filter(m => canConsumeMemory(m, { source: 'distilled', consumerScenarioId }))
             .filter(m => isSuccessfulDistilledMemory(scenarioId, m))
             .sort((a, b) => b.timestamp - a.timestamp)
             .slice(0, topK)
@@ -140,6 +146,7 @@ async function ragRetrieveHybrid(params) {
 
     console.log('Vector search returned no results, using fallback')
     const distilled = retrieveDistilledMemories(scenarioId)
+      .filter(m => canConsumeMemory(m, { source: 'distilled', consumerScenarioId }))
 
     const successful = distilled
       .filter(m => isSuccessfulDistilledMemory(scenarioId, m))
@@ -171,6 +178,7 @@ async function ragRetrieveComparison(params) {
 
   const distilledResults = await searchVectorStore(queryText, {
     scenarioId,
+    consumerScenarioId: scenarioId,
     topK,
     includeDistilled: true,
     includeRaw: false,
@@ -179,6 +187,7 @@ async function ragRetrieveComparison(params) {
 
   const rawResults = await searchVectorStore(queryText, {
     scenarioId,
+    consumerScenarioId: scenarioId,
     topK,
     includeDistilled: false,
     includeRaw: true,

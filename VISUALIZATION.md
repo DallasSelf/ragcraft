@@ -17,6 +17,68 @@ This guide explains how to generate and export visualizations of your RagCraft p
 
 ## Visualization Options
 
+### 0. Scenario Comparison Report + Local Dashboard (Defense/Demo)
+
+**Generate summary datasets:**
+```powershell
+npm run report:scenarios
+```
+
+**Outputs:**
+- `rag/eval/reporting/scenario_mode_summary.json`
+- `rag/eval/reporting/scenario_mode_summary.csv`
+- `rag/eval/reporting/run_records.csv`
+
+What this step aggregates from `runs/**/*.jsonl`:
+- scenarioId
+- run label
+- mode
+- attempts
+- duration ms
+- solved/found/success (normalized as outcome)
+- wrong turns
+- revisits
+- path efficiency
+- failed moves
+- successful moves
+- coverage ratio
+- waypoint success rate
+- hazard exposures
+
+Grouped output (scenario + mode) includes:
+- run count
+- success rate
+- average attempts
+- average duration
+- average wrong turns
+- average revisits
+- average path efficiency
+- average failed moves
+- average successful moves
+- average coverage ratio
+- average waypoint success rate
+- average hazard exposures
+- latest run files included
+
+Scout is retained in output and marked `experimental_open` when current local telemetry indicates low validation confidence.
+
+**Run local dashboard server:**
+```powershell
+npm run dashboard
+```
+
+Then open: `http://localhost:8787`
+
+Dashboard location and assets:
+- `rag/eval/dashboard/index.html`
+- `rag/eval/dashboard/app.js`
+- `rag/eval/dashboard/styles.css`
+
+Dashboard contents:
+- per-scenario raw vs distilled comparison cards
+- simple charts for success rate, attempts, and duration
+- run table with scenario, mode, label, outcome, attempts, and duration
+
 ### 1. Interactive HTML Visualization
 
 **Command:** `npm run visualize`

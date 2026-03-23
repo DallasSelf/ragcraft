@@ -58,6 +58,1314 @@
       },
       "how_to_apply": "Toggle levers in order 2-3-1 to open the door.",
       "lock_type": "lever_lock_3_wall_west"
+    },
+    {
+      "id": "c2cfade0-5720-41ad-90bf-6e18cbd72a29",
+      "memory_type": "claim",
+      "type": "RouteClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 3,
+            "y": 64,
+            "z": 9
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.73,
+      "timestamp": 1773797630571,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Route 1 establishes movement from (3, 64, 9) to (0, 64, 11).",
+      "description": "Route 1 establishes movement from (3, 64, 9) to (0, 64, 11).",
+      "metadata": {
+        "start": {
+          "x": 3,
+          "y": 64,
+          "z": 9
+        },
+        "end": {
+          "x": 0,
+          "y": 64,
+          "z": 11
+        },
+        "length": 4,
+        "stepIndex": 1
+      }
+    },
+    {
+      "id": "2cdbf4d7-5f30-4841-b738-901312e1cb23",
+      "memory_type": "claim",
+      "type": "SupplyCacheClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "supply"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 2,
+            "y": 64,
+            "z": 4
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.8,
+      "timestamp": 1773797630596,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Supply cache Chest located at (2, 64, 4).",
+      "description": "Supply cache Chest located at (2, 64, 4).",
+      "metadata": {
+        "block": "chest"
+      }
+    },
+    {
+      "id": "9c4d50a0-d8cb-4425-9fa7-d302acdfde4b",
+      "memory_type": "claim",
+      "type": "DoorLocationClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "door"
+      ],
+      "entities": {
+        "door": [
+          {
+            "id": "weathered_copper_door_0_13",
+            "location": {
+              "x": 0,
+              "y": 64,
+              "z": 13
+            }
+          }
+        ],
+        "code": [],
+        "location": [
+          {
+            "x": 0,
+            "y": 64,
+            "z": 13
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.76,
+      "timestamp": 1773797630601,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Doorway Weathered Copper Door observed at (0, 64, 13).",
+      "description": "Doorway Weathered Copper Door observed at (0, 64, 13).",
+      "metadata": {}
+    },
+    {
+      "id": "848c7ab4-4e1e-416d-b443-4f574b8e4aac",
+      "memory_type": "claim",
+      "type": "DoorLocationClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "door"
+      ],
+      "entities": {
+        "door": [
+          {
+            "id": "weathered_copper_door_0_14",
+            "location": {
+              "x": 0,
+              "y": 64,
+              "z": 14
+            }
+          }
+        ],
+        "code": [],
+        "location": [
+          {
+            "x": 0,
+            "y": 64,
+            "z": 14
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.76,
+      "timestamp": 1773797630601,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Doorway Weathered Copper Door observed at (0, 64, 14).",
+      "description": "Doorway Weathered Copper Door observed at (0, 64, 14).",
+      "metadata": {}
+    },
+    {
+      "id": "bc839576-1391-4dff-8155-be32b02ddee0",
+      "memory_type": "claim",
+      "type": "RouteClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 0,
+            "y": 64,
+            "z": 11
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.73,
+      "timestamp": 1773797631638,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Route 2 establishes movement from (0, 64, 11) to (0, 64, 6).",
+      "description": "Route 2 establishes movement from (0, 64, 11) to (0, 64, 6).",
+      "metadata": {
+        "start": {
+          "x": 0,
+          "y": 64,
+          "z": 11
+        },
+        "end": {
+          "x": 0,
+          "y": 64,
+          "z": 6
+        },
+        "length": 5,
+        "stepIndex": 2
+      }
+    },
+    {
+      "id": "a0c56d1b-b681-45bc-8502-aa0bbd1aa846",
+      "memory_type": "claim",
+      "type": "SupplyCacheClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "supply"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 5,
+            "y": 64,
+            "z": 5
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.8,
+      "timestamp": 1773797631655,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Supply cache Chest located at (5, 64, 5).",
+      "description": "Supply cache Chest located at (5, 64, 5).",
+      "metadata": {
+        "block": "chest"
+      }
+    },
+    {
+      "id": "29ce4dd8-2ef3-4a00-854b-59d468c45cf7",
+      "memory_type": "claim",
+      "type": "SupplyCacheClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "supply"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 2,
+            "y": 64,
+            "z": 0
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.8,
+      "timestamp": 1773797631655,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Supply cache Chest located at (2, 64, 0).",
+      "description": "Supply cache Chest located at (2, 64, 0).",
+      "metadata": {
+        "block": "chest"
+      }
+    },
+    {
+      "id": "c540c03e-772b-4ee0-ae25-16f5d0ada74c",
+      "memory_type": "claim",
+      "type": "RouteClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 0,
+            "y": 64,
+            "z": 6
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.73,
+      "timestamp": 1773797632496,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Route 3 establishes movement from (0, 64, 6) to (2, 64, 3).",
+      "description": "Route 3 establishes movement from (0, 64, 6) to (2, 64, 3).",
+      "metadata": {
+        "start": {
+          "x": 0,
+          "y": 64,
+          "z": 6
+        },
+        "end": {
+          "x": 2,
+          "y": 64,
+          "z": 3
+        },
+        "length": 4,
+        "stepIndex": 3
+      }
+    },
+    {
+      "id": "de720930-d707-431c-b059-7f569554b136",
+      "memory_type": "claim",
+      "type": "HazardZoneClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "hazard"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 7,
+            "y": 63,
+            "z": 3
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.71,
+      "timestamp": 1773797632516,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Avoid a radius of 4 blocks around (7, 63, 3).",
+      "description": "Hazard Lava detected at (7, 63, 3).",
+      "metadata": {
+        "hazard": "lava",
+        "radius": 4
+      }
+    },
+    {
+      "id": "a0bd2860-a11e-4bca-8b38-db1f1d241983",
+      "memory_type": "claim",
+      "type": "HazardZoneClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "hazard"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 7,
+            "y": 63,
+            "z": 4
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.71,
+      "timestamp": 1773797632516,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Avoid a radius of 4 blocks around (7, 63, 4).",
+      "description": "Hazard Lava detected at (7, 63, 4).",
+      "metadata": {
+        "hazard": "lava",
+        "radius": 4
+      }
+    },
+    {
+      "id": "1b0ec0e1-0320-47c8-ab92-4eb5a80d964f",
+      "memory_type": "claim",
+      "type": "HazardZoneClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "hazard"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 7,
+            "y": 63,
+            "z": 5
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.71,
+      "timestamp": 1773797632516,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Avoid a radius of 4 blocks around (7, 63, 5).",
+      "description": "Hazard Lava detected at (7, 63, 5).",
+      "metadata": {
+        "hazard": "lava",
+        "radius": 4
+      }
+    },
+    {
+      "id": "d2226ffa-d350-4153-99af-890f531c9656",
+      "memory_type": "claim",
+      "type": "RouteClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 2,
+            "y": 64,
+            "z": 3
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.73,
+      "timestamp": 1773797633657,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Route 4 establishes movement from (2, 64, 3) to (-3, 64, 5).",
+      "description": "Route 4 establishes movement from (2, 64, 3) to (-3, 64, 5).",
+      "metadata": {
+        "start": {
+          "x": 2,
+          "y": 64,
+          "z": 3
+        },
+        "end": {
+          "x": -3,
+          "y": 64,
+          "z": 5
+        },
+        "length": 5,
+        "stepIndex": 4
+      }
+    },
+    {
+      "id": "df523485-a48c-4367-9a1e-0bdfd6888ce2",
+      "memory_type": "claim",
+      "type": "RouteClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": -3,
+            "y": 64,
+            "z": 5
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.73,
+      "timestamp": 1773797634785,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Route 5 establishes movement from (-3, 64, 5) to (-1, 64, 0).",
+      "description": "Route 5 establishes movement from (-3, 64, 5) to (-1, 64, 0).",
+      "metadata": {
+        "start": {
+          "x": -3,
+          "y": 64,
+          "z": 5
+        },
+        "end": {
+          "x": -1,
+          "y": 64,
+          "z": 0
+        },
+        "length": 5,
+        "stepIndex": 5
+      }
+    },
+    {
+      "id": "aa40cd27-20ee-40e8-8ebb-6dd7f11474e1",
+      "memory_type": "claim",
+      "type": "RouteClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": -1,
+            "y": 64,
+            "z": 0
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.73,
+      "timestamp": 1773797635394,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Route 6 establishes movement from (-1, 64, 0) to (-1, 64, -3).",
+      "description": "Route 6 establishes movement from (-1, 64, 0) to (-1, 64, -3).",
+      "metadata": {
+        "start": {
+          "x": -1,
+          "y": 64,
+          "z": 0
+        },
+        "end": {
+          "x": -1,
+          "y": 64,
+          "z": -3
+        },
+        "length": 3,
+        "stepIndex": 6
+      }
+    },
+    {
+      "id": "8ee2030e-61dd-4946-afc4-a5a03ec62c94",
+      "memory_type": "claim",
+      "type": "RouteClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": -1,
+            "y": 64,
+            "z": -3
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.73,
+      "timestamp": 1773797635957,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Route 7 establishes movement from (-1, 64, -3) to (-1, 64, -6).",
+      "description": "Route 7 establishes movement from (-1, 64, -3) to (-1, 64, -6).",
+      "metadata": {
+        "start": {
+          "x": -1,
+          "y": 64,
+          "z": -3
+        },
+        "end": {
+          "x": -1,
+          "y": 64,
+          "z": -6
+        },
+        "length": 3,
+        "stepIndex": 7
+      }
+    },
+    {
+      "id": "2bfdb691-a7f5-4cdf-bfb7-dcdd43d631b7",
+      "memory_type": "claim",
+      "type": "RouteClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": -1,
+            "y": 64,
+            "z": -6
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.73,
+      "timestamp": 1773797637025,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Route 8 establishes movement from (-1, 64, -6) to (3, 64, -7).",
+      "description": "Route 8 establishes movement from (-1, 64, -6) to (3, 64, -7).",
+      "metadata": {
+        "start": {
+          "x": -1,
+          "y": 64,
+          "z": -6
+        },
+        "end": {
+          "x": 3,
+          "y": 64,
+          "z": -7
+        },
+        "length": 4,
+        "stepIndex": 8
+      }
+    },
+    {
+      "id": "2b4c96f0-6513-4420-adec-614728ac02ae",
+      "memory_type": "claim",
+      "type": "RouteClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 3,
+            "y": 64,
+            "z": -7
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.73,
+      "timestamp": 1773797638404,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Route 9 establishes movement from (3, 64, -7) to (9, 64, -5).",
+      "description": "Route 9 establishes movement from (3, 64, -7) to (9, 64, -5).",
+      "metadata": {
+        "start": {
+          "x": 3,
+          "y": 64,
+          "z": -7
+        },
+        "end": {
+          "x": 9,
+          "y": 64,
+          "z": -5
+        },
+        "length": 6,
+        "stepIndex": 9
+      }
+    },
+    {
+      "id": "ebf7357f-1cf2-4701-9fec-92b730c2e1c3",
+      "memory_type": "claim",
+      "type": "RouteClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 9,
+            "y": 64,
+            "z": -5
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.73,
+      "timestamp": 1773797639414,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Route 10 establishes movement from (9, 64, -5) to (6, 64, -2).",
+      "description": "Route 10 establishes movement from (9, 64, -5) to (6, 64, -2).",
+      "metadata": {
+        "start": {
+          "x": 9,
+          "y": 64,
+          "z": -5
+        },
+        "end": {
+          "x": 6,
+          "y": 64,
+          "z": -2
+        },
+        "length": 4,
+        "stepIndex": 10
+      }
+    },
+    {
+      "id": "49bbfcce-3a43-4f30-94da-073e6d62a09b",
+      "memory_type": "claim",
+      "type": "SafePathClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "hazard",
+        "safe_path"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 0,
+            "y": 64,
+            "z": 6
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.76,
+      "timestamp": 1773797641050,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Follow 9 waypoint safe path from (0, 64, 6) to (6, 64, -2) to bypass the hazard at (7, 63, 3).",
+      "description": "Safe path of 9 waypoints bypassing lava at (7, 63, 3).",
+      "metadata": {
+        "hazardClaimId": "de720930-d707-431c-b059-7f569554b136",
+        "hazardCenter": {
+          "x": 7,
+          "y": 63,
+          "z": 3
+        },
+        "hazardType": "lava",
+        "radius": 4,
+        "waypoints": [
+          {
+            "x": 0,
+            "y": 64,
+            "z": 6
+          },
+          {
+            "x": 2,
+            "y": 64,
+            "z": 3
+          },
+          {
+            "x": -3,
+            "y": 64,
+            "z": 5
+          },
+          {
+            "x": -1,
+            "y": 64,
+            "z": 0
+          },
+          {
+            "x": -1,
+            "y": 64,
+            "z": -3
+          },
+          {
+            "x": -1,
+            "y": 64,
+            "z": -6
+          },
+          {
+            "x": 3,
+            "y": 64,
+            "z": -7
+          },
+          {
+            "x": 9,
+            "y": 64,
+            "z": -5
+          },
+          {
+            "x": 6,
+            "y": 64,
+            "z": -2
+          }
+        ],
+        "pathLength": 35.07,
+        "segmentCount": 7,
+        "exit": {
+          "x": 6,
+          "y": 64,
+          "z": -2
+        }
+      }
+    },
+    {
+      "id": "9c781933-6ddc-4eeb-8e8e-cda142e2e343",
+      "memory_type": "claim",
+      "type": "SafePathClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "hazard",
+        "safe_path"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 0,
+            "y": 64,
+            "z": 6
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.76,
+      "timestamp": 1773797641050,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Follow 8 waypoint safe path from (0, 64, 6) to (6, 64, -2) to bypass the hazard at (7, 63, 4).",
+      "description": "Safe path of 8 waypoints bypassing lava at (7, 63, 4).",
+      "metadata": {
+        "hazardClaimId": "a0bd2860-a11e-4bca-8b38-db1f1d241983",
+        "hazardCenter": {
+          "x": 7,
+          "y": 63,
+          "z": 4
+        },
+        "hazardType": "lava",
+        "radius": 4,
+        "waypoints": [
+          {
+            "x": 0,
+            "y": 64,
+            "z": 6
+          },
+          {
+            "x": 2,
+            "y": 64,
+            "z": 3
+          },
+          {
+            "x": -3,
+            "y": 64,
+            "z": 5
+          },
+          {
+            "x": -1,
+            "y": 64,
+            "z": 0
+          },
+          {
+            "x": -1,
+            "y": 64,
+            "z": -3
+          },
+          {
+            "x": 3,
+            "y": 64,
+            "z": -7
+          },
+          {
+            "x": 9,
+            "y": 64,
+            "z": -5
+          },
+          {
+            "x": 6,
+            "y": 64,
+            "z": -2
+          }
+        ],
+        "pathLength": 33.6,
+        "segmentCount": 6,
+        "exit": {
+          "x": 6,
+          "y": 64,
+          "z": -2
+        }
+      }
+    },
+    {
+      "id": "fcabb6d2-62a6-437d-9cc7-17dde7922f44",
+      "memory_type": "claim",
+      "type": "SafePathClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "hazard",
+        "safe_path"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 0,
+            "y": 64,
+            "z": 6
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.76,
+      "timestamp": 1773797641050,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Follow 7 waypoint safe path from (0, 64, 6) to (6, 64, -2) to bypass the hazard at (7, 63, 5).",
+      "description": "Safe path of 7 waypoints bypassing lava at (7, 63, 5).",
+      "metadata": {
+        "hazardClaimId": "1b0ec0e1-0320-47c8-ab92-4eb5a80d964f",
+        "hazardCenter": {
+          "x": 7,
+          "y": 63,
+          "z": 5
+        },
+        "hazardType": "lava",
+        "radius": 4,
+        "waypoints": [
+          {
+            "x": 0,
+            "y": 64,
+            "z": 6
+          },
+          {
+            "x": 2,
+            "y": 64,
+            "z": 3
+          },
+          {
+            "x": -3,
+            "y": 64,
+            "z": 5
+          },
+          {
+            "x": -1,
+            "y": 64,
+            "z": 0
+          },
+          {
+            "x": -1,
+            "y": 64,
+            "z": -3
+          },
+          {
+            "x": 9,
+            "y": 64,
+            "z": -5
+          },
+          {
+            "x": 6,
+            "y": 64,
+            "z": -2
+          }
+        ],
+        "pathLength": 31.82,
+        "segmentCount": 5,
+        "exit": {
+          "x": 6,
+          "y": 64,
+          "z": -2
+        }
+      }
+    },
+    {
+      "id": "be166ff3-0c6f-4990-b9ae-e75ef4b94349",
+      "memory_type": "claim",
+      "type": "ScoutRouteMemoryClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "route",
+        "route_memory"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 3,
+            "y": 64,
+            "z": 9
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.84,
+      "timestamp": 1773797641051,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Successful scout traversal captured 9 reusable anchors from (3, 64, 9) to (6, 64, -2).",
+      "description": "Successful scout traversal captured 9 reusable anchors from (3, 64, 9) to (6, 64, -2).",
+      "metadata": {
+        "anchors": [
+          {
+            "x": 3,
+            "y": 64,
+            "z": 9
+          },
+          {
+            "x": 0,
+            "y": 64,
+            "z": 6
+          },
+          {
+            "x": 2,
+            "y": 64,
+            "z": 3
+          },
+          {
+            "x": -3,
+            "y": 64,
+            "z": 5
+          },
+          {
+            "x": -1,
+            "y": 64,
+            "z": 0
+          },
+          {
+            "x": -1,
+            "y": 64,
+            "z": -3
+          },
+          {
+            "x": 3,
+            "y": 64,
+            "z": -7
+          },
+          {
+            "x": 9,
+            "y": 64,
+            "z": -5
+          },
+          {
+            "x": 6,
+            "y": 64,
+            "z": -2
+          }
+        ],
+        "frontiers": [
+          {
+            "from": {
+              "x": 3,
+              "y": 64,
+              "z": 9
+            },
+            "to": {
+              "x": 0,
+              "y": 64,
+              "z": 6
+            }
+          },
+          {
+            "from": {
+              "x": 0,
+              "y": 64,
+              "z": 6
+            },
+            "to": {
+              "x": 2,
+              "y": 64,
+              "z": 3
+            }
+          },
+          {
+            "from": {
+              "x": 2,
+              "y": 64,
+              "z": 3
+            },
+            "to": {
+              "x": -3,
+              "y": 64,
+              "z": 5
+            }
+          },
+          {
+            "from": {
+              "x": -3,
+              "y": 64,
+              "z": 5
+            },
+            "to": {
+              "x": -1,
+              "y": 64,
+              "z": 0
+            }
+          },
+          {
+            "from": {
+              "x": -1,
+              "y": 64,
+              "z": 0
+            },
+            "to": {
+              "x": -1,
+              "y": 64,
+              "z": -3
+            }
+          },
+          {
+            "from": {
+              "x": -1,
+              "y": 64,
+              "z": -3
+            },
+            "to": {
+              "x": 3,
+              "y": 64,
+              "z": -7
+            }
+          },
+          {
+            "from": {
+              "x": 3,
+              "y": 64,
+              "z": -7
+            },
+            "to": {
+              "x": 9,
+              "y": 64,
+              "z": -5
+            }
+          },
+          {
+            "from": {
+              "x": 9,
+              "y": 64,
+              "z": -5
+            },
+            "to": {
+              "x": 6,
+              "y": 64,
+              "z": -2
+            }
+          }
+        ],
+        "start": {
+          "x": 3,
+          "y": 64,
+          "z": 9
+        },
+        "end": {
+          "x": 6,
+          "y": 64,
+          "z": -2
+        },
+        "segmentCount": 10,
+        "pathLength": 37.84
+      }
+    },
+    {
+      "id": "a35a1a3b-4890-4b3b-9fb7-40a334595088",
+      "memory_type": "claim",
+      "type": "DeadzoneClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "deadzone"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 13,
+            "y": 64,
+            "z": 1
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.8,
+      "timestamp": 1773797641051,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Repeated scout navigation failures near (13, 64, 1) (2 attempts).",
+      "description": "Repeated scout navigation failures near (13, 64, 1) (2 attempts).",
+      "metadata": {
+        "attempts": 2,
+        "radius": 2
+      }
+    },
+    {
+      "id": "ef99dcae-f8e4-4f90-9de1-7285d0259ed6",
+      "memory_type": "claim",
+      "type": "DeadzoneClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "deadzone"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": -8,
+            "y": 64,
+            "z": 7
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.8,
+      "timestamp": 1773797641051,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Repeated scout navigation failures near (-8, 64, 7) (2 attempts).",
+      "description": "Repeated scout navigation failures near (-8, 64, 7) (2 attempts).",
+      "metadata": {
+        "attempts": 2,
+        "radius": 2
+      }
+    },
+    {
+      "id": "6d7fb16d-c8b1-47d6-a14c-3e2d098a6938",
+      "memory_type": "claim",
+      "type": "DeadzoneClaim",
+      "task_id": "scout_area_v1",
+      "scenarioId": "scout_area_v1",
+      "goal_tags": [
+        "scouting",
+        "deadzone"
+      ],
+      "entities": {
+        "door": [],
+        "code": [],
+        "location": [
+          {
+            "x": 10,
+            "y": 64,
+            "z": 10
+          }
+        ],
+        "tool": []
+      },
+      "prerequisites": [],
+      "confidence": 0.8,
+      "timestamp": 1773797641051,
+      "source_episode_ids": [
+        "scout_area_v1-2026-03-18T01-33-49-553Z"
+      ],
+      "action_recipe": "Repeated scout navigation failures near (10, 64, 10) (2 attempts).",
+      "description": "Repeated scout navigation failures near (10, 64, 10) (2 attempts).",
+      "metadata": {
+        "attempts": 2,
+        "radius": 2
+      }
     }
   ],
   "episodes": []

@@ -7,7 +7,7 @@ const mazeConfig = {
   goalPos: { ...FACILITY_POINTS.mazeExit },
   exitTriggerBlock: { x: FACILITY_POINTS.mazeExit.x, y: FACILITY_POINTS.mazeExit.y, z: FACILITY_POINTS.mazeExit.z, material: 'redstone_block' },
   enforcedY: 64,
-  maxSteps: 100,
+  maxSteps: 160,
   gridSize: 20,
   bounds: {
     minX: -20,

@@ -1,4 +1,5 @@
 const { MemoryTypes } = require('./schema')
+const { applyScoutReconPolicy } = require('./policy')
 
 /**
  * Entry point for claim distillation across scenarios.
@@ -113,7 +114,7 @@ function normalizeScoutClaim(claim = {}, scenarioId, runId) {
   })
   if (runId) sourceEpisodes.add(String(runId))
 
-  return {
+  const normalized = {
     memory_type: MemoryTypes.CLAIM,
     ...claim,
     task_id: claim.task_id || scenarioId,
@@ -125,4 +126,6 @@ function normalizeScoutClaim(claim = {}, scenarioId, runId) {
     timestamp: claim.timestamp || Date.now(),
     source_episode_ids: Array.from(sourceEpisodes)
   }
+
+  return applyScoutReconPolicy(normalized, { sourceScenarioId: scenarioId })
 }

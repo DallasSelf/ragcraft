@@ -71,7 +71,8 @@ async function main(args) {
 
   if (!scenario) {
     const available = listScenarios().map(s => s.id).join(', ')
-    console.log(`Usage: node run.js <scenario> [--mode rag|distilled|distilled-ollama] [--label text] [--memory-profile raw|distilled]`)
+    console.log(`Usage: node run.js <scenario> [--mode raw|rag|distilled|distilled-ollama|hybrid] [--label text] [--memory-profile raw|distilled]`)
+    console.log('Modes: raw=baseline raw retrieval, distilled=distilled retrieval condition')
     console.log(`Scenarios: ${available}`)
     process.exit(1)
   }

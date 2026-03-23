@@ -98,7 +98,8 @@ async function runCaptiveRescueEpisode(bot, logger, options = {}) {
       goalText: goalContext.text,
       goal: goalContext.goal,
       topK: 5,
-      scenarioId
+      scenarioId,
+      consumerScenarioId: scenarioId
     })
   } catch (err) {
     logger.log('captive_rescue_claim_error', { runId, message: err.message })

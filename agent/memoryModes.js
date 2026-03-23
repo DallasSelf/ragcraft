@@ -1,10 +1,10 @@
 const MODE_PROFILES = {
   raw: {
     id: 'raw',
-    includeRaw: false,
+    includeRaw: true,
     includeDistilled: false,
     distillStyle: 'none',
-    dataset: 'raw_blank'
+    dataset: 'raw_retrieval'
   },
   rag: {
     id: 'rag',

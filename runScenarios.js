@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const mineflayer = require('mineflayer')
 const { scenarios } = require('./runner/scenarioRegistry')
-const { createLogger } = require('./logging/logger')
+const { runScenario } = require('./runner/runScenario')
 
 const HOST = process.env.MC_HOST || 'localhost'
 const PORT = Number(process.env.MC_PORT || 25565)
@@ -34,13 +34,14 @@ async function main() {
   })
   bot.loadPlugin(pathfinder)
 
-  const logger = createLogger({ scenarioId: scenario.id })
-
   await new Promise(resolve => bot.once('spawn', resolve))
 
   for (let i = 0; i < repeats; i++) {
     try {
-      await scenario.run(bot, logger, { mode: 'terminal' })
+      await runScenario(bot, scenarioName, {
+        mode: 'terminal',
+        runLabel: 'terminal_batch'
+      })
     } catch (e) {
       console.error(e)
     }

@@ -37,11 +37,13 @@ async function teleportToMazeStart(bot, logger) {
 
 async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
   const scenarioId = mazeConfig.scenarioId
-  const runId = uuidv4()
+  const runId = options.runId || uuidv4()
   const mode = options.mode || 'distilled'
   const memoryMode = resolveMemoryMode(mode)
 
-  const metrics = new MetricsCollector(runId, scenarioId, mode)
+  const metrics = new MetricsCollector(runId, scenarioId, mode, {
+    runOutputDir: options.runOutputDir
+  })
   const mazeGoalContext = buildMazeGoalContext()
 
   logger.log('maze_episode_start', { runId, scenarioId, mode })
@@ -61,7 +63,8 @@ async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
         goalText: mazeGoalContext.text,
         goal: mazeGoalContext.goal,
         topK: 4,
-        scenarioId
+        scenarioId,
+        consumerScenarioId: scenarioId
       })
     } catch (err) {
       logger.log('maze_goal_claim_error', {
@@ -112,6 +115,7 @@ async function runMazeEpisodeEnhanced(bot, logger, options = {}) {
 
     const memories = await ragRetrieveHybrid({
       scenarioId,
+      consumerScenarioId: scenarioId,
       observation: {},
       topK: 5,
       includeDistilled: memoryMode.includeDistilled,

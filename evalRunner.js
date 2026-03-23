@@ -1,10 +1,7 @@
 const mineflayer = require('mineflayer')
 const { pathfinder, Movements } = require('mineflayer-pathfinder')
 const mcDataLoader = require('minecraft-data')
-const { runLeverEpisodeEnhanced } = require('./agent/leverEpisodeEnhanced')
-const { runMazeEpisodeEnhanced } = require('./agent/mazeEpisodeEnhanced')
-const { runKeyFinderEpisodeEnhanced } = require('./agent/keyFinderEpisodeEnhanced')
-const { createLogger } = require('./logging/logger')
+const { runScenario } = require('./runner/runScenario')
 const { getLeverScenarioView } = require('./scenarios/leverPuzzleConfig')
 const { mazeConfig } = require('./scenarios/mazeConfig')
 const { keyFinderConfig } = require('./scenarios/keyFinderConfig')
@@ -52,42 +49,42 @@ async function runEvaluation() {
     clearVectorStore()
   }
 
-  // Run all three scenarios in distilled mode
+  // Distilled retrieval condition
   console.log('\n' + '='.repeat(60))
-  console.log('LEVER PUZZLE - DISTILLED MODE')
+  console.log('LEVER PUZZLE - DISTILLED RETRIEVAL')
   console.log('='.repeat(60) + '\n')
-  await runLeverEpisodeEnhanced(bot, createLogger('lever_distilled', bot.username), { mode: 'distilled' })
+  await runScenario(bot, 'lever', { mode: 'distilled', runLabel: 'eval_distilled' })
   await wait(3000)
 
   console.log('\n' + '='.repeat(60))
-  console.log('MAZE - DISTILLED MODE')
+  console.log('MAZE - DISTILLED RETRIEVAL')
   console.log('='.repeat(60) + '\n')
-  await runMazeEpisodeEnhanced(bot, createLogger('maze_distilled', bot.username), { mode: 'distilled' })
+  await runScenario(bot, 'maze', { mode: 'distilled', runLabel: 'eval_distilled' })
   await wait(3000)
 
   console.log('\n' + '='.repeat(60))
-  console.log('KEY FINDER - DISTILLED MODE')
+  console.log('KEY FINDER - DISTILLED RETRIEVAL')
   console.log('='.repeat(60) + '\n')
-  await runKeyFinderEpisodeEnhanced(bot, createLogger('key_distilled', bot.username), { mode: 'distilled' })
+  await runScenario(bot, 'key', { mode: 'distilled', runLabel: 'eval_distilled' })
   await wait(3000)
 
-  // Run all three scenarios in raw mode
+  // Baseline raw retrieval condition
   console.log('\n' + '='.repeat(60))
-  console.log('LEVER PUZZLE - RAW MODE')
+  console.log('LEVER PUZZLE - BASELINE RAW RETRIEVAL')
   console.log('='.repeat(60) + '\n')
-  await runLeverEpisodeEnhanced(bot, createLogger('lever_raw', bot.username), { mode: 'raw' })
-  await wait(3000)
-
-  console.log('\n' + '='.repeat(60))
-  console.log('MAZE - RAW MODE')
-  console.log('='.repeat(60) + '\n')
-  await runMazeEpisodeEnhanced(bot, createLogger('maze_raw', bot.username), { mode: 'raw' })
+  await runScenario(bot, 'lever', { mode: 'raw', runLabel: 'eval_raw' })
   await wait(3000)
 
   console.log('\n' + '='.repeat(60))
-  console.log('KEY FINDER - RAW MODE')
+  console.log('MAZE - BASELINE RAW RETRIEVAL')
   console.log('='.repeat(60) + '\n')
-  await runKeyFinderEpisodeEnhanced(bot, createLogger('key_raw', bot.username), { mode: 'raw' })
+  await runScenario(bot, 'maze', { mode: 'raw', runLabel: 'eval_raw' })
+  await wait(3000)
+
+  console.log('\n' + '='.repeat(60))
+  console.log('KEY FINDER - BASELINE RAW RETRIEVAL')
+  console.log('='.repeat(60) + '\n')
+  await runScenario(bot, 'key', { mode: 'raw', runLabel: 'eval_raw' })
   await wait(3000)
 
   console.log('\n')

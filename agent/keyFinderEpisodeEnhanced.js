@@ -720,11 +720,13 @@ async function unlockChest(bot, chestPos, actions) {
 
 async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
   const scenarioId = keyFinderConfig.scenarioId
-  const runId = uuidv4()
+  const runId = options.runId || uuidv4()
   const mode = options.mode || 'distilled'
   const memoryMode = resolveMemoryMode(mode)
 
-  const metrics = new MetricsCollector(runId, scenarioId, mode)
+  const metrics = new MetricsCollector(runId, scenarioId, mode, {
+    runOutputDir: options.runOutputDir
+  })
   const keyGoalContext = buildKeyGoalContext()
 
   logger.log('key_finder_episode_start', { runId, scenarioId, mode })
@@ -746,7 +748,8 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
         goalText: keyGoalContext.text,
         goal: keyGoalContext.goal,
         topK: 5,
-        scenarioId
+        scenarioId,
+        consumerScenarioId: scenarioId
       })
     } catch (err) {
       logger.log('key_goal_claim_error', {
@@ -818,6 +821,7 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
 
     const memories = await ragRetrieveHybrid({
       scenarioId,
+      consumerScenarioId: scenarioId,
       observation: { position: bot.entity.position },
       topK: 5,
       includeDistilled: memoryMode.includeDistilled,

@@ -4,6 +4,25 @@ const { getStoreStats } = require('../store/vectorStore')
 
 const metricsDir = path.join(__dirname, 'runs')
 if (!fs.existsSync(metricsDir)) fs.mkdirSync(metricsDir, { recursive: true })
+const canonicalRunsRoot = path.join(__dirname, '..', '..', 'runs')
+
+function ensureDir(dirPath) {
+  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true })
+}
+
+function walkFiles(rootDir, out = []) {
+  if (!fs.existsSync(rootDir)) return out
+  const entries = fs.readdirSync(rootDir, { withFileTypes: true })
+  for (const entry of entries) {
+    const full = path.join(rootDir, entry.name)
+    if (entry.isDirectory()) {
+      walkFiles(full, out)
+      continue
+    }
+    out.push(full)
+  }
+  return out
+}
 
 function toArray(value) {
   if (!value) return []
@@ -54,6 +73,7 @@ class MetricsCollector {
     this.runId = runId
     this.scenarioId = scenarioId
     this.mode = mode  // 'distilled', 'raw', 'hybrid'
+    this.runOutputDir = context.runOutputDir || null
     this.metrics = {
       runId,
       scenarioId,
@@ -159,12 +179,18 @@ class MetricsCollector {
       summary
     }
 
-    const filename = `${this.scenarioId}_${this.mode}_${this.runId}.json`
-    const filepath = path.join(metricsDir, filename)
+    let filepath
+    if (this.runOutputDir) {
+      ensureDir(this.runOutputDir)
+      filepath = path.join(this.runOutputDir, 'metrics.json')
+    } else {
+      const filename = `${this.scenarioId}_${this.mode}_${this.runId}.json`
+      filepath = path.join(metricsDir, filename)
+    }
 
     fs.writeFileSync(filepath, JSON.stringify(output, null, 2), 'utf8')
 
-    console.log(`Metrics saved: ${filename}`)
+    console.log(`Metrics saved: ${path.basename(filepath)}`)
     return filepath
   }
 
@@ -179,16 +205,27 @@ class MetricsCollector {
  * Load all metrics for a scenario
  */
 function loadScenarioMetrics(scenarioId) {
-  if (!fs.existsSync(metricsDir)) return []
+  const files = []
 
-  const files = fs.readdirSync(metricsDir)
-    .filter(f => f.startsWith(scenarioId) && f.endsWith('.json'))
+  if (fs.existsSync(metricsDir)) {
+    const legacy = fs.readdirSync(metricsDir)
+      .filter(f => f.startsWith(scenarioId) && f.endsWith('.json'))
+      .map(f => path.join(metricsDir, f))
+    files.push(...legacy)
+  }
+
+  const canonical = walkFiles(canonicalRunsRoot)
+    .filter(f => path.basename(f) === 'metrics.json')
+  files.push(...canonical)
 
   const metrics = []
   for (const file of files) {
     try {
-      const data = fs.readFileSync(path.join(metricsDir, file), 'utf8')
-      metrics.push(JSON.parse(data))
+      const data = fs.readFileSync(file, 'utf8')
+      const parsed = JSON.parse(data)
+      if (parsed && parsed.scenarioId === scenarioId) {
+        metrics.push(parsed)
+      }
     } catch (err) {
       console.warn(`Failed to load metrics file ${file}:`, err.message)
     }

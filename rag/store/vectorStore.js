@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { embedText, cosineSimilarity } = require('../embeddings/embedder')
 const { getProfileAwarePath, onMemoryProfileChange, isRawModeActive } = require('../memory/profile')
+const { canConsumeMemory } = require('../memory/policy')
 
 const storeDir = __dirname
 
@@ -167,11 +168,9 @@ async function addRawEpisode(episode) {
  * @returns {Promise<Array>} - Ranked results
  */
 async function searchVectorStore(queryText, options = {}) {
-  if (isRawModeActive()) {
-    return []
-  }
   const {
     scenarioId = null,
+    consumerScenarioId = null,
     topK = 5,
     includeDistilled = true,
     includeRaw = true,
@@ -185,6 +184,7 @@ async function searchVectorStore(queryText, options = {}) {
   if (includeDistilled) {
     for (const item of vectorStore.distilled) {
       if (scenarioId && item.scenarioId !== scenarioId) continue
+      if (!canConsumeMemory(item, { source: 'distilled', consumerScenarioId })) continue
 
       const similarity = cosineSimilarity(queryEmbedding, item.embedding)
 
@@ -201,6 +201,7 @@ async function searchVectorStore(queryText, options = {}) {
   if (includeRaw) {
     for (const item of vectorStore.raw) {
       if (scenarioId && item.scenarioId !== scenarioId) continue
+      if (!canConsumeMemory(item, { source: 'raw', consumerScenarioId })) continue
 
       const similarity = cosineSimilarity(queryEmbedding, item.embedding)
 

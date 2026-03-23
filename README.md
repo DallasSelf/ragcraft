@@ -171,7 +171,7 @@ Use the chat commands to trigger scenarios
 
 Memory Profiles (Raw vs Distilled)
 
-You can keep testing data separated without manual file juggling. When you run `node run.js <scenario> --mode raw`, the agent automatically switches to a dedicated `raw` profile that writes to `rag/store/vectors.raw.json`, `rag/kb.raw.json`, and `rag/distilledMemory/memory.raw.json`, so raw experiments never touch the default distilled knowledge base. All other modes continue to use the existing `distilled` profile (`vectors.json`, `kb.json`, `memory.json`). Override the selection explicitly with `--memory-profile raw|distilled` whenever you need to mix-and-match (for example, `node run.js maze --mode distilled --memory-profile raw` runs the planner with distilled logic but keeps the blank raw data store).
+You can keep testing data separated without manual file juggling. When you run `node run.js <scenario> --mode raw`, the agent automatically switches to a dedicated `raw` profile that writes to `rag/store/vectors.raw.json`, `rag/kb.raw.json`, and `rag/distilledMemory/memory.raw.json`, so baseline raw retrieval experiments never touch the default distilled knowledge base. All other modes continue to use the existing `distilled` profile (`vectors.json`, `kb.json`, `memory.json`). Override the selection explicitly with `--memory-profile raw|distilled` whenever you need to mix-and-match (for example, `node run.js maze --mode distilled --memory-profile raw` runs distilled retrieval logic against the raw-profile storage files).
 
 One-command bootstrap
 
@@ -221,6 +221,119 @@ Key details:
 - The terminal view prints a table so you can compare all three conditions without opening the JSON
 - Every batch now begins with `scout_area_v1`, so cross-task claims exist before lever/captive runs. Use `--skip-scout` to revert to the legacy behavior or pass `--scout-radius`, `--scout-steps`, `--scout-center x,y,z`, `--scout-corner-a x,y,z`, and `--scout-corner-b x,y,z` to tighten the sweep bounds.
 - Per-run metrics include `scout_claims_detected`, `scout_steps`, and `scout_cells_explored` so you can verify the survey actually discovered new knowledge.
+
+Unified Run Logging
+
+All scenario runs now write to one canonical directory structure:
+
+```
+runs/
+  <scenario>/
+    <memory_mode>/
+      <run_id>/
+        events.jsonl
+        summary.json
+        metrics.json
+  _summary/
+    all_runs.jsonl
+    latest_run.json
+    aggregated_runs.json
+    aggregated_runs.csv
+```
+
+Key points:
+
+- `events.jsonl` is the event stream (`run_start`, per-step events, `run_end`, errors).
+- `summary.json` is the normalized per-run record used for reporting.
+- `metrics.json` is scenario retrieval/store telemetry from `MetricsCollector`.
+- `_summary/all_runs.jsonl` is appended automatically after every run.
+
+Standard run schema (`summary.json`):
+
+- `run_id`
+- `timestamp`
+- `scenario`
+- `memory_mode`
+- `success`
+- `attempts`
+- `duration_seconds`
+- `action_count`
+- `errors`
+- `revisits`
+- `wrong_turns`
+- `path_efficiency`
+- `metadata` (scenario-specific and debug details)
+
+Raw vs distilled representation:
+
+- `--mode raw` is the baseline raw retrieval condition. It retrieves broader non-distilled prior memory from the raw profile stores.
+- `--mode distilled` is the distilled retrieval condition. It retrieves compressed structured claims.
+- Runs executed with `--mode raw` are logged under `runs/<scenario>/raw/...`.
+- Runs executed with `--mode distilled` are logged under `runs/<scenario>/distilled/...`.
+- The same schema is used for both, so comparisons are direct.
+
+Generate consolidated summaries:
+
+```
+npm run report:scenarios
+```
+
+This command now reads canonical `summary.json` files first (with legacy `jsonl` fallback) and produces:
+
+- `rag/eval/reporting/scenario_mode_summary.json`
+- `rag/eval/reporting/scenario_mode_summary.csv`
+- `rag/eval/reporting/run_records.csv`
+- `runs/_summary/aggregated_runs.json`
+- `runs/_summary/aggregated_runs.csv`
+
+Batch Runner And Demo Commands
+
+Use the sequential batch runner (lever, maze, key across raw + distilled):
+
+```
+npm run eval:batch
+```
+
+Additional run-count variants:
+
+```
+npm run eval:batch:10
+npm run eval:batch:20
+```
+
+Quick smoke check:
+
+```
+npm run eval:smoke
+```
+
+Live demo shortcuts:
+
+```
+npm run demo:lr   # lever raw
+npm run demo:ld   # lever distilled
+npm run demo:mr   # maze raw
+npm run demo:md   # maze distilled
+npm run demo:kr   # key raw
+npm run demo:kd   # key distilled
+```
+
+Equivalent terminology aliases (same underlying commands):
+
+```
+npm run run:lever:baseline
+npm run run:lever:distilled-retrieval
+npm run run:maze:baseline
+npm run run:maze:distilled-retrieval
+npm run run:key:baseline
+npm run run:key:distilled-retrieval
+```
+
+All runs continue to write canonical artifacts under:
+
+```
+runs/<scenario>/<memory_mode>/<run_id>/
+```
 
 Composite Experiment Runner
 

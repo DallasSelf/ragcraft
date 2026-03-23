@@ -15,7 +15,7 @@ function printComparisonReport(scenarioId) {
   console.log(`PERFORMANCE COMPARISON: ${scenarioId}`)
   console.log('='.repeat(60))
 
-  console.log('\nDISTILLED MODE:')
+  console.log('\nDISTILLED RETRIEVAL CONDITION:')
   console.log(`  Runs:              ${comparison.distilled.runs}`)
   console.log(`  Avg Attempts:      ${comparison.distilled.avgAttempts.toFixed(2)}`)
   console.log(`  Avg Duration:      ${(comparison.distilled.avgDuration / 1000).toFixed(2)} s`)
@@ -23,7 +23,7 @@ function printComparisonReport(scenarioId) {
   console.log(`  Retrieval Latency: ${comparison.distilled.avgLatency.toFixed(2)} ms`)
   console.log(`  Success Rate:      ${(comparison.distilled.successRate * 100).toFixed(1)}%`)
 
-  console.log('\nRAW MODE:')
+  console.log('\nBASELINE RAW RETRIEVAL CONDITION:')
   console.log(`  Runs:              ${comparison.raw.runs}`)
   console.log(`  Avg Attempts:      ${comparison.raw.avgAttempts.toFixed(2)}`)
   console.log(`  Avg Duration:      ${(comparison.raw.avgDuration / 1000).toFixed(2)} s`)
@@ -84,7 +84,7 @@ function generateMarkdownReport(scenarioId, outputPath) {
   md += `| Store Size | ${(stats.storeSizeBytes / 1024).toFixed(2)} KB |\n\n`
 
   md += `## Performance Comparison\n\n`
-  md += `### Distilled Mode\n\n`
+  md += `### Distilled Retrieval Condition\n\n`
   md += `- **Runs**: ${comparison.distilled.runs}\n`
   md += `- **Avg Attempts to Solve**: ${comparison.distilled.avgAttempts.toFixed(2)}\n`
   md += `- **Avg Duration**: ${(comparison.distilled.avgDuration / 1000).toFixed(2)} seconds\n`
@@ -92,7 +92,7 @@ function generateMarkdownReport(scenarioId, outputPath) {
   md += `- **Retrieval Latency**: ${comparison.distilled.avgLatency.toFixed(2)} ms\n`
   md += `- **Success Rate**: ${(comparison.distilled.successRate * 100).toFixed(1)}%\n\n`
 
-  md += `### Raw Mode\n\n`
+  md += `### Baseline Raw Retrieval Condition\n\n`
   md += `- **Runs**: ${comparison.raw.runs}\n`
   md += `- **Avg Attempts to Solve**: ${comparison.raw.avgAttempts.toFixed(2)}\n`
   md += `- **Avg Duration**: ${(comparison.raw.avgDuration / 1000).toFixed(2)} seconds\n`

@@ -134,20 +134,19 @@ function resolveAllowedSources(input) {
   return 'claims_only'
 }
 
-async function retrieveGoalAlignedClaims({ goalText = '', goal = {}, topK = 5, scenarioId = null, scope, allowedSources } = {}) {
-  if (isRawModeActive()) {
-    return []
-  }
+async function retrieveGoalAlignedClaims({ goalText = '', goal = {}, topK = 5, scenarioId = null, consumerScenarioId = null, scope, allowedSources } = {}) {
   const queryText = buildGoalQuery(goalText, goal) || goalText || 'goal memory retrieval'
   const searchLimit = Math.max(topK * 3, topK + 5)
   const scopeMode = scope || process.env.GOAL_CLAIM_SCOPE || 'global'
   const scopedScenarioId = scopeMode === 'local' ? scenarioId : null
-  const sourceMode = resolveAllowedSources(allowedSources)
+  const defaultSourceMode = isRawModeActive() ? 'raw_only' : undefined
+  const sourceMode = resolveAllowedSources(allowedSources || defaultSourceMode)
   const includeRaw = sourceMode === 'claims_and_raw' || sourceMode === 'raw_only'
   const includeDistilled = sourceMode !== 'raw_only'
 
   const vectorResults = await searchVectorStore(queryText, {
     scenarioId: scopedScenarioId,
+    consumerScenarioId: consumerScenarioId || scenarioId,
     topK: searchLimit,
     includeDistilled,
     includeRaw
