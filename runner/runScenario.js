@@ -7,6 +7,7 @@ const { attachHazardExposureLogger } = require('../agent/utils/hazardExposureTra
 const { buildRunContext } = require('../agent/utils/runContext')
 const { applySafetyRails } = require('../agent/utils/safetyRails')
 const { buildStandardRunRecord, writeRunArtifacts } = require('./runSummary')
+const { createRunResourceMonitor } = require('../logging/resourceMonitor')
 
 function nowStamp() {
   return new Date().toISOString().replace(/[:.]/g, '-')
@@ -29,6 +30,11 @@ async function runScenario(bot, scenarioName, options = {}) {
   applySafetyRails(bot, logger)
   const runContext = buildRunContext({ scenarioId: scenario.id, mode: executionMode })
   const hazardStats = { exposureCount: 0 }
+  const resourceMonitor = createRunResourceMonitor({
+    runDir: logger.runDir,
+    samplingIntervalMs: 1000,
+    logger
+  })
 
   logger.log('run_start', {
     scenarioId: scenario.id,
@@ -39,7 +45,10 @@ async function runScenario(bot, scenarioName, options = {}) {
   })
 
   let result = null
+  let runError = null
+  let resourceArtifacts = null
   const startedAt = Date.now()
+  await resourceMonitor.start()
   const hazardTelemetry = attachHazardExposureLogger(bot, logger, {
     runId,
     scenarioId: scenario.id,
@@ -90,35 +99,8 @@ async function runScenario(bot, scenarioName, options = {}) {
       result
     })
 
-    const loggerStats = typeof logger.getStats === 'function' ? logger.getStats() : {}
-    const runSummary = buildStandardRunRecord({
-      runId,
-      scenario: scenario.id,
-      memoryMode: executionMode,
-      startedAt,
-      endedAt: Date.now(),
-      result,
-      runLabel: options.runLabel || null,
-      eventLogPath: logger.logPath,
-      metricsPath: logger.runDir ? path.join(logger.runDir, 'metrics.json') : null,
-      entriesWritten: loggerStats.entriesWritten,
-      hazardExposures: hazardStats.exposureCount
-    })
-
-    writeRunArtifacts({
-      runDir: logger.runDir,
-      summaryRecord: runSummary,
-      repoRoot: path.join(__dirname, '..')
-    })
-
-    return {
-      scenarioId: scenario.id,
-      runId,
-      runLabel: options.runLabel || null,
-      hazardExposures: hazardStats.exposureCount,
-      result
-    }
   } catch (err) {
+    runError = err
     logger.log('run_error', {
       scenarioId: scenario.id,
       runId,
@@ -127,6 +109,32 @@ async function runScenario(bot, scenarioName, options = {}) {
       message: err && err.message ? err.message : String(err),
       stack: err && err.stack ? err.stack : null
     })
+  } finally {
+    if (hazardTelemetry && typeof hazardTelemetry.dispose === 'function') {
+      hazardTelemetry.dispose()
+    }
+
+    try {
+      resourceArtifacts = await resourceMonitor.stopAndWriteArtifacts()
+      if (resourceArtifacts && resourceArtifacts.summary) {
+        logger.log('run_resource_summary', {
+          scenarioId: scenario.id,
+          runId,
+          sampleCount: resourceArtifacts.summary.sample_count,
+          avgCpuPercent: resourceArtifacts.summary.avg_cpu_percent,
+          maxCpuPercent: resourceArtifacts.summary.max_cpu_percent,
+          avgRssMb: resourceArtifacts.summary.avg_rss_mb,
+          maxRssMb: resourceArtifacts.summary.max_rss_mb,
+          gpuMetricsAvailable: resourceArtifacts.summary.gpu_metrics_available
+        })
+      }
+    } catch (resourceErr) {
+      logger.log('run_resource_summary_error', {
+        scenarioId: scenario.id,
+        runId,
+        message: resourceErr && resourceErr.message ? resourceErr.message : String(resourceErr)
+      })
+    }
 
     const loggerStats = typeof logger.getStats === 'function' ? logger.getStats() : {}
     const runSummary = buildStandardRunRecord({
@@ -136,10 +144,12 @@ async function runScenario(bot, scenarioName, options = {}) {
       startedAt,
       endedAt: Date.now(),
       result,
-      error: err,
+      error: runError,
       runLabel: options.runLabel || null,
       eventLogPath: logger.logPath,
       metricsPath: logger.runDir ? path.join(logger.runDir, 'metrics.json') : null,
+      resourceUsagePath: resourceArtifacts ? resourceArtifacts.usagePath : null,
+      resourceSummaryPath: resourceArtifacts ? resourceArtifacts.summaryPath : null,
       entriesWritten: loggerStats.entriesWritten,
       hazardExposures: hazardStats.exposureCount
     })
@@ -149,12 +159,18 @@ async function runScenario(bot, scenarioName, options = {}) {
       summaryRecord: runSummary,
       repoRoot: path.join(__dirname, '..')
     })
-    throw err
-  } finally {
-    if (hazardTelemetry && typeof hazardTelemetry.dispose === 'function') {
-      hazardTelemetry.dispose()
-    }
+
     logger.close()
+  }
+
+  if (runError) throw runError
+
+  return {
+    scenarioId: scenario.id,
+    runId,
+    runLabel: options.runLabel || null,
+    hazardExposures: hazardStats.exposureCount,
+    result
   }
 }
 

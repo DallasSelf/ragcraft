@@ -1,0 +1,4 @@
+﻿"scenario","condition_name","run_count","success_rate","mean_attempts","mean_duration_seconds","mean_runtime_ms","mean_avg_cpu_percent","mean_avg_rss_mb","mean_avg_gpu_util_percent","mean_avg_vram_used_mb"
+"lever","baseline_raw","200","1","2.48","12.9714","12969.485","1.5502","195.0207","39.9727","10667.8361"
+"lever","distilled_memory","200","1","0.01","4.333","4330.835","6.8973","192.5814","28.0984","883.3685"
+"lever","raw_memory","200","1","0.01","4.3529","4351.185","6.6193","194.7568","50.3907","4393.5551"

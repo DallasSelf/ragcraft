@@ -156,6 +156,8 @@ function parseMemoryHints(memories = []) {
     if (!coords) continue
     if (mem.text.startsWith('Key found')) {
       hints.prefer.push(coords)
+    } else if (mem.text.startsWith('Key not found')) {
+      hints.avoid.push(coords)
     }
   }
   return hints
@@ -595,7 +597,7 @@ async function attemptWallSlide(bot, waypoint, timeoutMs, bounds) {
   }
 
   if (progressMade) {
-    return { success: true, via: 'slide_partial' }
+    return { success: true, via: 'slide_partial', reachedTarget: false, partial: true }
   }
 
   return { success: false, reason: lastReason || 'slide_failed' }
@@ -609,7 +611,7 @@ async function moveWithDetours(bot, pos, opts = {}) {
   }
 
   const slideResult = await attemptWallSlide(bot, pos, MOVE_TIMEOUT_MS, SEARCH_BOUNDS)
-  if (slideResult.success) {
+  if (slideResult.success && slideResult.via !== 'slide_partial') {
     return slideResult
   }
 
@@ -628,23 +630,28 @@ async function moveWithDetours(bot, pos, opts = {}) {
     }
   }
 
-  return { success: false, reason: directResult.reason || slideResult.reason || 'navigation_failed' }
+  return { success: false, reason: directResult.reason || slideResult.reason || 'navigation_failed', partial: Boolean(slideResult.partial) }
 }
 
 async function gotoPosition(bot, pos, label, actions, opts = {}) {
   const actionType = opts.actionType || 'search_move'
   const move = await moveWithDetours(bot, pos, opts)
 
-  if (move.success) {
+  if (move.success && move.via !== 'slide_partial') {
     actions.push({ type: actionType, label, pos })
     actions.push({ type: `${actionType}_route`, label, pos, via: move.via || 'direct' })
     return true
   }
 
+  if (move.success && move.via === 'slide_partial') {
+    actions.push({ type: `${actionType}_partial`, label, pos, via: move.via })
+    return false
+  }
+
   if (move.reason === 'timeout') {
     actions.push({ type: `${actionType}_timeout`, label, pos })
   } else {
-    actions.push({ type: `${actionType}_error`, label, pos, error: move.reason || 'navigation_failed' })
+    actions.push({ type: `${actionType}_error`, label, pos, error: move.reason || 'navigation_failed', partial: Boolean(move.partial) })
   }
   return false
 }
@@ -659,16 +666,77 @@ async function waitForKeyPickup(bot) {
 }
 
 function findKeyEntity(bot, radius = ENTITY_SPOT_RADIUS) {
+  function extractKeySignals(entity) {
+    const expectedId = String(keyFinderConfig.keyItem?.id || '').toLowerCase()
+    const expectedCustom = String(keyFinderConfig.keyItem?.customName || '').toLowerCase()
+    const texts = [
+      entity?.name,
+      entity?.displayName,
+      entity?.customName,
+      entity?.objectType,
+      entity?.objectTypeName
+    ]
+      .filter(Boolean)
+      .map(value => String(value).toLowerCase())
+
+    let metadataText = ''
+    try {
+      metadataText = JSON.stringify(entity?.metadata || '').toLowerCase()
+    } catch {
+      metadataText = ''
+    }
+
+    const idMatch = Boolean(expectedId) && (
+      texts.some(text => text.includes(expectedId)) || metadataText.includes(expectedId)
+    )
+    const customMatch = Boolean(expectedCustom) && (
+      texts.some(text => text.includes(expectedCustom)) || metadataText.includes(expectedCustom)
+    )
+
+    return {
+      idMatch,
+      customMatch
+    }
+  }
+
+  function parseSummonPos() {
+    const cmd = keyFinderConfig?.commands?.summonKeyItem
+    if (!cmd || typeof cmd !== 'string') return null
+    const match = cmd.match(/\/summon\s+item\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/i)
+    if (!match) return null
+    return { x: Number(match[1]), y: Number(match[2]), z: Number(match[3]) }
+  }
+
   const entities = Object.values(bot.entities || {})
+  const summonPos = parseSummonPos()
   let best = null
+  let bestScore = -Infinity
   let bestDistance = Infinity
 
   for (const entity of entities) {
     if (!entity || entity.name !== 'item' || !entity.position) continue
     const distance = entity.position.distanceTo(bot.entity.position)
     if (radius && distance > radius) continue
-    if (distance < bestDistance) {
+
+    const signals = extractKeySignals(entity)
+    const nearSearchPlane = Number.isFinite(SEARCH_BOUNDS?.y)
+      ? Math.abs(entity.position.y - SEARCH_BOUNDS.y) <= 2
+      : false
+    const nearSummonPos = summonPos
+      ? entity.position.distanceTo(new Vec3(summonPos.x, summonPos.y, summonPos.z)) <= Math.max(3, DETECTION_RADIUS)
+      : false
+
+    const confidenceScore =
+      (signals.idMatch ? 1.5 : 0) +
+      (signals.customMatch ? 1.5 : 0) +
+      (nearSummonPos ? 0.75 : 0) +
+      (nearSearchPlane ? 0.25 : 0)
+
+    if (confidenceScore < 1.5) continue
+
+    if (confidenceScore > bestScore || (confidenceScore === bestScore && distance < bestDistance)) {
       best = entity
+      bestScore = confidenceScore
       bestDistance = distance
     }
   }
@@ -850,6 +918,7 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
     let steps = 0
     let lastKnownKeyPos = null
     let acquiredKeyPos = null
+    let lastAttemptedSearchPos = null
     let lastKeyApproachStep = -1
 
     logger.log('key_attempt', {
@@ -916,6 +985,14 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
         waypoint
       })
 
+      // Keep the latest attempted search waypoint so failed attempts can distill
+      // a meaningful focus location instead of falling back to chest coordinates.
+      lastAttemptedSearchPos = {
+        x: waypoint.x,
+        y: waypoint.y,
+        z: waypoint.z
+      }
+
       const successMove = await gotoPosition(bot, waypoint, `step_${stepNumber}`, actions)
       logger.log('key_debug_waypoint_move', {
         runId,
@@ -924,8 +1001,8 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
         waypoint,
         success: successMove
       })
-      visitedCells.add(cellKey(waypoint))
       if (successMove) {
+        visitedCells.add(cellKey(waypoint))
         searchPath.push({ x: waypoint.x, y: waypoint.y, z: waypoint.z })
         await wait(WAYPOINT_PAUSE_MS)
       }
@@ -1057,7 +1134,11 @@ async function runKeyFinderEpisodeEnhanced(bot, logger, options = {}) {
       runId,
       attemptIndex: attempts,
       targetPos: keyFinderConfig.lockedChest,
-      keyPos: acquiredKeyPos || lastKnownKeyPos,
+      keyPos:
+        acquiredKeyPos ||
+        lastKnownKeyPos ||
+        lastAttemptedSearchPos ||
+        (searchPath.length > 0 ? searchPath[searchPath.length - 1] : null),
       searchPath,
       visitedCells: Array.from(visitedCells),
       actions,

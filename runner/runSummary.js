@@ -62,6 +62,8 @@ function buildStandardRunRecord({
   runLabel,
   eventLogPath,
   metricsPath,
+  resourceUsagePath,
+  resourceSummaryPath,
   entriesWritten,
   hazardExposures
 }) {
@@ -89,6 +91,8 @@ function buildStandardRunRecord({
       event_count: numberOrNull(entriesWritten),
       event_log_path: safeString(eventLogPath),
       metrics_path: safeString(metricsPath),
+      resource_usage_path: safeString(resourceUsagePath),
+      resource_summary_path: safeString(resourceSummaryPath),
       raw_result: result && typeof result === 'object' ? result : null
     }
   }

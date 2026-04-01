@@ -39,6 +39,9 @@ function buildQueryText(observation, scenarioId) {
 
 function isSuccessfulDistilledMemory(scenarioId, memory) {
   if (!memory || typeof memory.text !== 'string') return false
+  if (scenarioId && (scenarioId.startsWith('key_finder') || scenarioId.startsWith('key_unlock'))) {
+    if (memory.text.startsWith('Key found')) return true
+  }
   if (memory.text.includes('Successful')) return true
 
   if (scenarioId && scenarioId.startsWith('maze')) {
