@@ -38,7 +38,9 @@ function buildQueryText(observation, scenarioId) {
 }
 
 function isSuccessfulDistilledMemory(scenarioId, memory) {
-  if (!memory || typeof memory.text !== 'string') return false
+  if (!memory) return false
+  if (memory.outcome === 'success') return true
+  if (typeof memory.text !== 'string') return false
   if (scenarioId && (scenarioId.startsWith('key_finder') || scenarioId.startsWith('key_unlock'))) {
     if (memory.text.startsWith('Key found')) return true
   }
@@ -53,6 +55,25 @@ function isSuccessfulDistilledMemory(scenarioId, memory) {
     }
   }
 
+  return false
+}
+
+function isFailureGuidanceMemory(scenarioId, memory) {
+  if (!memory) return false
+  if (memory.outcome === 'failed') return true
+  if (typeof memory.text !== 'string') return false
+  if (scenarioId && (scenarioId.startsWith('key_finder') || scenarioId.startsWith('key_unlock'))) {
+    if (memory.text.startsWith('Key not found')) return true
+  }
+  if (memory.text.toLowerCase().includes('failed') || memory.text.toLowerCase().includes('avoid')) return true
+  if (scenarioId && scenarioId.startsWith('maze')) {
+    try {
+      const parsed = JSON.parse(memory.text)
+      return parsed && parsed.outcome === 'failed'
+    } catch {
+      return false
+    }
+  }
   return false
 }
 
@@ -116,8 +137,10 @@ async function ragRetrieveHybrid(params) {
         const hasSuccessful = vectorResults.some(r => isSuccessfulDistilledMemory(scenarioId, r))
 
         if (!hasSuccessful) {
-          const distilled = retrieveDistilledMemories(scenarioId)
+          const distilledPool = retrieveDistilledMemories(scenarioId)
             .filter(m => canConsumeMemory(m, { source: 'distilled', consumerScenarioId }))
+
+          const distilledSuccess = distilledPool
             .filter(m => isSuccessfulDistilledMemory(scenarioId, m))
             .sort((a, b) => b.timestamp - a.timestamp)
             .slice(0, topK)
@@ -125,8 +148,19 @@ async function ragRetrieveHybrid(params) {
               ...m,
               similarity: 1.0,
               source: 'distilled_refresh',
-              boostedScore: 1.0
             }))
+
+          const distilledFailures = distilledPool
+            .filter(m => isFailureGuidanceMemory(scenarioId, m))
+            .sort((a, b) => b.timestamp - a.timestamp)
+            .slice(0, Math.max(1, Math.floor(topK / 2)))
+            .map(m => ({
+              ...m,
+              similarity: 0.82,
+              source: 'distilled_avoid_refresh'
+            }))
+
+          const distilled = distilledSuccess.concat(distilledFailures)
 
           if (distilled.length > 0) {
             const existingIds = new Set(vectorResults.map(r => r.id))
@@ -156,11 +190,26 @@ async function ragRetrieveHybrid(params) {
       .sort((a, b) => b.timestamp - a.timestamp)
       .slice(0, topK)
 
-    return successful.map(m => ({
+    const avoidGuidance = distilled
+      .filter(m => isFailureGuidanceMemory(scenarioId, m))
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, Math.max(1, Math.floor(topK / 2)))
+
+    const mixed = successful.concat(avoidGuidance)
+    const unique = []
+    const seen = new Set()
+    for (const item of mixed) {
+      if (!item || seen.has(item.id)) continue
+      seen.add(item.id)
+      unique.push(item)
+      if (unique.length >= topK) break
+    }
+
+    return unique.map(m => ({
       ...m,
-      similarity: 0.5,  // Default similarity
+      similarity: isSuccessfulDistilledMemory(scenarioId, m) ? 0.5 : 0.42,
       source: 'distilled',
-      boostedScore: 0.5
+      boostedScore: isSuccessfulDistilledMemory(scenarioId, m) ? 0.5 : 0.42
     }))
 
   } catch (err) {

@@ -1,41 +1,62 @@
-﻿[
-    {
-        "scenario":  "lever",
-        "condition_name":  "baseline_raw",
-        "run_count":  200,
-        "success_rate":  1,
-        "mean_attempts":  2.48,
-        "mean_duration_seconds":  12.9714,
-        "mean_runtime_ms":  12969.485,
-        "mean_avg_cpu_percent":  1.5502,
-        "mean_avg_rss_mb":  195.0207,
-        "mean_avg_gpu_util_percent":  39.9727,
-        "mean_avg_vram_used_mb":  10667.8361
+[
+  {
+    "scenario": "lever",
+    "condition_name": "baseline_raw",
+    "run_count": 200,
+    "eventual_success_rate": 0.97,
+    "first_attempt_success_rate": 0.15,
+    "mean_attempts": 2.555,
+    "median_attempts": 2,
+    "mean_corrected_attempts": 3.525,
+    "median_corrected_attempts": 3,
+    "mean_attempt_value": 3.525,
+    "median_attempt_value": 3,
+    "attempt_histogram": {
+      "1": 30,
+      "2": 40,
+      "3": 31,
+      "4": 32,
+      "5": 28,
+      "6": 39
     },
-    {
-        "scenario":  "lever",
-        "condition_name":  "distilled_memory",
-        "run_count":  200,
-        "success_rate":  1,
-        "mean_attempts":  0.01,
-        "mean_duration_seconds":  4.333,
-        "mean_runtime_ms":  4330.835,
-        "mean_avg_cpu_percent":  6.8973,
-        "mean_avg_rss_mb":  192.5814,
-        "mean_avg_gpu_util_percent":  28.0984,
-        "mean_avg_vram_used_mb":  883.3685
+    "mean_runtime": 16372.395,
+    "median_runtime": 15216
+  },
+  {
+    "scenario": "lever",
+    "condition_name": "raw_memory",
+    "run_count": 200,
+    "eventual_success_rate": 1,
+    "first_attempt_success_rate": 1,
+    "mean_attempts": 0,
+    "median_attempts": 0,
+    "mean_corrected_attempts": 1,
+    "median_corrected_attempts": 1,
+    "mean_attempt_value": 1,
+    "median_attempt_value": 1,
+    "attempt_histogram": {
+      "1": 200
     },
-    {
-        "scenario":  "lever",
-        "condition_name":  "raw_memory",
-        "run_count":  200,
-        "success_rate":  1,
-        "mean_attempts":  0.01,
-        "mean_duration_seconds":  4.3529,
-        "mean_runtime_ms":  4351.185,
-        "mean_avg_cpu_percent":  6.6193,
-        "mean_avg_rss_mb":  194.7568,
-        "mean_avg_gpu_util_percent":  50.3907,
-        "mean_avg_vram_used_mb":  4393.5551
-    }
+    "mean_runtime": 4761.085,
+    "median_runtime": 4761
+  },
+  {
+    "scenario": "lever",
+    "condition_name": "distilled_memory",
+    "run_count": 200,
+    "eventual_success_rate": 1,
+    "first_attempt_success_rate": 0.995,
+    "mean_attempts": 0.005,
+    "median_attempts": 0,
+    "mean_corrected_attempts": 1.005,
+    "median_corrected_attempts": 1,
+    "mean_attempt_value": 1.005,
+    "median_attempt_value": 1,
+    "attempt_histogram": {
+      "1": 199,
+      "2": 1
+    },
+    "mean_runtime": 4285.765,
+    "median_runtime": 4265
+  }
 ]

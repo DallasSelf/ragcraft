@@ -75,6 +75,54 @@ function deriveDistilledText(memory) {
   }
 }
 
+function clamp01(value, fallback = 0.5) {
+  const n = Number(value)
+  if (!Number.isFinite(n)) return fallback
+  return Math.max(0, Math.min(1, n))
+}
+
+function inferOutcome(memory) {
+  if (!memory) return null
+  if (typeof memory.outcome === 'string') {
+    return memory.outcome === 'success' ? 'success' : 'failed'
+  }
+  if (typeof memory.text === 'string') {
+    const text = memory.text.toLowerCase()
+    if (text.startsWith('key found') || text.includes('successful')) return 'success'
+    if (text.startsWith('key not found') || text.includes('failed') || text.includes('avoid')) return 'failed'
+    try {
+      const parsed = JSON.parse(memory.text)
+      if (parsed && typeof parsed.outcome === 'string') {
+        return parsed.outcome === 'success' ? 'success' : 'failed'
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return null
+}
+
+function estimateActionability(memory) {
+  if (!memory) return 0.5
+  if (Number.isFinite(Number(memory.actionability))) {
+    return clamp01(memory.actionability, 0.5)
+  }
+  const text = typeof memory.text === 'string' ? memory.text.toLowerCase() : ''
+  let score = 0.5
+  if (text.includes('keypos=') || text.includes('sequence') || text.includes('turn sequence')) score += 0.2
+  if (text.includes('unknown')) score -= 0.25
+  if (text.length < 30) score -= 0.15
+  return clamp01(score, 0.5)
+}
+
+function isVagueMemory(memory) {
+  const text = typeof memory?.text === 'string' ? memory.text.toLowerCase().trim() : ''
+  if (!text) return true
+  if (text === 'lever sequence: unknown') return true
+  if (text.length < 24) return true
+  return false
+}
+
 /**
  * Vector store structure:
  * {
@@ -218,8 +266,23 @@ async function searchVectorStore(queryText, options = {}) {
   results.sort((a, b) => b.similarity - a.similarity)
 
   results.forEach(r => {
-    if (r.source === 'distilled' && r.confidence) {
-      r.boostedScore = r.similarity * (0.7 + 0.3 * r.confidence)
+    if (r.source === 'distilled') {
+      const confidence = clamp01(r.confidence, 0.6)
+      const importance = clamp01(r.importance, 0.6)
+      const actionability = estimateActionability(r)
+      const outcome = inferOutcome(r)
+      const successBonus = outcome === 'success' ? 0.08 : 0
+      const failureGuidanceBonus = outcome === 'failed' && typeof r.corrective_action === 'string' && r.corrective_action.length > 10
+        ? 0.03
+        : 0
+      const vaguePenalty = isVagueMemory(r) ? 0.12 : 0
+
+      r.boostedScore =
+        (r.similarity * (0.5 + 0.25 * confidence + 0.25 * importance)) +
+        (0.12 * actionability) +
+        successBonus +
+        failureGuidanceBonus -
+        vaguePenalty
     } else {
       r.boostedScore = r.similarity
     }

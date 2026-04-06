@@ -1,0 +1,386 @@
+{
+  "lever": {
+    "baseline_raw": [
+      {
+        "scenario": "lever",
+        "condition_name": "baseline_raw",
+        "run_label": "lever_baseline_raw_001",
+        "run_path": "runs/lever/raw/lever-2026-04-01T20-48-52-368Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "baseline_raw",
+        "run_label": "lever_baseline_raw_002",
+        "run_path": "runs/lever/raw/lever-2026-04-01T20-49-13-458Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "baseline_raw",
+        "run_label": "lever_baseline_raw_100",
+        "run_path": "runs/lever/raw/lever-2026-04-01T21-49-46-177Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "baseline_raw",
+        "run_label": "lever_baseline_raw_199",
+        "run_path": "runs/lever/raw/lever-2026-04-01T22-42-21-538Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "baseline_raw",
+        "run_label": "lever_baseline_raw_200",
+        "run_path": "runs/lever/raw/lever-2026-04-01T22-42-41-242Z",
+        "missing_artifacts": [],
+        "pass": true
+      }
+    ],
+    "raw_memory": [
+      {
+        "scenario": "lever",
+        "condition_name": "raw_memory",
+        "run_label": "lever_raw_memory_001",
+        "run_path": "runs/lever/distilled/lever-2026-04-01T22-43-04-795Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "raw_memory",
+        "run_label": "lever_raw_memory_002",
+        "run_path": "runs/lever/distilled/lever-2026-04-01T22-43-14-148Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "raw_memory",
+        "run_label": "lever_raw_memory_100",
+        "run_path": "runs/lever/distilled/lever-2026-04-01T22-58-46-539Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "raw_memory",
+        "run_label": "lever_raw_memory_199",
+        "run_path": "runs/lever/distilled/lever-2026-04-01T23-14-36-375Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "raw_memory",
+        "run_label": "lever_raw_memory_200",
+        "run_path": "runs/lever/distilled/lever-2026-04-01T23-14-45-957Z",
+        "missing_artifacts": [],
+        "pass": true
+      }
+    ],
+    "distilled_memory": [
+      {
+        "scenario": "lever",
+        "condition_name": "distilled_memory",
+        "run_label": "lever_distilled_memory_001",
+        "run_path": "runs/lever/distilled/lever-2026-04-01T23-14-59-643Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "distilled_memory",
+        "run_label": "lever_distilled_memory_002",
+        "run_path": "runs/lever/distilled/lever-2026-04-01T23-15-11-943Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "distilled_memory",
+        "run_label": "lever_distilled_memory_100",
+        "run_path": "runs/lever/distilled/lever-2026-04-01T23-29-51-438Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "distilled_memory",
+        "run_label": "lever_distilled_memory_199",
+        "run_path": "runs/lever/distilled/lever-2026-04-01T23-44-58-043Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "lever",
+        "condition_name": "distilled_memory",
+        "run_label": "lever_distilled_memory_200",
+        "run_path": "runs/lever/distilled/lever-2026-04-01T23-45-07-139Z",
+        "missing_artifacts": [],
+        "pass": true
+      }
+    ]
+  },
+  "maze": {
+    "baseline_raw": [
+      {
+        "scenario": "maze",
+        "condition_name": "baseline_raw",
+        "run_label": "maze_baseline_raw_001",
+        "run_path": "runs/maze/raw/maze-2026-04-01T23-45-20-389Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "baseline_raw",
+        "run_label": "maze_baseline_raw_002",
+        "run_path": "runs/maze/raw/maze-2026-04-01T23-45-54-288Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "baseline_raw",
+        "run_label": "maze_baseline_raw_100",
+        "run_path": "runs/maze/raw/maze-2026-04-02T00-41-27-642Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "baseline_raw",
+        "run_label": "maze_baseline_raw_199",
+        "run_path": "runs/maze/raw/maze-2026-04-02T01-37-28-990Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "baseline_raw",
+        "run_label": "maze_baseline_raw_200",
+        "run_path": "runs/maze/raw/maze-2026-04-02T01-38-02-896Z",
+        "missing_artifacts": [],
+        "pass": true
+      }
+    ],
+    "raw_memory": [
+      {
+        "scenario": "maze",
+        "condition_name": "raw_memory",
+        "run_label": "maze_raw_memory_001",
+        "run_path": "runs/maze/distilled/maze-2026-04-02T01-38-41-088Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "raw_memory",
+        "run_label": "maze_raw_memory_002",
+        "run_path": "runs/maze/distilled/maze-2026-04-02T01-39-05-638Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "raw_memory",
+        "run_label": "maze_raw_memory_100",
+        "run_path": "runs/maze/distilled/maze-2026-04-02T02-19-13-031Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "raw_memory",
+        "run_label": "maze_raw_memory_199",
+        "run_path": "runs/maze/distilled/maze-2026-04-02T02-59-51-794Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "raw_memory",
+        "run_label": "maze_raw_memory_200",
+        "run_path": "runs/maze/distilled/maze-2026-04-02T03-00-16-547Z",
+        "missing_artifacts": [],
+        "pass": true
+      }
+    ],
+    "distilled_memory": [
+      {
+        "scenario": "maze",
+        "condition_name": "distilled_memory",
+        "run_label": "maze_distilled_memory_001",
+        "run_path": "runs/maze/distilled/maze-2026-04-02T03-00-44-952Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "distilled_memory",
+        "run_label": "maze_distilled_memory_002",
+        "run_path": "runs/maze/distilled/maze-2026-04-02T03-01-18-751Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "distilled_memory",
+        "run_label": "maze_distilled_memory_100",
+        "run_path": "runs/maze/distilled/maze-2026-04-02T03-40-32-842Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "distilled_memory",
+        "run_label": "maze_distilled_memory_199",
+        "run_path": "runs/maze/distilled/maze-2026-04-02T04-20-23-345Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "maze",
+        "condition_name": "distilled_memory",
+        "run_label": "maze_distilled_memory_200",
+        "run_path": "runs/maze/distilled/maze-2026-04-02T04-20-47-628Z",
+        "missing_artifacts": [],
+        "pass": true
+      }
+    ]
+  },
+  "key": {
+    "baseline_raw": [
+      {
+        "scenario": "key",
+        "condition_name": "baseline_raw",
+        "run_label": "key_baseline_raw_001",
+        "run_path": "runs/key/raw/key-2026-04-02T04-21-15-789Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "baseline_raw",
+        "run_label": "key_baseline_raw_002",
+        "run_path": "runs/key/raw/key-2026-04-02T04-21-46-522Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "baseline_raw",
+        "run_label": "key_baseline_raw_100",
+        "run_path": "runs/key/raw/key-2026-04-02T05-29-46-191Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "baseline_raw",
+        "run_label": "key_baseline_raw_199",
+        "run_path": "runs/key/raw/key-2026-04-02T06-37-09-887Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "baseline_raw",
+        "run_label": "key_baseline_raw_200",
+        "run_path": "runs/key/raw/key-2026-04-02T06-37-41-455Z",
+        "missing_artifacts": [],
+        "pass": true
+      }
+    ],
+    "raw_memory": [
+      {
+        "scenario": "key",
+        "condition_name": "raw_memory",
+        "run_label": "key_raw_memory_001",
+        "run_path": "runs/key/distilled/key-2026-04-02T06-38-16-386Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "raw_memory",
+        "run_label": "key_raw_memory_002",
+        "run_path": "runs/key/distilled/key-2026-04-02T06-38-49-357Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "raw_memory",
+        "run_label": "key_raw_memory_100",
+        "run_path": "runs/key/distilled/key-2026-04-02T07-51-03-663Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "raw_memory",
+        "run_label": "key_raw_memory_199",
+        "run_path": "runs/key/distilled/key-2026-04-02T09-05-45-541Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "raw_memory",
+        "run_label": "key_raw_memory_200",
+        "run_path": "runs/key/distilled/key-2026-04-02T09-06-31-710Z",
+        "missing_artifacts": [],
+        "pass": true
+      }
+    ],
+    "distilled_memory": [
+      {
+        "scenario": "key",
+        "condition_name": "distilled_memory",
+        "run_label": "key_distilled_memory_001",
+        "run_path": "runs/key/distilled/key-2026-04-02T09-07-20-889Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "distilled_memory",
+        "run_label": "key_distilled_memory_002",
+        "run_path": "runs/key/distilled/key-2026-04-02T09-08-18-136Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "distilled_memory",
+        "run_label": "key_distilled_memory_100",
+        "run_path": "runs/key/distilled/key-2026-04-02T10-01-49-643Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "distilled_memory",
+        "run_label": "key_distilled_memory_199",
+        "run_path": "runs/key/distilled/key-2026-04-02T10-55-47-240Z",
+        "missing_artifacts": [],
+        "pass": true
+      },
+      {
+        "scenario": "key",
+        "condition_name": "distilled_memory",
+        "run_label": "key_distilled_memory_200",
+        "run_path": "runs/key/distilled/key-2026-04-02T10-56-19-739Z",
+        "missing_artifacts": [],
+        "pass": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "frozen_on": "2026-04-02",
+  "project": "ragcraft_refactor/work_repo",
+  "final_experiment_version": {
+    "description": "Post-redesign distilled-memory final rerun (clean 1800-run suite)",
+    "frozen_code_files": [
+      "memoryDistiller.js",
+      "llm/distiller.js",
+      "rag/store/vectorStore.js",
+      "rag/retrieval.js",
+      "agent/keyFinderEpisodeEnhanced.js"
+    ]
+  },
+  "final_data_paths": {
+    "lever": {
+      "baseline_raw": "runs/lever/raw",
+      "raw_memory_and_distilled_memory": "runs/lever/distilled"
+    },
+    "maze": {
+      "baseline_raw": "runs/maze/raw",
+      "raw_memory_and_distilled_memory": "runs/maze/distilled"
+    },
+    "key": {
+      "baseline_raw": "runs/key/raw",
+      "raw_memory_and_distilled_memory": "runs/key/distilled"
+    }
+  },
+  "final_analysis_files": [
+    "analysis/all_runs_merged.csv",
+    "analysis/all_runs_merged.json",
+    "analysis/dataset_verification.json",
+    "analysis/artifact_spotcheck.json",
+    "analysis/artifact_issues.json",
+    "analysis/final_distilled_comparison.csv",
+    "analysis/final_distilled_comparison.json",
+    "analysis/lever/lever_condition_summary_corrected.json",
+    "analysis/lever/lever_window_summary_corrected.json",
+    "analysis/maze/maze_condition_summary.json",
+    "analysis/maze/maze_window_summary.json",
+    "analysis/key/key_condition_summary.json",
+    "analysis/key/key_window_summary.json"
+  ],
+  "final_chart_paths": [
+    "analysis/charts/chart_manifest.json",
+    "analysis/charts/early_chart_manifest.json",
+    "analysis/charts/lever",
+    "analysis/charts/maze",
+    "analysis/charts/key"
+  ],
+  "final_scripts": [
+    "scripts/buildUnifiedScenarioAnalysis.js",
+    "scripts/buildLeverCorrectedAnalysis.js",
+    "scripts/generateThesisCharts.py",
+    "scripts/generateEarlyRunCharts.py"
+  ],
+  "ignore_for_thesis": [
+    "runs/_pre_final_clean_archive_20260401_154818",
+    "runs/archives",
+    "runs/_summary",
+    "runs/_final_clean_logs",
+    "scripts/serveDashboard.js",
+    "scripts/launch-all.ps1",
+    "scripts/nlCommandLoop.js"
+  ],
+  "freeze_rules": [
+    "Do not rerun experiments",
+    "Do not change experiment logic",
+    "Do not tune distilled-memory implementation",
+    "Do not delete final result directories",
+    "Use a separate branch for any non-thesis maintenance"
+  ]
+}

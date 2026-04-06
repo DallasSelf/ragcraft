@@ -10,6 +10,19 @@ function normalizeScenarioId(s) {
   return typeof s === 'string' ? s : ''
 }
 
+function clamp01(value, fallback = 0.5) {
+  const n = Number(value)
+  if (!Number.isFinite(n)) return fallback
+  return Math.max(0, Math.min(1, n))
+}
+
+function deriveOutcome(attempt, parsed) {
+  if (typeof parsed?.outcome === 'string') {
+    return parsed.outcome === 'success' ? 'success' : 'failed'
+  }
+  return attempt && attempt.success ? 'success' : 'failed'
+}
+
 function buildPrompt(attempt) {
   const scenarioId = normalizeScenarioId(attempt.scenarioId)
   const base = {
@@ -107,6 +120,8 @@ async function distillWithLLM(attempt) {
     const unit = {
       id: uuidv4(),
       scenarioId,
+      task_id: scenarioId,
+      memory_type: 'claim',
       type: 'maze_distilled',
       text: JSON.stringify({
         outcome: parsed.payload.outcome === 'success' ? 'success' : 'failed',
@@ -115,6 +130,14 @@ async function distillWithLLM(attempt) {
         rule: typeof parsed.payload.rule === 'string' ? parsed.payload.rule : ''
       }),
       confidence: safeNumber(confidence, 0.6),
+      importance: clamp01(parsed.importance, attempt.success ? 0.86 : 0.6),
+      actionability: clamp01(parsed.actionability, 0.8),
+      outcome: deriveOutcome(attempt, parsed.payload),
+      cue: `stepCount=${safeNumber(parsed.payload.stepCount, 0)}`,
+      corrective_action: typeof parsed.payload.rule === 'string' ? parsed.payload.rule : '',
+      action_recipe: typeof parsed.payload.rule === 'string' ? parsed.payload.rule : '',
+      deprioritize: !(parsed.payload.outcome === 'success'),
+      tags: ['maze', parsed.payload.outcome === 'success' ? 'success' : 'failure', 'route'],
       evidenceRunIds: attempt.runId ? [attempt.runId] : [],
       timestamp: attempt.timestamp || Date.now()
     }
@@ -136,9 +159,19 @@ async function distillWithLLM(attempt) {
   const unit = {
     id: uuidv4(),
     scenarioId,
+    task_id: scenarioId,
+    memory_type: 'claim',
     type,
     text,
     confidence: safeNumber(confidence, 0.6),
+    importance: clamp01(parsed.importance, attempt.success ? 0.85 : 0.55),
+    actionability: clamp01(parsed.actionability, 0.75),
+    outcome: deriveOutcome(attempt, parsed),
+    cue: typeof parsed.cue === 'string' ? parsed.cue : '',
+    corrective_action: typeof parsed.corrective_action === 'string' ? parsed.corrective_action : '',
+    action_recipe: typeof parsed.action_recipe === 'string' ? parsed.action_recipe : '',
+    deprioritize: deriveOutcome(attempt, parsed) !== 'success',
+    tags: Array.isArray(parsed.tags) ? parsed.tags : [],
     evidenceRunIds: attempt.runId ? [attempt.runId] : [],
     timestamp: attempt.timestamp || Date.now()
   }

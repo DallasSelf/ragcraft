@@ -1,0 +1,56 @@
+[
+  {
+    "scenario": "maze",
+    "condition_name": "baseline_raw",
+    "run_count": 200,
+    "eventual_success_rate": 1,
+    "first_attempt_success_rate": 1,
+    "mean_attempts": 1,
+    "median_attempts": 1,
+    "mean_corrected_attempts": null,
+    "median_corrected_attempts": null,
+    "mean_attempt_value": 1,
+    "median_attempt_value": 1,
+    "attempt_histogram": {
+      "1": 200
+    },
+    "mean_runtime": 29125.68,
+    "median_runtime": 29106.5
+  },
+  {
+    "scenario": "maze",
+    "condition_name": "raw_memory",
+    "run_count": 200,
+    "eventual_success_rate": 1,
+    "first_attempt_success_rate": 1,
+    "mean_attempts": 1,
+    "median_attempts": 1,
+    "mean_corrected_attempts": null,
+    "median_corrected_attempts": null,
+    "mean_attempt_value": 1,
+    "median_attempt_value": 1,
+    "attempt_histogram": {
+      "1": 200
+    },
+    "mean_runtime": 19734.815,
+    "median_runtime": 19727.5
+  },
+  {
+    "scenario": "maze",
+    "condition_name": "distilled_memory",
+    "run_count": 200,
+    "eventual_success_rate": 1,
+    "first_attempt_success_rate": 1,
+    "mean_attempts": 1,
+    "median_attempts": 1,
+    "mean_corrected_attempts": null,
+    "median_corrected_attempts": null,
+    "mean_attempt_value": 1,
+    "median_attempt_value": 1,
+    "attempt_histogram": {
+      "1": 200
+    },
+    "mean_runtime": 19412.505,
+    "median_runtime": 19352.5
+  }
+]

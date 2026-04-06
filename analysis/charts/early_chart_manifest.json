@@ -1,0 +1,18 @@
+[
+  "analysis/charts/lever/lever_early_runs_1_25_chart_data.csv",
+  "analysis/charts/lever/lever_early_runs_1_25_chart_data.json",
+  "analysis/charts/lever/lever_early_success_runs_1_25.png",
+  "analysis/charts/lever/lever_early_attempts_runs_1_25.png",
+  "analysis/charts/lever/lever_early_runtime_runs_1_25.png",
+  "analysis/charts/lever/lever_early_first_attempt_success_runs_1_25.png",
+  "analysis/charts/maze/maze_early_runs_1_25_chart_data.csv",
+  "analysis/charts/maze/maze_early_runs_1_25_chart_data.json",
+  "analysis/charts/maze/maze_early_success_runs_1_25.png",
+  "analysis/charts/maze/maze_early_attempts_runs_1_25.png",
+  "analysis/charts/maze/maze_early_runtime_runs_1_25.png",
+  "analysis/charts/key/key_early_runs_1_25_chart_data.csv",
+  "analysis/charts/key/key_early_runs_1_25_chart_data.json",
+  "analysis/charts/key/key_early_success_runs_1_25.png",
+  "analysis/charts/key/key_early_attempts_runs_1_25.png",
+  "analysis/charts/key/key_early_runtime_runs_1_25.png"
+]

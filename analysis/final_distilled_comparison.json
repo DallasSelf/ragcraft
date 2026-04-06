@@ -1,0 +1,417 @@
+{
+  "generated_at": "2026-04-02T19:03:41.886Z",
+  "dataset_completeness": {
+    "lever": {
+      "baseline_raw": {
+        "run_count": 200,
+        "unique_trial_count": 200,
+        "expected_runs": 200,
+        "expected_met": true
+      },
+      "raw_memory": {
+        "run_count": 200,
+        "unique_trial_count": 200,
+        "expected_runs": 200,
+        "expected_met": true
+      },
+      "distilled_memory": {
+        "run_count": 200,
+        "unique_trial_count": 200,
+        "expected_runs": 200,
+        "expected_met": true
+      }
+    },
+    "maze": {
+      "baseline_raw": {
+        "run_count": 200,
+        "unique_trial_count": 200,
+        "expected_runs": 200,
+        "expected_met": true
+      },
+      "raw_memory": {
+        "run_count": 200,
+        "unique_trial_count": 200,
+        "expected_runs": 200,
+        "expected_met": true
+      },
+      "distilled_memory": {
+        "run_count": 200,
+        "unique_trial_count": 200,
+        "expected_runs": 200,
+        "expected_met": true
+      }
+    },
+    "key": {
+      "baseline_raw": {
+        "run_count": 200,
+        "unique_trial_count": 200,
+        "expected_runs": 200,
+        "expected_met": true
+      },
+      "raw_memory": {
+        "run_count": 200,
+        "unique_trial_count": 200,
+        "expected_runs": 200,
+        "expected_met": true
+      },
+      "distilled_memory": {
+        "run_count": 200,
+        "unique_trial_count": 200,
+        "expected_runs": 200,
+        "expected_met": true
+      }
+    }
+  },
+  "current_condition_summary": {
+    "lever": {
+      "baseline_raw": {
+        "scenario": "lever",
+        "condition_name": "baseline_raw",
+        "run_count": 200,
+        "eventual_success_rate": 1,
+        "first_attempt_success_rate": 0.155,
+        "mean_corrected_attempts": 3.48,
+        "median_corrected_attempts": 3,
+        "attempt_histogram": {
+          "1": 31,
+          "2": 34,
+          "3": 37,
+          "4": 34,
+          "5": 34,
+          "6": 30
+        },
+        "mean_runtime": 12969.485,
+        "median_runtime": 11372.5
+      },
+      "raw_memory": {
+        "scenario": "lever",
+        "condition_name": "raw_memory",
+        "run_count": 200,
+        "eventual_success_rate": 1,
+        "first_attempt_success_rate": 0.995,
+        "mean_corrected_attempts": 1.01,
+        "median_corrected_attempts": 1,
+        "attempt_histogram": {
+          "1": 199,
+          "3": 1
+        },
+        "mean_runtime": 4351.185,
+        "median_runtime": 4301
+      },
+      "distilled_memory": {
+        "scenario": "lever",
+        "condition_name": "distilled_memory",
+        "run_count": 200,
+        "eventual_success_rate": 1,
+        "first_attempt_success_rate": 0.995,
+        "mean_corrected_attempts": 1.01,
+        "median_corrected_attempts": 1,
+        "attempt_histogram": {
+          "1": 199,
+          "3": 1
+        },
+        "mean_runtime": 4330.835,
+        "median_runtime": 4279.5
+      }
+    },
+    "maze": {
+      "baseline_raw": {
+        "scenario": "maze",
+        "condition_name": "baseline_raw",
+        "run_count": 200,
+        "eventual_success_rate": 1,
+        "first_attempt_success_rate": 1,
+        "mean_attempts": 1,
+        "median_attempts": 1,
+        "mean_corrected_attempts": null,
+        "median_corrected_attempts": null,
+        "mean_attempt_value": 1,
+        "median_attempt_value": 1,
+        "attempt_histogram": {
+          "1": 200
+        },
+        "mean_runtime": 29125.68,
+        "median_runtime": 29106.5
+      },
+      "raw_memory": {
+        "scenario": "maze",
+        "condition_name": "raw_memory",
+        "run_count": 200,
+        "eventual_success_rate": 1,
+        "first_attempt_success_rate": 1,
+        "mean_attempts": 1,
+        "median_attempts": 1,
+        "mean_corrected_attempts": null,
+        "median_corrected_attempts": null,
+        "mean_attempt_value": 1,
+        "median_attempt_value": 1,
+        "attempt_histogram": {
+          "1": 200
+        },
+        "mean_runtime": 19734.815,
+        "median_runtime": 19727.5
+      },
+      "distilled_memory": {
+        "scenario": "maze",
+        "condition_name": "distilled_memory",
+        "run_count": 200,
+        "eventual_success_rate": 1,
+        "first_attempt_success_rate": 1,
+        "mean_attempts": 1,
+        "median_attempts": 1,
+        "mean_corrected_attempts": null,
+        "median_corrected_attempts": null,
+        "mean_attempt_value": 1,
+        "median_attempt_value": 1,
+        "attempt_histogram": {
+          "1": 200
+        },
+        "mean_runtime": 19412.505,
+        "median_runtime": 19352.5
+      }
+    },
+    "key": {
+      "baseline_raw": {
+        "scenario": "key",
+        "condition_name": "baseline_raw",
+        "run_count": 200,
+        "eventual_success_rate": 0.995,
+        "first_attempt_success_rate": 0.6,
+        "mean_attempts": 1.67,
+        "median_attempts": 1,
+        "mean_corrected_attempts": null,
+        "median_corrected_attempts": null,
+        "mean_attempt_value": 1.67,
+        "median_attempt_value": 1,
+        "attempt_histogram": {
+          "1": 120,
+          "2": 51,
+          "3": 14,
+          "4": 8,
+          "5": 4,
+          "6": 3
+        },
+        "mean_runtime": 16508.625,
+        "median_runtime": 12789.5
+      },
+      "raw_memory": {
+        "scenario": "key",
+        "condition_name": "raw_memory",
+        "run_count": 200,
+        "eventual_success_rate": 0.005,
+        "first_attempt_success_rate": 0,
+        "mean_attempts": 5.98,
+        "median_attempts": 6,
+        "mean_corrected_attempts": null,
+        "median_corrected_attempts": null,
+        "mean_attempt_value": 5.98,
+        "median_attempt_value": 6,
+        "attempt_histogram": {
+          "2": 1,
+          "6": 199
+        },
+        "mean_runtime": 34509.91,
+        "median_runtime": 34720
+      },
+      "distilled_memory": {
+        "scenario": "key",
+        "condition_name": "distilled_memory",
+        "run_count": 200,
+        "eventual_success_rate": 1,
+        "first_attempt_success_rate": 0,
+        "mean_attempts": 2.005,
+        "median_attempts": 2,
+        "mean_corrected_attempts": null,
+        "median_corrected_attempts": null,
+        "mean_attempt_value": 2.005,
+        "median_attempt_value": 2,
+        "attempt_histogram": {
+          "2": 199,
+          "3": 1
+        },
+        "mean_runtime": 8474.25,
+        "median_runtime": 8301.5
+      }
+    }
+  },
+  "current_resource_summary": {
+    "lever": {
+      "baseline_raw": {
+        "avg_cpu_percent": 1.305815,
+        "max_cpu_percent": 6.18009,
+        "avg_rss_mb": 212.533255,
+        "max_rss_mb": 254.05827,
+        "avg_heap_used_mb": 68.902215,
+        "max_heap_used_mb": 76.063205,
+        "avg_gpu_util_percent": 52.555185,
+        "max_gpu_util_percent": 77.285,
+        "avg_vram_used_mb": 5272.945325,
+        "max_vram_used_mb": 5358.235
+      },
+      "raw_memory": {
+        "avg_cpu_percent": 3.636765,
+        "max_cpu_percent": 13.20578,
+        "avg_rss_mb": 217.1661,
+        "max_rss_mb": 262.75376,
+        "avg_heap_used_mb": 69.047945,
+        "max_heap_used_mb": 76.06251,
+        "avg_gpu_util_percent": 24.37247,
+        "max_gpu_util_percent": 27.86,
+        "avg_vram_used_mb": 4271,
+        "max_vram_used_mb": 4271
+      },
+      "distilled_memory": {
+        "avg_cpu_percent": 7.40867,
+        "max_cpu_percent": 35.69917,
+        "avg_rss_mb": 190.79323,
+        "max_rss_mb": 238.37352,
+        "avg_heap_used_mb": 55.2044,
+        "max_heap_used_mb": 64.228195,
+        "avg_gpu_util_percent": 24.378885,
+        "max_gpu_util_percent": 26.905,
+        "avg_vram_used_mb": 4271.001665,
+        "max_vram_used_mb": 4271.01
+      }
+    },
+    "maze": {
+      "baseline_raw": {
+        "avg_cpu_percent": 0.42757,
+        "max_cpu_percent": 7.14253,
+        "avg_rss_mb": 221.848045,
+        "max_rss_mb": 260.113615,
+        "avg_heap_used_mb": 72.59323,
+        "max_heap_used_mb": 79.88932,
+        "avg_gpu_util_percent": 24.127985,
+        "max_gpu_util_percent": 30.72,
+        "avg_vram_used_mb": 4271,
+        "max_vram_used_mb": 4271
+      },
+      "raw_memory": {
+        "avg_cpu_percent": 1.05206,
+        "max_cpu_percent": 11.447385,
+        "avg_rss_mb": 231.74179,
+        "max_rss_mb": 270.02404,
+        "avg_heap_used_mb": 78.531835,
+        "max_heap_used_mb": 85.97385,
+        "avg_gpu_util_percent": 29.138855,
+        "max_gpu_util_percent": 40.145,
+        "avg_vram_used_mb": 4209.207415,
+        "max_vram_used_mb": 4210.575
+      },
+      "distilled_memory": {
+        "avg_cpu_percent": 1.684025,
+        "max_cpu_percent": 24.956565,
+        "avg_rss_mb": 236.99983,
+        "max_rss_mb": 267.817585,
+        "avg_heap_used_mb": 61.925195,
+        "max_heap_used_mb": 70.602025,
+        "avg_gpu_util_percent": 29.10055,
+        "max_gpu_util_percent": 39.005,
+        "avg_vram_used_mb": 4206.134385,
+        "max_vram_used_mb": 4206.645
+      }
+    },
+    "key": {
+      "baseline_raw": {
+        "avg_cpu_percent": 0.779425,
+        "max_cpu_percent": 5.11115,
+        "avg_rss_mb": 231.20091,
+        "max_rss_mb": 276.419295,
+        "avg_heap_used_mb": 84.56459,
+        "max_heap_used_mb": 93.170245,
+        "avg_gpu_util_percent": 29.84249,
+        "max_gpu_util_percent": 41.705,
+        "avg_vram_used_mb": 4208.923435,
+        "max_vram_used_mb": 4209.625
+      },
+      "raw_memory": {
+        "avg_cpu_percent": 1.826975,
+        "max_cpu_percent": 8.090595,
+        "avg_rss_mb": 259.032605,
+        "max_rss_mb": 280.833405,
+        "avg_heap_used_mb": 108.988475,
+        "max_heap_used_mb": 122.22708,
+        "avg_gpu_util_percent": 29.47427,
+        "max_gpu_util_percent": 44.86,
+        "avg_vram_used_mb": 4209.166725,
+        "max_vram_used_mb": 4210.74
+      },
+      "distilled_memory": {
+        "avg_cpu_percent": 4.14843,
+        "max_cpu_percent": 23.842715,
+        "avg_rss_mb": 197.811345,
+        "max_rss_mb": 236.730155,
+        "avg_heap_used_mb": 59.117425,
+        "max_heap_used_mb": 69.238905,
+        "avg_gpu_util_percent": 30.38254,
+        "max_gpu_util_percent": 41.29,
+        "avg_vram_used_mb": 4209.18702,
+        "max_vram_used_mb": 4209.835
+      }
+    }
+  },
+  "previous_distilled_from_archive": {
+    "lever": {
+      "run_count": 200,
+      "eventual_success_rate": 1,
+      "first_attempt_success_rate": 0.995,
+      "mean_attempts": 1.01,
+      "mean_runtime": 4330.835,
+      "resources": {
+        "avg_cpu_percent": 6.897305,
+        "max_cpu_percent": 32.59257,
+        "avg_rss_mb": 192.58137,
+        "max_rss_mb": 240.165665,
+        "avg_heap_used_mb": 55.714105,
+        "max_heap_used_mb": 65.02709,
+        "avg_gpu_util_percent": 28.09839,
+        "max_gpu_util_percent": 41.08,
+        "avg_vram_used_mb": 883.368475,
+        "max_vram_used_mb": 887.21
+      }
+    },
+    "maze": {
+      "run_count": 200,
+      "eventual_success_rate": 1,
+      "first_attempt_success_rate": 0.995,
+      "mean_attempts": 1.005,
+      "mean_runtime": 20421.08,
+      "resources": {
+        "avg_cpu_percent": 1.04975,
+        "max_cpu_percent": 10.701075,
+        "avg_rss_mb": 241.659635,
+        "max_rss_mb": 285.77978,
+        "avg_heap_used_mb": 61.536435,
+        "max_heap_used_mb": 70.024175,
+        "avg_gpu_util_percent": 59.05846,
+        "max_gpu_util_percent": 88.465,
+        "avg_vram_used_mb": 4245.081665,
+        "max_vram_used_mb": 4315.47
+      }
+    },
+    "key": {
+      "run_count": 200,
+      "eventual_success_rate": 0.985,
+      "first_attempt_success_rate": 0.02,
+      "mean_attempts": 2.04,
+      "mean_runtime": 9803.505,
+      "resources": {
+        "avg_cpu_percent": 3.45029,
+        "max_cpu_percent": 17.161485,
+        "avg_rss_mb": 198.254095,
+        "max_rss_mb": 237.521725,
+        "avg_heap_used_mb": 58.938965,
+        "max_heap_used_mb": 70.02133,
+        "avg_gpu_util_percent": 30.69296,
+        "max_gpu_util_percent": 42.52,
+        "avg_vram_used_mb": 1170.335205,
+        "max_vram_used_mb": 1172.475
+      }
+    }
+  },
+  "scenario_level_distilled_vs_raw_verdict": {
+    "lever": "better",
+    "maze": "better",
+    "key": "better"
+  }
+}

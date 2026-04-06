@@ -1,0 +1,4 @@
+scenario,condition_name,run_count,eventual_success_rate,first_attempt_success_rate,mean_attempts,median_attempts,mean_corrected_attempts,median_corrected_attempts,mean_attempt_value,median_attempt_value,attempt_histogram,mean_runtime,median_runtime
+key,baseline_raw,200,0.995,0.6,1.67,1,,,1.67,1,"{""1"":120,""2"":51,""3"":14,""4"":8,""5"":4,""6"":3}",16508.625,12789.5
+key,raw_memory,200,0.005,0,5.98,6,,,5.98,6,"{""2"":1,""6"":199}",34509.91,34720
+key,distilled_memory,200,1,0,2.005,2,,,2.005,2,"{""2"":199,""3"":1}",8474.25,8301.5

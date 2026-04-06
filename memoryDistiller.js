@@ -1,6 +1,21 @@
 const { v4: uuidv4 } = require('uuid')
 const { distillWithLLM } = require('./llm/distiller')
 
+function clamp01(value, fallback = 0.5) {
+  const n = Number(value)
+  if (!Number.isFinite(n)) return fallback
+  return Math.max(0, Math.min(1, n))
+}
+
+function coordText(pos) {
+  if (!pos || typeof pos !== 'object') return null
+  const x = Number(pos.x)
+  const y = Number(pos.y)
+  const z = Number(pos.z)
+  if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(z)) return null
+  return `(${x},${y},${z})`
+}
+
 function normalizeLeverSequenceText(attempt) {
   if (!attempt || !Array.isArray(attempt.sequence) || attempt.sequence.length === 0) {
     return null
@@ -61,13 +76,33 @@ function distillLeverAttempt(attempt) {
   const normalizedText = normalizeLeverSequenceText(attempt) || 'Lever sequence: unknown'
   const success = Boolean(attempt.success)
   const confidence = success ? 0.9 : 0.55
+  const sequenceText = Array.isArray(attempt.sequence)
+    ? attempt.sequence.map(n => Number(n)).filter(Number.isFinite).join('-')
+    : ''
+  const cue = sequenceText ? `sequence=${sequenceText}` : 'sequence=unknown'
+  const correctiveAction = success
+    ? `Repeat lever order ${sequenceText || 'from validated memory'} when this puzzle appears.`
+    : `Avoid lever order ${sequenceText || 'that failed previously'}; try an alternative sequence.`
+  const importance = success ? 0.9 : 0.58
+  const actionability = sequenceText ? 0.95 : 0.45
 
   return [{
     id: uuidv4(),
     scenarioId: attempt.scenarioId,
+    task_id: attempt.scenarioId,
+    memory_type: 'claim',
     type: 'lever_sequence_distilled',
     text: normalizedText,
     confidence,
+    importance: clamp01(importance),
+    actionability: clamp01(actionability),
+    outcome: success ? 'success' : 'failed',
+    cue,
+    corrective_action: correctiveAction,
+    action_recipe: correctiveAction,
+    sequence_detail: sequenceText || null,
+    deprioritize: !success,
+    tags: ['lever', success ? 'success' : 'failure', 'sequence'],
     evidenceRunIds: attempt.runId ? [attempt.runId] : [],
     timestamp: attempt.timestamp || Date.now()
   }]
@@ -122,13 +157,30 @@ function distillKeyFinderAttempt(attempt) {
   const advisory = found
     ? 'Prioritize this area for future searches.'
     : `Area swept (${visitedCount} cells, ${searchCount} waypoints); deprioritize unless new clues emerge.`
+  const correctiveAction = found
+    ? `Start search near key position ${keyPosText} and verify chest at ${targetPosText}.`
+    : `Avoid re-sweeping ${keyPosText} first; branch to a new region before returning.`
+  const importance = found ? 0.88 : 0.52
+  const actionability = focus ? 0.9 : 0.4
 
   return [{
     id: uuidv4(),
     scenarioId: attempt.scenarioId,
+    task_id: attempt.scenarioId,
+    memory_type: 'claim',
     type: 'key_finder_distilled',
     text: `${statusText} keyPos=${keyPosText} chestPos=${targetPosText} after ${actionCount} actions. ${advisory}`,
     confidence,
+    importance: clamp01(importance),
+    actionability: clamp01(actionability),
+    outcome: found ? 'success' : 'failed',
+    cue: `keyPos=${keyPosText} chestPos=${targetPosText}`,
+    corrective_action: correctiveAction,
+    action_recipe: correctiveAction,
+    key_position: focus || null,
+    chest_position: targetPos || null,
+    deprioritize: !found,
+    tags: ['key', found ? 'success' : 'failure', 'search'],
     evidenceRunIds: attempt.runId ? [attempt.runId] : [],
     timestamp: attempt.timestamp || Date.now()
   }]
@@ -175,13 +227,29 @@ function distillMazeAttempt(attempt) {
         ? `Avoid turn sequence ${serializedSequence} because it led to a dead end`
         : 'Avoid repeating this attempt; it failed without a recorded route'
   }
+  const correctiveAction = success
+    ? payload.rule
+    : `Do not reuse the failed pattern; branch earlier at next decision node. ${payload.rule}`
+  const importance = success ? 0.86 : 0.6
+  const actionability = serializedSequence ? 0.85 : 0.45
 
   return [{
     id: uuidv4(),
     scenarioId: attempt.scenarioId,
+    task_id: attempt.scenarioId,
+    memory_type: 'claim',
     type: 'maze_distilled',
     text: JSON.stringify(payload),
     confidence: success ? 0.85 : 0.55,
+    importance: clamp01(importance),
+    actionability: clamp01(actionability),
+    outcome: success ? 'success' : 'failed',
+    cue: `steps=${stepCount}; wrongTurns=${payload.wrongTurns}; revisits=${payload.revisitCount}`,
+    corrective_action: correctiveAction,
+    action_recipe: correctiveAction,
+    sequence_detail: turnSequence,
+    deprioritize: !success,
+    tags: ['maze', success ? 'success' : 'failure', 'route'],
     evidenceRunIds: attempt.runId ? [attempt.runId] : [],
     timestamp: attempt.timestamp || Date.now()
   }]

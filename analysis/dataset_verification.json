@@ -1,0 +1,62 @@
+{
+  "lever": {
+    "baseline_raw": {
+      "run_count": 200,
+      "unique_trial_count": 200,
+      "expected_runs": 200,
+      "expected_met": true
+    },
+    "raw_memory": {
+      "run_count": 200,
+      "unique_trial_count": 200,
+      "expected_runs": 200,
+      "expected_met": true
+    },
+    "distilled_memory": {
+      "run_count": 200,
+      "unique_trial_count": 200,
+      "expected_runs": 200,
+      "expected_met": true
+    }
+  },
+  "maze": {
+    "baseline_raw": {
+      "run_count": 200,
+      "unique_trial_count": 200,
+      "expected_runs": 200,
+      "expected_met": true
+    },
+    "raw_memory": {
+      "run_count": 200,
+      "unique_trial_count": 200,
+      "expected_runs": 200,
+      "expected_met": true
+    },
+    "distilled_memory": {
+      "run_count": 200,
+      "unique_trial_count": 200,
+      "expected_runs": 200,
+      "expected_met": true
+    }
+  },
+  "key": {
+    "baseline_raw": {
+      "run_count": 200,
+      "unique_trial_count": 200,
+      "expected_runs": 200,
+      "expected_met": true
+    },
+    "raw_memory": {
+      "run_count": 200,
+      "unique_trial_count": 200,
+      "expected_runs": 200,
+      "expected_met": true
+    },
+    "distilled_memory": {
+      "run_count": 200,
+      "unique_trial_count": 200,
+      "expected_runs": 200,
+      "expected_met": true
+    }
+  }
+}

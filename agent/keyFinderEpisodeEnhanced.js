@@ -154,9 +154,12 @@ function parseMemoryHints(memories = []) {
     if (mem.type !== 'key_finder_distilled' || !mem.text) continue
     const coords = extractKeyTargetFromMemoryText(mem.text)
     if (!coords) continue
-    if (mem.text.startsWith('Key found')) {
+    const outcome = typeof mem.outcome === 'string'
+      ? mem.outcome
+      : (mem.text.startsWith('Key found') ? 'success' : (mem.text.startsWith('Key not found') ? 'failed' : null))
+    if (outcome === 'success') {
       hints.prefer.push(coords)
-    } else if (mem.text.startsWith('Key not found')) {
+    } else if (outcome === 'failed') {
       hints.avoid.push(coords)
     }
   }
@@ -173,8 +176,13 @@ function scoreMemoryTarget(memory) {
         : typeof memory.similarity === 'number'
           ? memory.similarity
           : 0
-  const successBonus = memory.text.startsWith('Key found') ? 0.6 : 0
-  return baseScore + successBonus
+  const outcome = typeof memory.outcome === 'string'
+    ? memory.outcome
+    : (memory.text.startsWith('Key found') ? 'success' : (memory.text.startsWith('Key not found') ? 'failed' : null))
+  const successBonus = outcome === 'success' ? 0.6 : 0
+  const importanceBonus = Number.isFinite(Number(memory.importance)) ? (0.25 * Number(memory.importance)) : 0
+  const actionabilityBonus = Number.isFinite(Number(memory.actionability)) ? (0.2 * Number(memory.actionability)) : 0
+  return baseScore + successBonus + importanceBonus + actionabilityBonus
 }
 
 function buildMemoryTargetQueue(memories = [], goalClaims = [], plan = null, limit = MAX_MEMORY_TARGETS) {
@@ -182,7 +190,7 @@ function buildMemoryTargetQueue(memories = [], goalClaims = [], plan = null, lim
     .filter(mem => mem && mem.type === 'key_finder_distilled' && typeof mem.text === 'string')
     .map(mem => ({
       pos: extractKeyTargetFromMemoryText(mem.text),
-      success: mem.text.startsWith('Key found'),
+      success: (typeof mem.outcome === 'string' ? mem.outcome === 'success' : mem.text.startsWith('Key found')),
       score: scoreMemoryTarget(mem)
     }))
     // Only successful memories should seed target waypoints; failures are handled as avoid hints.
@@ -205,7 +213,8 @@ function buildMemoryTargetQueue(memories = [], goalClaims = [], plan = null, lim
 function hasSuccessfulKeyMemoryTarget(memories = []) {
   return memories.some(mem => {
     if (!mem || mem.type !== 'key_finder_distilled' || typeof mem.text !== 'string') return false
-    if (!mem.text.startsWith('Key found')) return false
+    const success = typeof mem.outcome === 'string' ? mem.outcome === 'success' : mem.text.startsWith('Key found')
+    if (!success) return false
     return Boolean(extractKeyTargetFromMemoryText(mem.text))
   })
 }

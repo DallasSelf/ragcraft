@@ -1,0 +1,4 @@
+scenario,condition_name,run_count,eventual_success_rate,first_attempt_success_rate,mean_attempts,median_attempts,mean_corrected_attempts,median_corrected_attempts,mean_attempt_value,median_attempt_value,attempt_histogram,mean_runtime,median_runtime
+maze,baseline_raw,200,1,1,1,1,,,1,1,"{""1"":200}",29125.68,29106.5
+maze,raw_memory,200,1,1,1,1,,,1,1,"{""1"":200}",19734.815,19727.5
+maze,distilled_memory,200,1,1,1,1,,,1,1,"{""1"":200}",19412.505,19352.5

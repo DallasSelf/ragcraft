@@ -1,0 +1,63 @@
+[
+  {
+    "scenario": "key",
+    "condition_name": "baseline_raw",
+    "run_count": 200,
+    "eventual_success_rate": 0.995,
+    "first_attempt_success_rate": 0.6,
+    "mean_attempts": 1.67,
+    "median_attempts": 1,
+    "mean_corrected_attempts": null,
+    "median_corrected_attempts": null,
+    "mean_attempt_value": 1.67,
+    "median_attempt_value": 1,
+    "attempt_histogram": {
+      "1": 120,
+      "2": 51,
+      "3": 14,
+      "4": 8,
+      "5": 4,
+      "6": 3
+    },
+    "mean_runtime": 16508.625,
+    "median_runtime": 12789.5
+  },
+  {
+    "scenario": "key",
+    "condition_name": "raw_memory",
+    "run_count": 200,
+    "eventual_success_rate": 0.005,
+    "first_attempt_success_rate": 0,
+    "mean_attempts": 5.98,
+    "median_attempts": 6,
+    "mean_corrected_attempts": null,
+    "median_corrected_attempts": null,
+    "mean_attempt_value": 5.98,
+    "median_attempt_value": 6,
+    "attempt_histogram": {
+      "2": 1,
+      "6": 199
+    },
+    "mean_runtime": 34509.91,
+    "median_runtime": 34720
+  },
+  {
+    "scenario": "key",
+    "condition_name": "distilled_memory",
+    "run_count": 200,
+    "eventual_success_rate": 1,
+    "first_attempt_success_rate": 0,
+    "mean_attempts": 2.005,
+    "median_attempts": 2,
+    "mean_corrected_attempts": null,
+    "median_corrected_attempts": null,
+    "mean_attempt_value": 2.005,
+    "median_attempt_value": 2,
+    "attempt_histogram": {
+      "2": 199,
+      "3": 1
+    },
+    "mean_runtime": 8474.25,
+    "median_runtime": 8301.5
+  }
+]
